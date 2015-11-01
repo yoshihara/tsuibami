@@ -1,0 +1,32 @@
+{
+  "name": "tsuibami",
+  "version": "0.1.0",
+  "description": "esa with chrome",
+  "main": "index.js",
+  "scripts": {
+    "build": "gulp build",
+    "rebuild": "gulp rebuild",
+    "release": "gulp release",
+    "watch": "gulp default"
+  },
+  "repository": {
+    "type": "git",
+    "url": "TODO"
+  },
+  "keywords": [],
+  "author": "yoshihara",
+  "license": "MIT",
+  "homepage": "http://TODO",
+  "devDependencies": {
+    "coffee-script": "^1.10.0",
+    "del": "^2.0.2",
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.5.2",
+    "gulp-download": "0.0.1",
+    "gulp-ruby-haml": "0.0.4",
+    "gulp-sass": "^2.0.4",
+    "gulp-uglify": "^1.1.0",
+    "gulp-zip": "^3.0.2",
+    "run-sequence": "^1.1.4"
+  }
+}
