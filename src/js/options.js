@@ -1,3 +1,5 @@
+// TODO saveしたときにアイコンを変えたい
+// TODO saveしたときになんかメッセージ出したい
 $(function() {
     var defaultConfig = {teamName: "", token: ""};
     chrome.storage.sync.get(defaultConfig, function(config) {

@@ -1,4 +1,6 @@
+// TODO 同じタイトルのときには上書きしてほしい
 // TODO 全体的なスタイル当てなど(haml, css)
+// TODO esaで開くボタン欲しい
 
 validateConfig = function(defaultConfig) {
     return new Promise(function(resolve, reject) {
