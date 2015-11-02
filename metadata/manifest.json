@@ -6,8 +6,11 @@
     "description": ":esa: with chrome",
 
     "permissions": [
-        "tabs", "*://*/*"
+        "tabs", "<all_urls>",
+        "storage"
     ],
+
+    "options_page": "options.html",
 
     "commands": {
         "_execute_browser_action": {

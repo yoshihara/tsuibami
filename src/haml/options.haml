@@ -1,0 +1,15 @@
+!!! 5
+%html
+  %head
+    %meta(charset="utf-8")
+    %link(rel="stylesheet" type="text/css" href="/main.css")
+  %body
+    %h1 tsuibami settings
+    %label(for="team-name") チーム名
+    %input#team-name
+    %label(for="token") トークン
+    %input#token
+    %button#save(type="button") save
+  %script(src="/lib/jquery-2.1.4.min.js")
+  %script(src="/lib/lodash.js")
+  %script(src="/options.js")
