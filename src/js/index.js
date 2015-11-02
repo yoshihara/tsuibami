@@ -14,28 +14,39 @@ validateConfig = function(defaultConfig) {
     });
 }
 
-createPost = function(config) {
-    var title = $("#title").val();
-    var body = $("#body").val();
+notifyError = function(msg) {
+    $("#msg").text(msg.responseJSON.message);
+}
 
-    $.ajax({
-        type: "POST",
-        url: "https://api.esa.io/v1/teams/" + config.teamName + "/posts?access_token=" + config.token,
-        data: {
-            post: {
-                name: title,
-                body_md: body,
-                message: "from tsuibami"
-            }
-        },
-        // TODO 成功しても失敗してもローカルに保存して次回ひらいたときに復帰したい
-        error: function(msg) {$("#msg").text(msg.responseJSON.message);},
-        success: function(msg) {$("#msg").text("saved! (\\( ⁰⊖⁰)/)");} // TODO 適当な時間たったら消したい
+notifySuccess = function() {
+    // TODO 適当な時間たったら消したい
+    $("#msg").text("saved! (\\( ⁰⊖⁰)/)");
+}
+
+createPost = function(config) {
+    return new Promise(function(resolve, reject) {
+        var title = $("#title").val();
+        var body = $("#body").val();
+
+        $.ajax({
+            type: "POST",
+            url: "https://api.esa.io/v1/teams/" + config.teamName + "/posts?access_token=" + config.token,
+            data: {
+                post: {
+                    name: title,
+                    body_md: body,
+                    message: "from tsuibami"
+                }
+            },
+
+            error: reject,
+            success: resolve
+        });
     });
 }
 
 $(function() {
     $("#post").on("click", function() {
-        validateConfig().then(createPost);
+        validateConfig().then(createPost).then(notifySuccess, notifyError);
     });
 });
