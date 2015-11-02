@@ -36,8 +36,7 @@ createPost = function(config) {
 }
 
 notifySuccess = function() {
-    // TODO 適当な時間たったら消したい
-    showMessage("saved! (\\( ⁰⊖⁰)/)");
+    showMessage("saved! (\\( ⁰⊖⁰)/)", true);
 }
 
 notifyError = function(msg) {
@@ -48,8 +47,15 @@ notifyError = function(msg) {
     }
 }
 
-showMessage = function(message) {
+showMessage = function(message, isFadeOut) {
     $("#msg").text(message);
+    if(isFadeOut) {
+        setTimeout(function() {
+            $("#msg").fadeOut("normal", function() {
+                $("#msg").remove()
+            });
+        }, 3000);
+    }
 }
 
 $(function() {
