@@ -4,23 +4,13 @@ validateConfig = function(defaultConfig) {
     return new Promise(function(resolve, reject) {
         var defaultConfig = {teamName: "", token: ""};
         chrome.storage.sync.get(defaultConfig, function(config) {
-
-            if(config.teamName == null || config.token == null) {
-                // TODO メッセージ出して何もしない
-                return null;
+            console.log(config);
+            if(!config.teamName || !config.token) {
+                reject("Please configure options");
             }
             resolve(config);
         });
     });
-}
-
-notifyError = function(msg) {
-    $("#msg").text(msg.responseJSON.message);
-}
-
-notifySuccess = function() {
-    // TODO 適当な時間たったら消したい
-    $("#msg").text("saved! (\\( ⁰⊖⁰)/)");
 }
 
 createPost = function(config) {
@@ -43,6 +33,23 @@ createPost = function(config) {
             success: resolve
         });
     });
+}
+
+notifySuccess = function() {
+    // TODO 適当な時間たったら消したい
+    showMessage("saved! (\\( ⁰⊖⁰)/)");
+}
+
+notifyError = function(msg) {
+    if(msg.responseJSON) {
+        showMessage(msg.responseJSON.message);
+    } else {
+        showMessage(msg);
+    }
+}
+
+showMessage = function(message) {
+    $("#msg").text(message);
 }
 
 $(function() {
