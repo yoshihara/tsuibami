@@ -2,7 +2,7 @@
 // TODO 全体的なスタイル当てなど(haml, css)
 // TODO esaで開くボタン欲しい
 
-validateConfig = function(defaultConfig) {
+getConfig = function(defaultConfig) {
     return new Promise(function(resolve, reject) {
         var defaultConfig = {teamName: "", token: ""};
         chrome.storage.sync.get(defaultConfig, function(config) {
@@ -62,6 +62,6 @@ showMessage = function(message, isFadeOut) {
 
 $(function() {
     $("#post").on("click", function() {
-        validateConfig().then(createPost).then(notifySuccess, notifyError);
+        getConfig().then(createPost).then(notifySuccess, notifyError);
     });
 });
