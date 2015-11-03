@@ -54,7 +54,8 @@ showMessage = function(message, isFadeOut) {
     if(isFadeOut) {
         setTimeout(function() {
             $("#msg").fadeOut("normal", function() {
-                $("#msg").remove()
+                $("#msg").text("");
+                $("#msg").toggle();
             });
         }, 3000);
     }
