@@ -21,13 +21,14 @@ createPost = function(config) {
 
         $.ajax({
             type: "POST",
-            url: "https://api.esa.io/v1/teams/" + config.teamName + "/posts?access_token=" + config.token,
+            url: "https://api.esa.io/v1/teams/" + config.teamName + "/posts",
             data: {
                 post: {
                     name: title,
                     body_md: body,
                     message: "from tsuibami"
-                }
+                },
+                access_token: config.token
             },
 
             error: reject,
