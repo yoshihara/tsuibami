@@ -6,7 +6,6 @@ validateConfig = function(defaultConfig) {
     return new Promise(function(resolve, reject) {
         var defaultConfig = {teamName: "", token: ""};
         chrome.storage.sync.get(defaultConfig, function(config) {
-            console.log(config);
             if(!config.teamName || !config.token) {
                 reject("Please configure options");
             }
