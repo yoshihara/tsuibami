@@ -3,7 +3,7 @@
 // TODO 全体的なスタイル当てなど(haml, css)
 // TODO esaで開くボタン欲しい
 
-getConfig = function(defaultConfig) {
+getConfig = function() {
     return new Promise(function(resolve, reject) {
         var defaultConfig = {teamName: "", token: "", teamIcon: ""};
         chrome.storage.sync.get(defaultConfig, function(config) {
