@@ -1,8 +1,3 @@
-// TODO 同じタイトルのとき上書きする前に聞くためのチェックボックスがoptionにほしい
-// TODO bluebird入れる
-// TODO 全体的なスタイル当てなど(haml, css)
-// TODO esaで開くボタン欲しい
-
 getConfig = function() {
     return new Promise(function(resolve, reject) {
         var defaultConfig = {teamName: "", token: "", teamIcon: ""};
