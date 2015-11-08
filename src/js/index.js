@@ -21,9 +21,10 @@ searchPost = function(config) {
 
         $.ajax({
             type: "GET",
-            url: "https://api.esa.io/v1/teams/" + config.teamName + "/posts?access_token=" + config.token,
+            url: "https://api.esa.io/v1/teams/" + config.teamName + "/posts",
             data: {
-                q: "name:" + title
+                q: "name:" + title,
+                access_token: config.token
             },
             success: function(response) {
                 if(response.posts[0]) {
