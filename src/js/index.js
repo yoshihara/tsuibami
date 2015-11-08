@@ -5,7 +5,7 @@
 
 getConfig = function(defaultConfig) {
     return new Promise(function(resolve, reject) {
-        var defaultConfig = {teamName: "", token: ""};
+        var defaultConfig = {teamName: "", token: "", teamIcon: ""};
         chrome.storage.sync.get(defaultConfig, function(config) {
             if(!config.teamName || !config.token) {
                 reject("Please configure options (\\( ˘⊖˘)/)");
@@ -70,6 +70,7 @@ savePost = function(config) {
 }
 
 notifyReady = function(config) {
+    $(".icon")[0].src = config.teamIcon;
     notifySuccess('team "' + config.teamName + '" is used', true);
 }
 
