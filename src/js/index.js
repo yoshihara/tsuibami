@@ -8,7 +8,7 @@ getConfig = function(defaultConfig) {
         var defaultConfig = {teamName: "", token: ""};
         chrome.storage.sync.get(defaultConfig, function(config) {
             if(!config.teamName || !config.token) {
-                reject("Please configure options");
+                reject("Please configure options (\\( ˘⊖˘)/)");
             }
             resolve(config);
         });
