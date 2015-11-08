@@ -39,16 +39,15 @@ searchPost = function(config) {
 savePost = function(config) {
     return new Promise(function(resolve, reject) {
         var type;
-        var url;
+        var url = "https://api.esa.io/v1/teams/" + config.teamName + "/posts";
         var title = $("#title").val();
         var body = $("#body").val();
         var postId = config.postId;
         if(postId) {
             type = "PATCH";
-            url = "https://api.esa.io/v1/teams/" + config.teamName + "/posts/" + postId;
+            url = url + "/" + postId;
         } else {
             type = "POST";
-            url = "https://api.esa.io/v1/teams/" + config.teamName + "/posts"
         }
 
         $.ajax({
