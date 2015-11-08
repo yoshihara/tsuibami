@@ -98,7 +98,6 @@ showMessage = function(message, isFadeOut) {
 
 $(function() {
     $(window).on("load", function() {
-        console.log("load");
         getConfig().then(notifyReady).catch(notifyError);
     });
 
