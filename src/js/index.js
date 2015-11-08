@@ -14,14 +14,46 @@ getConfig = function(defaultConfig) {
     });
 }
 
-createPost = function(config) {
+searchPost = function(config) {
     return new Promise(function(resolve, reject) {
         var title = $("#title").val();
-        var body = $("#body").val();
 
         $.ajax({
-            type: "POST",
-            url: "https://api.esa.io/v1/teams/" + config.teamName + "/posts",
+            type: "GET",
+            url: "https://api.esa.io/v1/teams/" + config.teamName + "/posts?access_token=" + config.token,
+            data: {
+                q: "name:" + title
+            },
+            success: function(response) {
+                if(response.posts[0]) {
+                    config.postId = response.posts[0].number;
+                }
+                resolve(config);
+            },
+            error: reject
+        })
+    })
+}
+
+
+savePost = function(config) {
+    return new Promise(function(resolve, reject) {
+        var type;
+        var url;
+        var title = $("#title").val();
+        var body = $("#body").val();
+        var postId = config.postId;
+        if(postId) {
+            type = "PATCH";
+            url = "https://api.esa.io/v1/teams/" + config.teamName + "/posts/" + postId;
+        } else {
+            type = "POST";
+            url = "https://api.esa.io/v1/teams/" + config.teamName + "/posts"
+        }
+
+        $.ajax({
+            type: type,
+            url: url,
             data: {
                 post: {
                     name: title,
@@ -32,13 +64,13 @@ createPost = function(config) {
             },
 
             error: reject,
-            success: resolve
+            success: resolve((postId) ? "updated!" : "created!")
         });
     });
 }
 
-notifySuccess = function() {
-    showMessage("saved! (\\( ⁰⊖⁰)/)", true);
+notifySuccess = function(msg) {
+    showMessage(msg + " (\\( ⁰⊖⁰)/)", true);
 }
 
 notifyError = function(msg) {
@@ -63,6 +95,6 @@ showMessage = function(message, isFadeOut) {
 
 $(function() {
     $("#post").on("click", function() {
-        getConfig().then(createPost).then(notifySuccess, notifyError);
+        getConfig().then(searchPost).then(savePost).then(notifySuccess, notifyError);
     });
 });
