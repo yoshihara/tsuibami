@@ -1,4 +1,3 @@
-// TODO configチェックは画面開いた時にやるほうがよさそう
 // TODO 同じタイトルのとき上書きする前に聞くためのチェックボックスがoptionにほしい
 // TODO bluebird入れる
 // TODO 全体的なスタイル当てなど(haml, css)
@@ -37,7 +36,6 @@ searchPost = function(config) {
     })
 }
 
-
 savePost = function(config) {
     return new Promise(function(resolve, reject) {
         var type;
@@ -71,6 +69,10 @@ savePost = function(config) {
     });
 }
 
+notifyReady = function(config) {
+    notifySuccess('team "' + config.teamName + '" is used', true);
+}
+
 notifySuccess = function(msg) {
     showMessage(msg + " (\\( ⁰⊖⁰)/)", true);
 }
@@ -96,6 +98,11 @@ showMessage = function(message, isFadeOut) {
 }
 
 $(function() {
+    $(window).on("load", function() {
+        console.log("load");
+        getConfig().then(notifyReady).catch(notifyError);
+    });
+
     $("#post").on("click", function() {
         getConfig().then(searchPost).then(savePost).then(notifySuccess, notifyError);
     });
