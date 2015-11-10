@@ -6,7 +6,6 @@
     "description": ":esa: with chrome",
 
     "permissions": [
-        "tabs", "<all_urls>",
         "storage"
     ],
 
