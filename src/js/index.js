@@ -1,3 +1,15 @@
+// TODO できればグローバルで定義しないほうがよさそう
+var storedPost = {title: "", body: ""};
+
+loadPost = function() {
+    var defaultPost = {title: "", body: ""};
+    chrome.storage.sync.get(defaultPost, function(post) {
+        storedPost = post;
+        $("#title").val(post.title);
+        $("#body").val(post.body);
+    });
+}
+
 getConfig = function() {
     return new Promise(function(resolve, reject) {
         var defaultConfig = {teamName: "", token: "", teamIcon: ""};
@@ -93,10 +105,34 @@ showMessage = function(message, isFadeOut) {
     }
 }
 
+storeTitle = function() {
+    var title = $("#title").val();
+    if(title != storedPost.title) {
+        storedPost.title = title;
+        chrome.storage.sync.set({title: title}, function(){
+            showMessage("stored in local!", true);
+        });
+    }
+}
+
+storeBody = function() {
+    var body = $("#body").val();
+    if(body != storedPost.body) {
+        storedPost.body = body;
+        chrome.storage.sync.set({body: body}, function(){
+            showMessage("stored in local!", true);
+        });
+    }
+}
+
 $(function() {
     $(window).on("load", function() {
+        loadPost();
         getConfig().then(notifyReady).catch(notifyError);
     });
+
+    $("#title").on( "keyup", _.debounce(storeTitle, 1000));
+    $("#body").on( "keyup", _.debounce(storeBody, 1000));
 
     $("#post").on("click", function() {
         getConfig().then(searchPost).then(savePost).then(notifySuccess, notifyError);
