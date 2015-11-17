@@ -6,7 +6,8 @@
     "description": ":esa: with chrome",
 
     "permissions": [
-        "storage"
+        "storage",
+        "https://api.esa.io/v1/"
     ],
 
     "options_page": "options.html",
