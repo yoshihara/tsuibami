@@ -24,13 +24,18 @@ getConfig = function() {
 
 searchPost = function(config) {
     return new Promise(function(resolve, reject) {
-        var title = $("#title").val();
+        var splitedTitle = $("#title").val().split("/");
+        var category = _.initial(splitedTitle).join("/");
+        var title = _.last(splitedTitle);
+
+        var q = "name:" + title;
+        if(category.length != 0) { q = q + " category:" + category }
 
         $.ajax({
             type: "GET",
             url: "https://api.esa.io/v1/teams/" + config.teamName + "/posts",
             data: {
-                q: "name:" + title,
+                q: q,
                 access_token: config.token
             },
             success: function(response) {
