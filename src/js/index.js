@@ -12,11 +12,13 @@ loadPost = function() {
 
 getConfig = function() {
     return new Promise(function(resolve, reject) {
-        var defaultConfig = {teamName: "", token: "", teamIcon: ""};
+        var defaultConfig = {teamName: "", token: "", teamIcon: "", postId: ""};
         chrome.storage.sync.get(defaultConfig, function(config) {
             if(!config.teamName || !config.token) {
                 reject("Please configure options (\\( ˘⊖˘)/)");
             }
+            if(post.postId != "") { updateLink(config) }
+
             resolve(config);
         });
     });
@@ -41,8 +43,13 @@ searchPost = function(config) {
             success: function(response) {
                 if(response.posts[0]) {
                     config.postId = response.posts[0].number;
+                    updateLink(config);
+                } else {
+                    config.postId = undefined;
                 }
-                resolve(config);
+                chrome.storage.sync.set(config, function(){
+                    resolve(config);
+                });
             },
             error: reject
         })
@@ -78,6 +85,11 @@ savePost = function(config) {
             error: reject("error (\\( ˘⊖˘)/)")
         });
     });
+}
+
+updateLink = function(config) {
+    $(".esa__link").attr("href", "https://" + config.teamName + ".esa.io/posts/" + config.postId);
+    return
 }
 
 notifyReady = function(config) {
