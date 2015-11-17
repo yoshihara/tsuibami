@@ -1,7 +1,7 @@
 {
   "name": "tsuibami",
   "version": "0.1.0",
-  "description": "esa with chrome",
+  "description": "mini editor for esa",
   "main": "index.js",
   "scripts": {
     "build": "gulp build",
