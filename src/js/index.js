@@ -74,9 +74,8 @@ savePost = function(config) {
                 },
                 access_token: config.token
             },
-
-            error: reject,
-            success: resolve((postId) ? "updated!" : "created!")
+            success: resolve((postId) ? "updated!" : "created!"),
+            error: reject("error (\\( ˘⊖˘)/)")
         });
     });
 }
