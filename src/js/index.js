@@ -93,7 +93,7 @@ updateLink = function(config) {
 }
 
 notifyReady = function(config) {
-    $(".icon")[0].src = config.teamIcon;
+    $(".team__icon")[0].src = config.teamIcon;
     notifySuccess('team "' + config.teamName + '" is used', true);
 }
 
