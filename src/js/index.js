@@ -17,7 +17,7 @@ getConfig = function() {
             if(!config.teamName || !config.token) {
                 reject("Please configure options (\\( ˘⊖˘)/)");
             }
-            if(post.postId != "") { updateLink(config) }
+            if(config.postId != "") { updateLink(config) }
 
             resolve(config);
         });
