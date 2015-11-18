@@ -110,12 +110,12 @@ notifyError = function(msg) {
 }
 
 showMessage = function(message, isFadeOut) {
-    $("#msg").text(message);
+    $(".message").text(message);
     if(isFadeOut) {
         setTimeout(function() {
-            $("#msg").fadeOut("normal", function() {
-                $("#msg").text("");
-                $("#msg").toggle();
+            $(".message").fadeOut("normal", function() {
+                $(".message").text("");
+                $(".message").toggle();
             });
         }, 3000);
     }
