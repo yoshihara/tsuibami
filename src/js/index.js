@@ -6,7 +6,7 @@ loadPost = function() {
     chrome.storage.sync.get(defaultPost, function(post) {
         storedPost = post;
         $(".post__title").val(post.title);
-        $("#body").val(post.body);
+        $(".post__body").val(post.body);
     });
 }
 
@@ -61,7 +61,7 @@ savePost = function(config) {
         var type;
         var url = "https://api.esa.io/v1/teams/" + config.teamName + "/posts";
         var title = $(".post__title").val();
-        var body = $("#body").val();
+        var body = $(".post__body").val();
         var postId = config.postId;
         if(postId) {
             type = "PATCH";
@@ -132,7 +132,7 @@ storeTitle = function() {
 }
 
 storeBody = function() {
-    var body = $("#body").val();
+    var body = $(".post__body").val();
     if(body != storedPost.body) {
         storedPost.body = body;
         chrome.storage.sync.set({body: body}, function(){
@@ -148,7 +148,7 @@ $(function() {
     });
 
     $(".post__title").on( "keyup", _.debounce(storeTitle, 1000));
-    $("#body").on( "keyup", _.debounce(storeBody, 1000));
+    $(".post__body").on( "keyup", _.debounce(storeBody, 1000));
 
     $("#post").on("click", function() {
         getConfig().then(searchPost).then(savePost).then(notifySuccess, notifyError);
