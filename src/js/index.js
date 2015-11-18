@@ -150,7 +150,7 @@ $(function() {
     $(".post__title").on( "keyup", _.debounce(storeTitle, 1000));
     $(".post__body").on( "keyup", _.debounce(storeBody, 1000));
 
-    $("#post").on("click", function() {
+    $(".esa__post").on("click", function() {
         getConfig().then(searchPost).then(savePost).then(notifySuccess, notifyError);
     });
 });
