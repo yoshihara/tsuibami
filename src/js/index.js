@@ -5,7 +5,7 @@ loadPost = function() {
     var defaultPost = {title: "", body: ""};
     chrome.storage.sync.get(defaultPost, function(post) {
         storedPost = post;
-        $("#title").val(post.title);
+        $(".post__title").val(post.title);
         $("#body").val(post.body);
     });
 }
@@ -26,7 +26,7 @@ getConfig = function() {
 
 searchPost = function(config) {
     return new Promise(function(resolve, reject) {
-        var splitedTitle = $("#title").val().split("/");
+        var splitedTitle = $(".post__title").val().split("/");
         var category = _.initial(splitedTitle).join("/");
         var title = _.last(splitedTitle);
 
@@ -60,7 +60,7 @@ savePost = function(config) {
     return new Promise(function(resolve, reject) {
         var type;
         var url = "https://api.esa.io/v1/teams/" + config.teamName + "/posts";
-        var title = $("#title").val();
+        var title = $(".post__title").val();
         var body = $("#body").val();
         var postId = config.postId;
         if(postId) {
@@ -122,7 +122,7 @@ showMessage = function(message, isFadeOut) {
 }
 
 storeTitle = function() {
-    var title = $("#title").val();
+    var title = $(".post__title").val();
     if(title != storedPost.title) {
         storedPost.title = title;
         chrome.storage.sync.set({title: title}, function(){
@@ -147,7 +147,7 @@ $(function() {
         getConfig().then(notifyReady).catch(notifyError);
     });
 
-    $("#title").on( "keyup", _.debounce(storeTitle, 1000));
+    $(".post__title").on( "keyup", _.debounce(storeTitle, 1000));
     $("#body").on( "keyup", _.debounce(storeBody, 1000));
 
     $("#post").on("click", function() {
