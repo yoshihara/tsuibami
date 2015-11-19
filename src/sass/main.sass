@@ -1,3 +1,94 @@
+$text-color: #333
+$topic-color: rgb(19,168,161)
+$input-bg-color: rgba(0,0,0, 0.1)
+$input-width: 460px
+
 body
+  width: 500px
   max-width: 500px
   max-height: 730px
+  background-color: #FAFAFA
+  font-size: 14px
+  color: $text-color
+
+input, textarea
+  padding: 8px 10px
+  border-radius: 3px
+  border: 1px solid $input-bg-color
+  background-color: $input-bg-color
+  font-size: 14px
+  line-height: 140%
+  color: #343
+  &:focus
+    background-color: #FAFAFA
+
+.row
+  display: flex
+  width: 100%
+  margin: 10px
+
+.team__icon
+  display: block
+  width: 32px
+  height: 32px
+  border-radius: 16px
+
+.team__name
+  margin: 0
+  margin-top: 10px
+  margin-left: 10px
+  font-size: 22px
+  font-weight: bold
+  color: rgb(204, 192, 116)
+
+.post__title
+  width: $input-width
+
+.post__body
+  width: $input-width
+  height: 350px
+
+.menu
+  float: right
+  display: table-cell
+  width: 80%
+  height: 40px
+
+.menu__link
+  margin-top: 10px
+  display: inline-block
+
+.esa__link
+  height: 20px
+  font-size: 18px
+  color: rgba($text-color, 0.8)
+  transition: all 0.3s ease
+  text-decoration: none
+
+  &:hover
+    color: darken($topic-color, 10)
+
+.menu__post
+  display: inline-block
+  pointer: cursor
+  float: right
+
+.esa__post
+  width: 130px
+  height: 40px
+  border-radius: 5px
+  background-color: $topic-color
+  border: solid 1px rgba(0,0,0,0.1)
+  box-shadow: 1px 1px 0 rgba(255,255,255,0.4) inset
+  color: white
+  font-size: 16px
+  cursor: pointer
+
+.message
+  display: none
+  width: 460px
+  padding: 4px 10px
+  background-color: rgba($topic-color, .4)
+  border: 1px solid $topic-color
+  border-radius: 3px
+  color: $text-color

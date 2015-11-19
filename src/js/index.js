@@ -19,6 +19,8 @@ getConfig = function() {
             }
             if(config.postId != "") { updateLink(config) }
 
+            $(".team__name").text(config.teamName);
+
             resolve(config);
         });
     });
@@ -110,14 +112,14 @@ notifyError = function(msg) {
 }
 
 showMessage = function(message, isFadeOut) {
-    $(".message").text(message);
+    $(".message").toggle();
+    $(".message__body").text(message);
     if(isFadeOut) {
         setTimeout(function() {
             $(".message").fadeOut("normal", function() {
-                $(".message").text("");
-                $(".message").toggle();
+                $(".message__body").text("");
             });
-        }, 3000);
+        }, 2000);
     }
 }
 

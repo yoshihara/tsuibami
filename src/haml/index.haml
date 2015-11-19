@@ -4,13 +4,22 @@
     %meta(charset="utf-8")
     %link(rel="stylesheet" type="text/css" href="/main.css")
   %body
-    %img.team__icon
-    .message
-    %input.post__title(type="input")
-    %textarea.post__body
-    %button.esa__post(type="button") POST
-    #div.links
-      %a.esa__link(href="#" target="_blank") 前回保存した記事をesaで開く
+    .row
+      %img.team__icon
+      .team__name
+        tsuibami
+    .row
+      %input.post__title(type="input")
+    .row
+      %textarea.post__body
+    .row.menu
+      .menu__link
+        %a.esa__link(href="#" target="_blank") 前回保存した記事をesaで開く
+      .menu__post
+        %button.esa__post(type="button") Save as WIP
+    .row
+      .message
+        .message__body
   %script(src="/lib/bluebird.min.js")
   %script(src="/lib/jquery-2.1.4.min.js")
   %script(src="/lib/lodash.js")
