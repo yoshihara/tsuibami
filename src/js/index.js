@@ -17,7 +17,10 @@ getConfig = function() {
             if(!config.teamName || !config.token) {
                 reject("Please configure options (\\( ˘⊖˘)/)");
             }
-            if(config.postId != "") { updateLink(config) }
+            if(config.postId != "") {
+                var link = "https://" + config.teamName + ".esa.io/posts/" + config.postId;
+                $(".esa__link").attr("href", link);
+            }
 
             $(".team__name").text(config.teamName);
 
@@ -45,7 +48,6 @@ searchPost = function(config) {
             success: function(response) {
                 if(response.posts[0]) {
                     config.postId = response.posts[0].number;
-                    updateLink(config);
                 } else {
                     config.postId = undefined;
                 }
@@ -83,15 +85,27 @@ savePost = function(config) {
                 },
                 access_token: config.token
             },
-            success: resolve((postId) ? "updated!" : "created!"),
-            error: reject("error (\\( ˘⊖˘)/)")
+            success: resolve,
+            error: reject
         });
     });
 }
 
-updateLink = function(config) {
-    $(".esa__link").attr("href", "https://" + config.teamName + ".esa.io/posts/" + config.postId);
-    return
+notifySaved = function(response) {
+    return new Promise(function(resolve, reject) {
+        var newPostId = response.number;
+        var message;
+
+        chrome.storage.sync.set({postId: newPostId}, function(){
+            $(".esa__link").attr("href", response.url);
+            if (response.revision_number == 1) {
+                message = "created!";
+            } else {
+                message = "updated!";
+            }
+            resolve(message);
+        });
+    });
 }
 
 notifyReady = function(config) {
@@ -104,10 +118,11 @@ notifySuccess = function(msg) {
 }
 
 notifyError = function(msg) {
+    console.log(msg);
     if(msg.responseJSON) {
         showMessage(msg.responseJSON.message);
     } else {
-        showMessage(msg);
+        showMessage(msg.statusText);
     }
 }
 
@@ -153,6 +168,6 @@ $(function() {
     $(".post__body").on( "keyup", _.debounce(storeBody, 1000));
 
     $(".esa__post").on("click", function() {
-        getConfig().then(searchPost).then(savePost).then(notifySuccess, notifyError);
+        getConfig().then(searchPost).then(savePost).then(notifySaved).then(notifySuccess).catch(notifyError);
     });
 });
