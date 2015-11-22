@@ -1,7 +1,16 @@
 $text-color: #333
 $topic-color: rgb(19,168,161)
+$accent-color: rgb(250,128,67)
 $input-bg-color: rgba(0,0,0, 0.1)
 $input-width: 460px
+$success-bg-color: rgba($topic-color, .4)
+$success-border-color: $topic-color
+$failure-bg-color: rgba($accent-color, .4)
+$failure-border-color: $accent-color
+
+.body
+  font-size: 14px
+  color: $text-color
 
 .button
   width: 130px
@@ -11,9 +20,17 @@ $input-width: 460px
   font-size: 16px
   cursor: pointer
 
-.body
-  font-size: 14px
-  color: $text-color
+.message__body-color-success
+  padding: 4px 10px
+  border-radius: 3px
+  background-color: $success-bg-color
+  border: 1px solid $success-border-color
+
+.message__body-color-failure
+  padding: 4px 10px
+  border-radius: 3px
+  background-color: $failure-bg-color
+  border: 1px solid $failure-border-color
 
 input, textarea
   padding: 8px 10px

@@ -126,15 +126,21 @@ notifyError = function(msg) {
     }
 }
 
-showMessage = function(message, isFadeOut) {
+showMessage = function(message, succeeded) {
     $(".message").toggle();
     $(".message__body").text(message);
-    if(isFadeOut) {
+    $(".message__body").removeClass("message__body-color-success");
+    $(".message__body").removeClass("message__body-color-failure");
+
+    if(succeeded) {
+        $(".message__body").addClass("message__body-color-success");
         setTimeout(function() {
             $(".message").fadeOut("normal", function() {
                 $(".message__body").text("");
             });
         }, 2000);
+    } else {
+        $(".message__body").addClass("message__body-color-failure");
     }
 }
 
