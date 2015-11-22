@@ -1,26 +1,11 @@
-$text-color: #333
-$topic-color: rgb(19,168,161)
-$input-bg-color: rgba(0,0,0, 0.1)
-$input-width: 460px
+@import "common.sass"
 
 body
+  @extend .body
   width: 500px
   max-width: 500px
   max-height: 730px
   background-color: #FAFAFA
-  font-size: 14px
-  color: $text-color
-
-input, textarea
-  padding: 8px 10px
-  border-radius: 3px
-  border: 1px solid $input-bg-color
-  background-color: $input-bg-color
-  font-size: 14px
-  line-height: 140%
-  color: #343
-  &:focus
-    background-color: #FAFAFA
 
 .row
   display: flex
@@ -74,15 +59,10 @@ input, textarea
   float: right
 
 .esa__post
-  width: 130px
-  height: 40px
-  border-radius: 5px
+  @extend .button
   background-color: $topic-color
-  border: solid 1px rgba(0,0,0,0.1)
   box-shadow: 1px 1px 0 rgba(255,255,255,0.4) inset
   color: white
-  font-size: 16px
-  cursor: pointer
 
 .message
   display: none
