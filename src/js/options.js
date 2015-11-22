@@ -17,23 +17,23 @@ getTeamIcon = function(config) {
 
 saveConfig = function(config) {
     chrome.storage.sync.set(config, function(){
-        $(".message").text("saved!");
-        $(".icon")[0].src = config.teamIcon;
+        $(".options__message").text("saved!");
+        $(".team-icon")[0].src = config.teamIcon;
     });
 }
 
 $(function() {
     var defaultConfig = {teamName: "", token: "", teamIcon: ""};
     chrome.storage.sync.get(defaultConfig, function(config) {
-        $(".team-name").val(config.teamName);
-        $(".token").val(config.token);
-        $(".icon")[0].src = config.teamIcon;
+        $(".options__team-name").val(config.teamName);
+        $(".options__token").val(config.token);
+        $(".team-icon")[0].src = config.teamIcon;
     });
 
-    $(".save").on("click", function() {
+    $(".options__save").on("click", function() {
         var config = {
-            teamName: $(".team-name").val(),
-            token: $(".token").val()
+            teamName: $(".options__team-name").val(),
+            token: $(".options__token").val()
         };
         getTeamIcon(config).then(saveConfig);
     });
