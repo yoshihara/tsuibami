@@ -18,6 +18,12 @@ getTeamIcon = function(config) {
 saveConfig = function(config) {
     chrome.storage.sync.set(config, function(){
         $(".options__message").text("saved!");
+        setTimeout(function() {
+            $(".options__message").fadeOut("normal", function() {
+                $(".options__message").text("");
+                $(".options__message").toggle();
+            });
+        }, 2000);
         $(".team-icon")[0].src = config.teamIcon;
     });
 }
