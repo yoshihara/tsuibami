@@ -24,16 +24,14 @@ saveConfig = function(config) {
                 $(".options__message").toggle();
             });
         }, 2000);
-        $(".team-icon")[0].src = config.teamIcon;
     });
 }
 
 $(function() {
-    var defaultConfig = {teamName: "", token: "", teamIcon: ""};
+    var defaultConfig = {teamName: "", token: ""};
     chrome.storage.sync.get(defaultConfig, function(config) {
         $(".options__team-name").val(config.teamName);
         $(".options__token").val(config.token);
-        $(".team-icon")[0].src = config.teamIcon;
     });
 
     $(".options__save").on("click", function() {
