@@ -23,6 +23,8 @@
     "gulp": "^3.9.0",
     "gulp-concat": "^2.5.2",
     "gulp-download": "0.0.1",
+    "gulp-notify": "^2.2.0",
+    "gulp-plumber": "^1.0.1",
     "gulp-ruby-haml": "0.0.4",
     "gulp-sass": "^2.0.4",
     "gulp-uglify": "^1.1.0",

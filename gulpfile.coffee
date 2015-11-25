@@ -2,7 +2,12 @@ gulp = require 'gulp'
 del = require 'del'
 haml = require 'gulp-ruby-haml'
 sass = require 'gulp-sass'
+plumber = require 'gulp-plumber'
+notify = require 'gulp-notify'
 runSequence = require 'run-sequence'
+
+notifyError = ->
+  plumber({errorHandler: notify.onError('<%= error.message %>')})
 
 paths =
   lib: 'lib/**/*.*'
@@ -13,24 +18,29 @@ paths =
 
 gulp.task 'js', ->
   gulp.src(paths.js)
+    .pipe(notifyError())
     .pipe(gulp.dest('build/'))
 
 gulp.task 'haml', ->
   gulp.src(paths.haml)
+    .pipe(notifyError())
     .pipe(haml())
     .pipe(gulp.dest('build/'))
 
 gulp.task 'sass', ->
   gulp.src(paths.sass)
+    .pipe(notifyError())
     .pipe(sass())
     .pipe(gulp.dest("build/"))
 
 gulp.task 'copyLib', ->
   gulp.src(paths.lib)
+    .pipe(notifyError())
     .pipe(gulp.dest('build/lib'))
 
 gulp.task 'copyMetadata', ->
   gulp.src(paths.metadata)
+    .pipe(notifyError())
     .pipe(gulp.dest('build/'))
 
 gulp.task 'watch', ->
