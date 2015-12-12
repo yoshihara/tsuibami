@@ -27,6 +27,13 @@ saveConfig = function(config) {
     });
 }
 
+notifyInvalidConfig = function(config) {
+    var teamName = $(".options__team-name").val();
+    var token = $(".options__token").val();
+
+    $(".options__message").text('"' + teamName + '" or "' + token + '" is invalid (\\( ˘⊖˘)/)');
+}
+
 $(function() {
     var defaultConfig = {teamName: "", token: ""};
     chrome.storage.sync.get(defaultConfig, function(config) {
@@ -39,6 +46,6 @@ $(function() {
             teamName: $(".options__team-name").val(),
             token: $(".options__token").val()
         };
-        getTeamIcon(config).then(saveConfig);
+        getTeamIcon(config).then(saveConfig).catch(notifyInvalidConfig);
     });
 });
