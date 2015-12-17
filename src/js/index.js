@@ -127,7 +127,8 @@ notifyError = function(msg) {
 }
 
 showMessage = function(message, succeeded) {
-    $(".message").toggle();
+    $(".message").show();
+
     $(".message__body").text(message);
     $(".message__body").removeClass("message__body-color-success");
     $(".message__body").removeClass("message__body-color-failure");
