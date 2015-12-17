@@ -17,13 +17,7 @@ getTeamIcon = function(config) {
 
 saveConfig = function(config) {
     chrome.storage.sync.set(config, function(){
-        $(".options__message").text("saved!");
-        setTimeout(function() {
-            $(".options__message").fadeOut("normal", function() {
-                $(".options__message").text("");
-                $(".options__message").toggle();
-            });
-        }, 2000);
+        showMessage("Saved!(\\( ⁰⊖⁰)/)", true)
     });
 }
 
@@ -31,7 +25,28 @@ notifyInvalidConfig = function(config) {
     var teamName = $(".options__team-name").val();
     var token = $(".options__token").val();
 
-    $(".options__message").text('"' + teamName + '" or "' + token + '" is invalid (\\( ˘⊖˘)/)');
+    showMessage("invalid teamname or token (\\( ˘⊖˘)/)", false);
+}
+
+showMessage = function(message, succeeded) {
+    var messageDom = $(".options__message");
+
+    $(".message").show();
+    messageDom.removeClass('message__body-color-success');
+    messageDom.removeClass('message__body-color-failure');
+
+    messageDom.text(message);
+
+    if (succeeded) {
+        messageDom.addClass('message__body-color-success');
+        setTimeout(function() {
+            $(".message").fadeOut("normal", function() {
+                messageDom.text("");
+            });
+        }, 2000);
+    } else {
+        messageDom.addClass('message__body-color-failure');
+    }
 }
 
 $(function() {
