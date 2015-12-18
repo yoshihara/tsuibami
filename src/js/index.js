@@ -184,6 +184,11 @@ storeBody = function() {
     }
 }
 
+toggleButton = function(disabled) {
+    $(".esa__post").prop("disabled", disabled);
+    $(".esa__post").text(disabled ? "Saving..." : "Save as WIP");
+}
+
 $(function() {
     $(window).on("load", function() {
         loadPost();
@@ -194,6 +199,9 @@ $(function() {
     $(".post__body").on( "keyup", _.debounce(storeBody, 1000));
 
     $(".esa__post").on("click", function() {
-        getConfig().then(searchPost).then(savePost).then(notifySaved).then(notifySuccess).catch(notifyError);
+        toggleButton(true);
+        getConfig().then(searchPost).then(savePost).then(notifySaved).then(notifySuccess).catch(notifyError).finally(function() {
+            toggleButton(false);
+        });
     });
 });

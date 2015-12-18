@@ -49,6 +49,11 @@ showMessage = function(message, succeeded) {
     }
 }
 
+toggleButton = function(disabled) {
+    $(".options__save").prop("disabled", disabled);
+    $(".options__save").text(disabled ? "Saving..." : "Save Options");
+}
+
 $(function() {
     var defaultConfig = {teamName: "", token: ""};
     chrome.storage.sync.get(defaultConfig, function(config) {
@@ -57,10 +62,13 @@ $(function() {
     });
 
     $(".options__save").on("click", function() {
+        toggleButton(true);
         var config = {
             teamName: $(".options__team-name").val(),
             token: $(".options__token").val()
         };
-        getTeamIcon(config).then(saveConfig).catch(notifyInvalidConfig);
+        getTeamIcon(config).then(saveConfig).catch(notifyInvalidConfig).finally(function() {
+            toggleButton(false);
+        });
     });
 });
