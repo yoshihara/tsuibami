@@ -31,9 +31,13 @@ getConfig = function() {
 
 searchPost = function(config) {
     return new Promise(function(resolve, reject) {
-        var splitedTitle = $(".post__title").val().split("/");
-        var category = _.initial(splitedTitle).join("/");
-        var title = _.last(splitedTitle);
+        var title = $(".post__title").val();
+        var category = "";
+
+        if(hasCategory(title)) {
+            category = /(.+)\/.+/.exec(title)[1];
+            title = /.+\/(.+)/.exec(title)[1];
+        }
 
         var q = "name:" + title;
         if(category.length != 0) { q = q + " category:" + category }
@@ -46,8 +50,15 @@ searchPost = function(config) {
                 access_token: config.token
             },
             success: function(response) {
-                if(response.posts[0]) {
-                    config.postId = response.posts[0].number;
+                var hitPost;
+                if(category.length == 0) {
+                    hitPost = _.find(response.posts, { name: title, category: null });
+                } else {
+                    hitPost = response.posts[0];
+                }
+
+                if(hitPost) {
+                    config.postId = hitPost.number;
                 } else {
                     config.postId = undefined;
                 }
@@ -66,6 +77,14 @@ savePost = function(config) {
         var url = "https://api.esa.io/v1/teams/" + config.teamName + "/posts";
         var title = $(".post__title").val();
         var body = $(".post__body").val();
+
+        var post = {name: title, category: "", body_md: body, message: "from tsuibami"};
+
+        if(hasCategory(title)) {
+            post["category"] = /(.+)\/.+/.exec(title)[1];
+            post["name"] = /.+\/(.+)/.exec(title)[1];
+        }
+
         var postId = config.postId;
         if(postId) {
             type = "PATCH";
@@ -78,11 +97,7 @@ savePost = function(config) {
             type: type,
             url: url,
             data: {
-                post: {
-                    name: title,
-                    body_md: body,
-                    message: "from tsuibami"
-                },
+                post: post,
                 access_token: config.token
             },
             success: resolve,
@@ -106,6 +121,10 @@ notifySaved = function(response) {
             resolve(message);
         });
     });
+}
+
+hasCategory = function(title) {
+    return /.+\/.+/.test(title);
 }
 
 notifyReady = function(config) {
