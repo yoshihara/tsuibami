@@ -138,11 +138,7 @@ notifySuccess = function(msg) {
 
 notifyError = function(msg) {
     console.log(msg);
-    if(msg.responseJSON) {
-        showMessage(msg.responseJSON.message);
-    } else {
-        showMessage(msg.statusText);
-    }
+    showMessage(msg);
 }
 
 showMessage = function(message, succeeded) {
