@@ -51,12 +51,15 @@ searchPost = function(config) {
             },
             success: function(response) {
                 var hitPost;
+                // カテゴリ無しだけを検索する方法がわからなかったので別途絞込している
                 if(category.length == 0) {
                     hitPost = _.find(response.posts, { name: title, category: null });
                 } else {
+                    // 1つしかない想定
                     hitPost = response.posts[0];
                 }
 
+                // 記事があった場合は更新するためIDを保存する
                 if(hitPost) {
                     config.postId = hitPost.number;
                 } else {
@@ -113,6 +116,7 @@ notifySaved = function(response) {
 
         chrome.storage.sync.set({postId: newPostId}, function(){
             $(".esa__link").attr("href", response.url);
+            // 最初の保存の時だけメッセージを変える
             if (response.revision_number == 1) {
                 message = "created!";
             } else {
