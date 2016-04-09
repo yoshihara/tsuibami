@@ -168,9 +168,7 @@ storeTitle = function() {
     var title = $(".post__title").val();
     if (title != storedPost.title) {
         storedPost.title = title;
-        chrome.storage.sync.set({title: title}, function(){
-            showMessage("stored in local!", true);
-        });
+        store({title: title});
     }
 }
 
@@ -178,10 +176,16 @@ storeBody = function() {
     var body = $(".post__body").val();
     if (body != storedPost.body) {
         storedPost.body = body;
-        chrome.storage.sync.set({body: body}, function(){
-            showMessage("stored in local!", true);
-        });
+        store({body: body});
     }
+}
+
+store = function(data) {
+    chrome.storage.sync.set(data, function(){
+        if (chrome.runtime.lastError) {
+            showMessage("Error: " + chrome.runtime.lastError.message, false);
+        }
+    });
 }
 
 toggleButton = function(disabled) {
