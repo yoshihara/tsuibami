@@ -160,7 +160,6 @@ hasCategory = function(title) {
 
 notifyReady = function(config) {
     $(".team__icon")[0].src = config.teamIcon;
-    notifySuccess('team "' + config.teamName + '" is used', true);
 }
 
 notifySuccess = function(msg) {
