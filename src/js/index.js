@@ -14,10 +14,10 @@ getConfig = function() {
     return new Promise(function(resolve, reject) {
         var defaultConfig = {teamName: "", token: "", teamIcon: "", postId: ""};
         chrome.storage.sync.get(defaultConfig, function(config) {
-            if(!config.teamName || !config.token) {
+            if (!config.teamName || !config.token) {
                 reject("Please configure options (\\( ˘⊖˘)/)");
             }
-            if(config.postId != "") {
+            if (config.postId != "") {
                 var link = "https://" + config.teamName + ".esa.io/posts/" + config.postId;
                 $(".esa__link").attr("href", link);
             }
@@ -34,13 +34,13 @@ searchPost = function(config) {
         var title = $(".post__title").val();
         var category = "";
 
-        if(hasCategory(title)) {
+        if (hasCategory(title)) {
             category = /(.+)\/.+/.exec(title)[1];
             title = /.+\/(.+)/.exec(title)[1];
         }
 
         var q = "name:" + title;
-        if(category.length != 0) { q = q + " category:" + category }
+        if (category.length != 0) { q = q + " category:" + category }
 
         $.ajax({
             type: "GET",
@@ -52,7 +52,7 @@ searchPost = function(config) {
             success: function(response) {
                 var hitPost;
                 // カテゴリ無しだけを検索する方法がわからなかったので別途絞込している
-                if(category.length == 0) {
+                if (category.length == 0) {
                     hitPost = _.find(response.posts, { name: title, category: null });
                 } else {
                     // 1つしかない想定
@@ -60,7 +60,7 @@ searchPost = function(config) {
                 }
 
                 // 記事があった場合は更新するためIDを保存する
-                if(hitPost) {
+                if (hitPost) {
                     config.postId = hitPost.number;
                 } else {
                     config.postId = undefined;
@@ -83,13 +83,13 @@ savePost = function(config) {
 
         var post = {name: title, category: "", body_md: body, message: "from tsuibami"};
 
-        if(hasCategory(title)) {
+        if (hasCategory(title)) {
             post["category"] = /(.+)\/.+/.exec(title)[1];
             post["name"] = /.+\/(.+)/.exec(title)[1];
         }
 
         var postId = config.postId;
-        if(postId) {
+        if (postId) {
             type = "PATCH";
             url = url + "/" + postId;
         } else {
@@ -152,7 +152,7 @@ showMessage = function(message, succeeded) {
     $(".message__body").removeClass("message__body-color-success");
     $(".message__body").removeClass("message__body-color-failure");
 
-    if(succeeded) {
+    if (succeeded) {
         $(".message__body").addClass("message__body-color-success");
         setTimeout(function() {
             $(".message").fadeOut("normal", function() {
@@ -166,7 +166,7 @@ showMessage = function(message, succeeded) {
 
 storeTitle = function() {
     var title = $(".post__title").val();
-    if(title != storedPost.title) {
+    if (title != storedPost.title) {
         storedPost.title = title;
         chrome.storage.sync.set({title: title}, function(){
             showMessage("stored in local!", true);
@@ -176,7 +176,7 @@ storeTitle = function() {
 
 storeBody = function() {
     var body = $(".post__body").val();
-    if(body != storedPost.body) {
+    if (body != storedPost.body) {
         storedPost.body = body;
         chrome.storage.sync.set({body: body}, function(){
             showMessage("stored in local!", true);
