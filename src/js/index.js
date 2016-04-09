@@ -195,8 +195,8 @@ $(function() {
         getConfig().then(notifyReady).catch(notifyError);
     });
 
-    $(".post__title").on( "keyup", _.debounce(storeTitle, 1000));
-    $(".post__body").on( "keyup", _.debounce(storeBody, 1000));
+    $(".post__title").on( "keyup", _.debounce(storeTitle, 200));
+    $(".post__body").on( "keyup", _.debounce(storeBody, 200));
 
     $(".esa__post").on("click", function() {
         toggleButton(true);
