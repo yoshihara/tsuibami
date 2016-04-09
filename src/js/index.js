@@ -15,8 +15,12 @@ getConfig = function() {
         var defaultConfig = {teamName: "", token: "", teamIcon: "", postId: ""};
         chrome.storage.sync.get(defaultConfig, function(config) {
             if (!config.teamName || !config.token) {
+                $(".option__link").show();
                 reject("Please configure options (\\( ˘⊖˘)/)");
             }
+
+            $(".option__link").remove();
+
             if (config.postId != "") {
                 var link = "https://" + config.teamName + ".esa.io/posts/" + config.postId;
                 $(".esa__link").attr("href", link);
