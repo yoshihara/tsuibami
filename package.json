@@ -1,7 +1,7 @@
 {
   "name": "tsuibami",
   "version": "0.1.0",
-  "description": "mini editor for esa",
+  "description": "memo editor for esa",
   "main": "index.js",
   "scripts": {
     "build": "gulp build",
@@ -11,12 +11,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "TODO"
+    "url": "git@github.com:yoshihara/tsuibami.git"
   },
-  "keywords": [],
+  "keywords": ["esa.io"],
   "author": "yoshihara",
   "license": "MIT",
-  "homepage": "http://TODO",
+  "bugs": {
+    "url": "https://github.com/yoshihara/tsuibami/issues"
+  },
+  "homepage": "https://github.com/yoshihara/tsuibami",
   "devDependencies": {
     "coffee-script": "^1.10.0",
     "del": "^2.0.2",
