@@ -16,19 +16,20 @@ getConfig = function() {
         chrome.storage.sync.get(defaultConfig, function(config) {
             if (!config.teamName || !config.token) {
                 $(".option__link").show();
+                $(".team__name").text("Configuration failed");
                 reject("Please configure options (\\( ˘⊖˘)/)");
+            } else {
+                $(".option__link").remove();
+
+                if (config.postId != "") {
+                    var link = "https://" + config.teamName + ".esa.io/posts/" + config.postId;
+                    $(".esa__link").attr("href", link);
+                }
+
+                $(".team__name").text(config.teamName);
+
+                resolve(config);
             }
-
-            $(".option__link").remove();
-
-            if (config.postId != "") {
-                var link = "https://" + config.teamName + ".esa.io/posts/" + config.postId;
-                $(".esa__link").attr("href", link);
-            }
-
-            $(".team__name").text(config.teamName);
-
-            resolve(config);
         });
     });
 }
