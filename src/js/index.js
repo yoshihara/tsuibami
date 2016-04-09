@@ -112,12 +112,15 @@ savePost = function(config) {
 clearPost = function(response) {
     if (!$(".esa__post_with-clear").prop("checked")) {
         return new Promise(function(resolve, reject) {
+            $(".post__body").focus();
             resolve(response);
         });
     }
     return new Promise(function(resolve, reject) {
         $(".post__title").val("");
         $(".post__body").val("");
+
+        $(".post__title").focus();
 
         chrome.storage.sync.set({title: "", body: ""}, function(){
             if (chrome.runtime.lastError) {
