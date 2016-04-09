@@ -201,6 +201,7 @@ $(function() {
 
     $(".post__title").on("keyup", _.debounce(storeTitle, 200));
     $(".post__body" ).on("keyup", _.debounce(storeBody,  200));
+    $(".post__body").esarea();
 
     $(".esa__post").on("click", function() {
         toggleButton(true);
