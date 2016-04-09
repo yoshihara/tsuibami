@@ -22,8 +22,14 @@
     },
 
     "browser_action": {
-        "default_icon": "icon19.png",
+        "default_icon": "tsuibami-icon.png",
         "default_title": "tsuibami",
         "default_popup": "index.html"
+    },
+
+    "icons": {
+        "16"  : "tsuibami-icon.png",
+        "48"  : "tsuibami-icon.png",
+        "128" : "tsuibami-icon.png"
     }
 }
