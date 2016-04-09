@@ -16,7 +16,9 @@
       .menu__link
         %a.esa__link(href="#" target="_blank") 前回保存した記事をesaで開く
       .menu__post
-        %button.esa__post(type="button") Save as WIP
+        %input#post-with-clear.esa__post_with-clear(type="checkbox")
+        %label(for="post-with-clear") Saveしたらタイトルと本文をクリアする
+        %button.esa__post_button(type="button") Save as WIP
     .row
       .message
         .message__body

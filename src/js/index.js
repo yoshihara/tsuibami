@@ -109,6 +109,26 @@ savePost = function(config) {
     });
 }
 
+clearPost = function(response) {
+    if (!$(".esa__post_with-clear").prop("checked")) {
+        return new Promise(function(resolve, reject) {
+            resolve(response);
+        });
+    }
+    return new Promise(function(resolve, reject) {
+        $(".post__title").val("");
+        $(".post__body").val("");
+
+        chrome.storage.sync.set({title: "", body: ""}, function(){
+            if (chrome.runtime.lastError) {
+                reject(response);
+            } else {
+                resolve(response);
+            }
+        });
+    });
+}
+
 notifySaved = function(response) {
     return new Promise(function(resolve, reject) {
         var newPostId = response.number;
@@ -203,9 +223,9 @@ $(function() {
     $(".post__body" ).on("keyup", _.debounce(storeBody,  200));
     $(".post__body").esarea();
 
-    $(".esa__post").on("click", function() {
+    $(".esa__post_button").on("click", function() {
         toggleButton(true);
-        getConfig().then(searchPost).then(savePost).then(notifySaved).then(notifySuccess).catch(notifyError).finally(function() {
+        getConfig().then(searchPost).then(savePost).then(clearPost).then(notifySaved).then(notifySuccess).catch(notifyError).finally(function() {
             toggleButton(false);
         });
     });
