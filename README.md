@@ -22,6 +22,7 @@ When you want to save your post, click "Save as WIP" button. If "Clear title/bod
 ```sh
 $ git clone https://github.com/yoshihara/tsuibami.git
 $ npm install
+$ gem install haml # Ruby
 $ npm run build
 $ npm run watch
 ```
