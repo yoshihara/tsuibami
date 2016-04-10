@@ -1,6 +1,6 @@
 {
     "name": "tsuibami",
-    "version": "0.1",
+    "version": "0.1.2",
     "manifest_version": 2,
 
     "description": "mini editor for esa.io",
@@ -22,14 +22,14 @@
     },
 
     "browser_action": {
-        "default_icon": "tsuibami-icon.png",
+        "default_icon": "icon.png",
         "default_title": "tsuibami",
         "default_popup": "index.html"
     },
 
     "icons": {
-        "16"  : "tsuibami-icon.png",
-        "48"  : "tsuibami-icon.png",
-        "128" : "tsuibami-icon.png"
+        "16"  : "icon.png",
+        "48"  : "icon.png",
+        "128" : "icon.png"
     }
 }
