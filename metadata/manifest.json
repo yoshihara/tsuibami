@@ -3,7 +3,7 @@
     "version": "0.1",
     "manifest_version": 2,
 
-    "description": "memo editor for esa",
+    "description": "mini editor for esa.io",
 
     "permissions": [
         "storage",

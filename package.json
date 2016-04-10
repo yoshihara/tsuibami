@@ -1,7 +1,7 @@
 {
   "name": "tsuibami",
   "version": "0.1.0",
-  "description": "memo editor for esa",
+  "description": "mini editor for esa.io",
   "main": "index.js",
   "scripts": {
     "build": "gulp build",
