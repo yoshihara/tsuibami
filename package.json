@@ -8,7 +8,7 @@
     "build:js": "cp -a src/js/ build/",
     "build:lib": "cp -a lib/ build/lib/",
     "build:metadata": "cp -a metadata/* build/",
-    "build": "npm run build:prepare && npm run build:js && npm run build:lib && npm run build:metadata",
+    "build": "npm-run-all build:prepare build:js build:lib build:metadata",
     "_build": "gulp build",
     "rebuild": "gulp rebuild",
     "release": "gulp release",
@@ -37,6 +37,7 @@
     "gulp-sass": "^2.0.4",
     "gulp-uglify": "^1.1.0",
     "gulp-zip": "^3.0.2",
+    "npm-run-all": "^1.7.0",
     "run-sequence": "^1.1.4"
   }
 }
