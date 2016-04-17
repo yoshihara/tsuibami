@@ -9,8 +9,4 @@ notifyError = ->
 
 gulp.task 'watch', ->
 
-gulp.task 'clean', (cb)->
-
-gulp.task 'rebuild', -> runSequence('clean', 'build')
-
 gulp.task 'default', -> runSequence('build')
