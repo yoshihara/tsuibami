@@ -4,16 +4,22 @@
   "description": "mini editor for esa.io",
   "main": "index.js",
   "scripts": {
-    "build": "gulp build",
-    "rebuild": "gulp rebuild",
-    "release": "gulp release",
-    "watch": "gulp default"
+    "clean": "rm -rf build/ && mkdir -p build",
+    "build:js": "cp -a src/js/ build/",
+    "build:lib": "cp -a lib/ build/lib/",
+    "build:metadata": "cp -a metadata/* build/",
+    "build:html": "./scripts/build_haml.sh",
+    "build:css": "node-sass -q src/sass -o build",
+    "build": "npm-run-all clean build:js build:lib build:metadata build:html build:css",
+    "watch": "watchy -w src -- npm run build"
   },
   "repository": {
     "type": "git",
     "url": "git@github.com:yoshihara/tsuibami.git"
   },
-  "keywords": ["esa.io"],
+  "keywords": [
+    "esa.io"
+  ],
   "author": "yoshihara",
   "license": "MIT",
   "bugs": {
@@ -21,17 +27,8 @@
   },
   "homepage": "https://github.com/yoshihara/tsuibami",
   "devDependencies": {
-    "coffee-script": "^1.10.0",
-    "del": "^2.0.2",
-    "gulp": "^3.9.0",
-    "gulp-concat": "^2.5.2",
-    "gulp-download": "0.0.1",
-    "gulp-notify": "^2.2.0",
-    "gulp-plumber": "^1.0.1",
-    "gulp-ruby-haml": "0.0.4",
-    "gulp-sass": "^2.0.4",
-    "gulp-uglify": "^1.1.0",
-    "gulp-zip": "^3.0.2",
-    "run-sequence": "^1.1.4"
+    "node-sass": "^3.4.2",
+    "npm-run-all": "^1.7.0",
+    "watchy": "^0.6.6"
   }
 }
