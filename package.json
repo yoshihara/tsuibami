@@ -6,7 +6,8 @@
   "scripts": {
     "build:prepare": "mkdir -p build/",
     "build:js": "cp -a src/js/ build/",
-      "build": "npm run build:prepare && npm run build:js",
+    "build:lib": "cp -a lib/ build/lib/",
+    "build": "npm run build:prepare && npm run build:js && npm run build:lib",
     "_build": "gulp build",
     "rebuild": "gulp rebuild",
     "release": "gulp release",
