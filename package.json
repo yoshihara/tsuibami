@@ -13,6 +13,7 @@
     "build": "npm-run-all clean build:js build:lib build:metadata build:html build:css",
     "watch:js": "watchy -w src/js -- npm run build:js",
     "watch": "watchy -w src -- npm run build"
+    "watch": "watchy -w src -w lib -- npm run build"
   },
   "repository": {
     "type": "git",
