@@ -10,7 +10,7 @@
     "build:metadata": "rm -rf build/*.png build/manifest.json && cp -a metadata/* build/",
     "build:html": "rm -rf build/*.html && ./scripts/build_haml.sh",
     "build:css": "rm -rf build/*.css && node-sass -q src/sass -o build",
-    "build": "npm-run-all clean build:js build:lib build:metadata build:html build:css",
+    "build": "npm-run-all clean build:*",
     "watch:js": "watchy -w src/js -- npm run build:js",
     "watch:lib": "watchy -w lib -- npm run build:lib",
     "watch:metadata": "watchy -w metadata -- npm run build:metadata",
