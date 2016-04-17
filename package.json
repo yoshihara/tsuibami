@@ -4,7 +4,10 @@
   "description": "mini editor for esa.io",
   "main": "index.js",
   "scripts": {
-    "build": "gulp build",
+    "build:prepare": "mkdir -p build/",
+    "build:js": "cp -a src/js/ build/",
+      "build": "npm run build:prepare && npm run build:js",
+    "_build": "gulp build",
     "rebuild": "gulp rebuild",
     "release": "gulp release",
     "watch": "gulp default"
