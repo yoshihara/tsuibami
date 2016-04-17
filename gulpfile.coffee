@@ -12,7 +12,6 @@ notifyError = ->
 paths =
   haml: 'src/haml/**/*.haml'
   sass: 'src/sass/**/*.*'
-  metadata: 'metadata/**/*.*'
 
 gulp.task 'haml', ->
   gulp.src(paths.haml)
@@ -26,19 +25,13 @@ gulp.task 'sass', ->
     .pipe(sass())
     .pipe(gulp.dest("build/"))
 
-gulp.task 'copyMetadata', ->
-  gulp.src(paths.metadata)
-    .pipe(notifyError())
-    .pipe(gulp.dest('build/'))
-
 gulp.task 'watch', ->
   for task in ['haml', 'sass'] then gulp.watch paths[task], [task]
-  gulp.watch paths.metadata, ['copyMetadata']
 
 gulp.task 'clean', (cb)->
   del(['build', 'build.zip'], cb);
 
-gulp.task 'build', -> runSequence('haml', 'sass', 'copyMetadata')
+gulp.task 'build', -> runSequence('haml', 'sass')
 gulp.task 'rebuild', -> runSequence('clean', 'build')
 
 gulp.task 'default', -> runSequence('build')
