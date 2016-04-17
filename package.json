@@ -5,13 +5,18 @@
   "main": "index.js",
   "scripts": {
     "clean": "rm -rf build/ && mkdir -p build",
-    "build:js": "cp -a src/js/ build/",
-    "build:lib": "cp -a lib/ build/lib/",
-    "build:metadata": "cp -a metadata/* build/",
-    "build:html": "./scripts/build_haml.sh",
-    "build:css": "node-sass -q src/sass -o build",
-    "build": "npm-run-all clean build:js build:lib build:metadata build:html build:css",
-    "watch": "watchy -w src -- npm run build"
+    "build:js": "rm -rf build/*.js && cp -a src/js/ build/",
+    "build:lib": "rm -rf build/lib/ && cp -a lib/ build/lib/",
+    "build:metadata": "rm -rf build/*.png build/manifest.json && cp -a metadata/* build/",
+    "build:html": "rm -rf build/*.html && ./scripts/build_haml.sh",
+    "build:css": "rm -rf build/*.css && node-sass -q src/sass -o build",
+    "build": "npm-run-all clean build:*",
+    "watch:js": "watchy -w src/js -- npm run build:js",
+    "watch:lib": "watchy -w lib -- npm run build:lib",
+    "watch:metadata": "watchy -w metadata -- npm run build:metadata",
+    "watch:html": "watchy -w src/haml -- npm run build:html",
+    "watch:css": "watchy -w src/sass -- npm run build:css",
+    "watch": "npm-run-all clean -p watch:*"
   },
   "repository": {
     "type": "git",
