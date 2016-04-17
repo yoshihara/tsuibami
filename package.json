@@ -11,8 +11,8 @@
     "build:html": "./scripts/build_haml.sh",
     "build:css": "node-sass -q src/sass -o build",
     "build": "npm-run-all clean build:js build:lib build:metadata build:html build:css",
-    "release": "gulp release",
-    "watch": "gulp default"
+    "watch": "watchy -w src -- npm run build",
+    "release": "gulp release"
   },
   "repository": {
     "type": "git",
@@ -40,6 +40,7 @@
     "gulp-uglify": "^1.1.0",
     "gulp-zip": "^3.0.2",
     "npm-run-all": "^1.7.0",
-    "run-sequence": "^1.1.4"
+    "run-sequence": "^1.1.4",
+    "watchy": "^0.6.6"
   }
 }

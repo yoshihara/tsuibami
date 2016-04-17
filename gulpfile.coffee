@@ -7,6 +7,4 @@ runSequence = require 'run-sequence'
 notifyError = ->
   plumber({errorHandler: notify.onError('<%= error.message %>')})
 
-gulp.task 'watch', ->
-
 gulp.task 'default', -> runSequence('build')
