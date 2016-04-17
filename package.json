@@ -16,7 +16,7 @@
     "watch:metadata": "watchy -w metadata -- npm run build:metadata",
     "watch:html": "watchy -w src/haml -- npm run build:html",
     "watch:css": "watchy -w src/sass -- npm run build:css",
-    "watch": "watchy -w src -w lib -- npm run build"
+    "watch": "npm-run-all clean -p watch:*"
   },
   "repository": {
     "type": "git",
