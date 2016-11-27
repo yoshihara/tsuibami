@@ -1,14 +1,18 @@
 // TODO できればグローバルで定義しないほうがよさそう
-var storedPost = {title: "", body: ""};
+var storedPost = {title: "", body: "", cursor: 0};
 
 loadPost = function() {
-    var defaultPost = {title: "", body: ""};
+    var defaultPost = {title: "", body: "", cursor: 0};
     chrome.storage.sync.get(defaultPost, function(post) {
         storedPost = post;
         $(".post__title").val(post.title);
         $(".post__body").val(post.body);
         if (post.title != "") {
             $(".post__body").attr("tabindex", "1") // Focus body textarea
+
+            // Move cursor at previous position
+            $(".post__body")[0].selectionStart = post.cursor;
+            $(".post__body")[0].selectionEnd = post.cursor;
         }
     });
 }
@@ -204,10 +208,9 @@ storeTitle = function() {
 
 storeBody = function() {
     var body = $(".post__body").val();
-    if (body != storedPost.body) {
-        storedPost.body = body;
-        store({body: body});
-    }
+    var cursorPosition = $(".post__body")[0].selectionStart;
+    storedPost.body = body;
+    store({body: body, cursor: cursorPosition});
 }
 
 store = function(data) {
