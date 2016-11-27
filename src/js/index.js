@@ -233,8 +233,8 @@ store = function(data) {
 }
 
 toggleButton = function(disabled) {
-    $(".esa__post").prop("disabled", disabled);
-    $(".esa__post").text(disabled ? "Saving..." : "Save as WIP");
+    $(".esa__post_button").prop("disabled", disabled);
+    $(".esa__post_button").text(disabled ? "Saving..." : "Save as WIP");
 }
 
 $(function() {
