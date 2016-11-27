@@ -261,6 +261,20 @@ showSavedStatus = function(saving) {
     $(".esa__post-button").text(saving ? "Saving..." : "Save as WIP");
 }
 
+runSaveProcess = function() {
+    getConfig().then(searchPost).then(savePost).then(storePostAsSaved).then(clearPost).then(notifySaved).then(notifySuccess).catch(notifyError).finally(function() {
+        showSavedStatus(false);
+    });
+}
+
+runSaveProcessByShortcut = function(event) {
+    // Ctrl+s or Cmd+s
+    if ((event.metaKey || event.ctrlKey) && event.keyCode == 83) {
+        event.preventDefault();
+        runSaveProcess();
+    }
+}
+
 $(function() {
     $(window).on("load", function() {
         loadPost();
@@ -270,14 +284,15 @@ $(function() {
     $(".post__title").on("keyup", _.debounce(storeTitle, 200));
     $(".post__body").on("keyup", _.debounce(storeBody, 200));
     $(".post__body").on("mouseup", storeCursorPosition);
+
+    $(".post__body").on("keydown", runSaveProcessByShortcut);
+
     $(".post__body").esarea();
 
     $(".esa__post-button").on("click", function() {
         toggleButtonDisabled(true);
         showSavedStatus(true);
 
-        getConfig().then(searchPost).then(savePost).then(storePostAsSaved).then(clearPost).then(notifySaved).then(notifySuccess).catch(notifyError).finally(function() {
-            showSavedStatus(false);
-        });
+        runSaveProcess();
     });
 });
