@@ -1,10 +1,13 @@
 // TODO できればグローバルで定義しないほうがよさそう
-var storedPost = {title: "", body: "", cursorPosition: 0};
+var storedPost = {title: "", body: "", cursorPosition: 0, saved: false};
 
 loadPost = function() {
-    var defaultPost = {title: "", body: "", cursorPosition: 0};
+    var defaultPost = {title: "", body: "", cursorPosition: 0, saved: false};
     chrome.storage.sync.get(defaultPost, function(post) {
         storedPost = post;
+
+        toggleButtonDisabled(post.saved);
+
         $(".post__title").val(post.title);
         $(".post__body").val(post.body);
         if (post.title != "") {
@@ -121,6 +124,17 @@ savePost = function(config) {
     });
 }
 
+storePostAsSaved = function(response) {
+    return new Promise(function(resolve, reject) {
+        toggleButtonDisabled(true);
+
+        chrome.storage.sync.set({saved: true}, function(){
+            storedPost.saved = true;
+            resolve(response);
+        });
+    });
+}
+
 clearPost = function(response) {
     if (!$(".esa__post_with-clear").prop("checked")) {
         return new Promise(function(resolve, reject) {
@@ -132,9 +146,11 @@ clearPost = function(response) {
         $(".post__title").val("");
         $(".post__body").val("");
 
-        $(".post__title").focus();
 
-        chrome.storage.sync.set({title: "", body: ""}, function(){
+        toggleButtonDisabled(true);
+
+        storedPost = {title: "", body: "", cursorPosition: 0, saved: true};
+        chrome.storage.sync.set(storedPost, function() {
             if (chrome.runtime.lastError) {
                 reject(response);
             } else {
@@ -200,9 +216,12 @@ showMessage = function(message, succeeded) {
 
 storeTitle = function() {
     var title = $(".post__title").val();
+
     if (title != storedPost.title) {
         storedPost.title = title;
-        store({title: title});
+        storedPost.saved = false;
+        store({title: title, saved: false});
+        toggleButtonDisabled(false);
     }
 }
 
@@ -211,7 +230,9 @@ storeBody = function() {
 
     if (body != storedPost.body) {
         storedPost.body = body;
-        store({body: body});
+        storedPost.saved = false;
+        store({body: body, saved: false});
+        toggleButtonDisabled(false);
     }
 
     storeCursorPosition();
@@ -232,9 +253,12 @@ store = function(data) {
     });
 }
 
-showSavedStatus = function(disabled) {
-    $(".esa__post-button").prop("disabled", disabled);
-    $(".esa__post-button").text(disabled ? "Saving..." : "Save as WIP");
+toggleButtonDisabled = function(disabled) {
+    $(".esa__post-button").prop("disabled", disabled ? "disabled" : null);
+}
+
+showSavedStatus = function(saving) {
+    $(".esa__post-button").text(saving ? "Saving..." : "Save as WIP");
 }
 
 $(function() {
@@ -249,8 +273,10 @@ $(function() {
     $(".post__body").esarea();
 
     $(".esa__post-button").on("click", function() {
+        toggleButtonDisabled(true);
         showSavedStatus(true);
-        getConfig().then(searchPost).then(savePost).then(clearPost).then(notifySaved).then(notifySuccess).catch(notifyError).finally(function() {
+
+        getConfig().then(searchPost).then(savePost).then(storePostAsSaved).then(clearPost).then(notifySaved).then(notifySuccess).catch(notifyError).finally(function() {
             showSavedStatus(false);
         });
     });
