@@ -7,6 +7,9 @@ loadPost = function() {
         storedPost = post;
         $(".post__title").val(post.title);
         $(".post__body").val(post.body);
+        if (post.title != "") {
+            $(".post__body").attr("tabindex", "1") // Focus body textarea
+        }
     });
 }
 
