@@ -208,9 +208,20 @@ storeTitle = function() {
 
 storeBody = function() {
     var body = $(".post__body").val();
+
+    if (body != storedPost.body) {
+        storedPost.body = body;
+        store({body: body});
+    }
+
+    storeCursorPosition();
+}
+
+storeCursorPosition = function() {
     var cursorPosition = $(".post__body")[0].selectionStart;
-    storedPost.body = body;
-    store({body: body, cursor: cursorPosition});
+    if (cursorPosition != storedPost.cursor) {
+        store({cursor: cursorPosition});
+    }
 }
 
 store = function(data) {
@@ -233,7 +244,8 @@ $(function() {
     });
 
     $(".post__title").on("keyup", _.debounce(storeTitle, 200));
-    $(".post__body" ).on("keyup", _.debounce(storeBody,  200));
+    $(".post__body").on("keyup", _.debounce(storeBody, 200));
+    $(".post__body").on("mouseup", storeCursorPosition);
     $(".post__body").esarea();
 
     $(".esa__post_button").on("click", function() {
