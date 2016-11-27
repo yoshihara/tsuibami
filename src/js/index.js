@@ -232,7 +232,7 @@ store = function(data) {
     });
 }
 
-toggleButton = function(disabled) {
+showSavedStatus = function(disabled) {
     $(".esa__post-button").prop("disabled", disabled);
     $(".esa__post-button").text(disabled ? "Saving..." : "Save as WIP");
 }
@@ -249,9 +249,9 @@ $(function() {
     $(".post__body").esarea();
 
     $(".esa__post-button").on("click", function() {
-        toggleButton(true);
+        showSavedStatus(true);
         getConfig().then(searchPost).then(savePost).then(clearPost).then(notifySaved).then(notifySuccess).catch(notifyError).finally(function() {
-            toggleButton(false);
+            showSavedStatus(false);
         });
     });
 });
