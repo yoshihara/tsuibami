@@ -265,6 +265,8 @@ showSavedStatus = function(saving) {
 }
 
 runSaveProcess = function() {
+    toggleButtonDisabled(true);
+    showSavedStatus(true);
     getConfig().then(searchPost).then(savePost).then(storePostAsSaved).then(clearPost).then(notifySaved).then(notifySuccess).catch(notifyError).finally(function() {
         showSavedStatus(false);
     });
@@ -292,10 +294,5 @@ $(function() {
 
     $(".post__body").esarea();
 
-    $(".esa__post-button").on("click", function() {
-        toggleButtonDisabled(true);
-        showSavedStatus(true);
-
-        runSaveProcess();
-    });
+    $(".esa__post-button").on("click", runSaveProcess);
 });
