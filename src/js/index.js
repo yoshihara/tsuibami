@@ -231,11 +231,14 @@ storeBody = function() {
     if (body != storedPost.body) {
         storedPost.body = body;
         storedPost.saved = false;
-        store({body: body, saved: false});
         toggleButtonDisabled(false);
     }
 
-    storeCursorPosition();
+    var cursorPosition = $(".post__body")[0].selectionStart;
+    if (cursorPosition != storedPost.cursorPosition) {
+        storedPost.currentPosition = cursorPosition;
+    }
+    store(storedPost);
 }
 
 storeCursorPosition = function() {
