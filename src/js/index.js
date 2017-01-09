@@ -292,6 +292,7 @@ $(function() {
     $(".post__body").on("keyup", _.debounce(storeBody, 200));
     $(".post__body").on("mouseup", storeCursorPosition);
 
+    $(".post__title").on("keydown", runSaveProcessByShortcut);
     $(".post__body").on("keydown", runSaveProcessByShortcut);
 
     $(".post__body").esarea();
