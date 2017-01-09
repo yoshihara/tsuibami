@@ -63,8 +63,9 @@ searchPost = function(config) {
             data: {
                 q: q,
                 access_token: config.token
-            },
-            success: function(response) {
+            }
+        }).then(
+            function(response) {
                 var hitPost;
                 // カテゴリ無しだけを検索する方法がわからなかったので別途絞込している
                 if (category.length == 0) {
@@ -84,8 +85,8 @@ searchPost = function(config) {
                     resolve(config);
                 });
             },
-            error: reject
-        })
+            reject
+        );
     })
 }
 
@@ -117,10 +118,11 @@ savePost = function(config) {
             data: {
                 post: post,
                 access_token: config.token
-            },
-            success: resolve,
-            error: reject
-        });
+            }
+        }).then(
+            resolve,
+            reject
+        );
     });
 }
 

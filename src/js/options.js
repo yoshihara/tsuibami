@@ -5,13 +5,14 @@ getTeamIcon = function(config) {
             url: "https://api.esa.io/v1/teams/" + config.teamName,
             data: {
                 access_token: config.token
-            },
-            success: function(response) {
+            }
+        }).then(
+            function(response) {
                 config.teamIcon = response.icon;
                 resolve(config);
             },
-            error: reject
-        });
+            reject
+        );
     });
 }
 
