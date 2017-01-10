@@ -1,5 +1,11 @@
 # NEWS
 
+## 0.2.1
+
+### Fix
+
+- Fix the packaging bug
+
 ## 0.2.0
 
 ### Implement
