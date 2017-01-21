@@ -17,6 +17,8 @@ The input box is a title of post, the textarea is a body of one.
 
 When you want to save your post, click "Save as WIP" button. If "Clear title/body after saving" checkbox is checked, title and body are cleared.
 
+For Japanese, you can also use https://esa-pages.io/p/sharing/1303/posts/251/eca7d0957129c38ab04b.html （日本語での説明）.
+
 ## develop
 
 ```sh
