@@ -6,14 +6,13 @@
   "scripts": {
     "package": "npm run build && zip tsuibami.zip build/**/*",
     "clean": "rm -rf build/ && mkdir -p build",
-    "build:js": "rm -rf build/*.js && cp -a src/js/ build/",
-    "build:lib": "rm -rf build/lib/ && cp -a lib/ build/lib/",
+    "build:js": "rm -rf build/lib/ && cp -a lib/ build/lib/ && webpack --config webpack.config.js",
     "build:metadata": "rm -rf build/*.png build/manifest.json && cp -a metadata/* build/",
     "build:html": "rm -rf build/*.html && ./scripts/build_haml.sh",
     "build:css": "rm -rf build/*.css && node-sass -q src/sass -o build",
     "build": "npm-run-all clean build:*",
     "watch:js": "watchy -w src/js -- npm run build:js",
-    "watch:lib": "watchy -w lib -- npm run build:lib",
+    "watch:lib": "watchy -w lib -- npm run build:js",
     "watch:metadata": "watchy -w metadata -- npm run build:metadata",
     "watch:html": "watchy -w src/haml -- npm run build:html",
     "watch:css": "watchy -w src/sass -- npm run build:css",
@@ -33,9 +32,11 @@
   },
   "homepage": "https://github.com/yoshihara/tsuibami",
   "devDependencies": {
+    "expose-loader": "^0.7.3",
     "node-sass": "^3.4.2",
     "npm-run-all": "^1.7.0",
-    "watchy": "^0.6.6"
+    "watchy": "^0.6.6",
+    "webpack": "^3.4.1"
   },
   "dependencies": {
     "bluebird": "^3.5.0",
