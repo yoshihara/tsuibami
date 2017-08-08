@@ -6,7 +6,7 @@
   "scripts": {
     "package": "npm run build && zip tsuibami.zip build/**/*",
     "clean": "rm -rf build/ && mkdir -p build",
-    "build:js": "rm -rf build/lib/ && cp -a lib/ build/lib/ && webpack --config webpack.config.js",
+    "build:js": "webpack --config webpack.config.js",
     "build:metadata": "rm -rf build/*.png build/manifest.json && cp -a metadata/* build/",
     "build:html": "rm -rf build/*.html && ./scripts/build_haml.sh",
     "build:css": "rm -rf build/*.css && node-sass -q src/sass -o build",
