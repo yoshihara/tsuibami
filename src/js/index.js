@@ -289,10 +289,8 @@ const runSaveProcessByShortcut = function(event) {
 }
 
 $(function() {
-    $(window).on("load", function() {
-        loadPost();
-        getConfig().then(notifyReady).catch(notifyError);
-    });
+    loadPost();
+    getConfig().then(notifyReady).catch(notifyError);
 
     $(".post__title").on("keyup", _.debounce(storeTitle, 200));
     $(".post__body").on("keyup", _.debounce(storeBody, 200));
