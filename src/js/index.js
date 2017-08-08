@@ -1,6 +1,6 @@
 import $ from "jquery";
 import _ from "lodash";
-import "bluebird";
+import Promise from "bluebird";
 import "../../lib/jquery.selection";
 import "../../lib/jquery.esarea";
 
