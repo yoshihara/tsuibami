@@ -1,4 +1,7 @@
-getTeamIcon = function(config) {
+import $ from "jquery";
+import Promise from "bluebird";
+
+const getTeamIcon = function(config) {
     return new Promise(function(resolve, reject) {
         $.ajax({
             type: "GET",
@@ -16,20 +19,20 @@ getTeamIcon = function(config) {
     });
 }
 
-saveConfig = function(config) {
+const saveConfig = function(config) {
     chrome.storage.sync.set(config, function(){
         showMessage("Saved!(\\( ⁰⊖⁰)/)", true)
     });
 }
 
-notifyInvalidConfig = function(config) {
+const notifyInvalidConfig = function(config) {
     var teamName = $(".options__team-name").val();
     var token = $(".options__token").val();
 
     showMessage("invalid teamname or token (\\( ˘⊖˘)/)", false);
 }
 
-showMessage = function(message, succeeded) {
+const showMessage = function(message, succeeded) {
     var messageDom = $(".options__message");
 
     $(".message").show();
@@ -50,7 +53,7 @@ showMessage = function(message, succeeded) {
     }
 }
 
-toggleButton = function(disabled) {
+const toggleButton = function(disabled) {
     $(".options__save").prop("disabled", disabled);
     $(".options__save").text(disabled ? "Saving..." : "Save Options");
 }
