@@ -11,7 +11,7 @@
     "build:html": "rm -rf build/*.html && ./scripts/build_haml.sh",
     "build:css": "rm -rf build/*.css && node-sass -q src/sass -o build",
     "build": "npm-run-all clean build:*",
-    "watch:js": "watchy -w src/js -- npm run build:js",
+    "watch:js": "watchy -w src/js -w webpack.config.js -- npm run build:js",
     "watch:lib": "watchy -w lib -- npm run build:js",
     "watch:metadata": "watchy -w metadata -- npm run build:metadata",
     "watch:html": "watchy -w src/haml -- npm run build:html",
