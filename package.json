@@ -33,10 +33,10 @@
   "homepage": "https://github.com/yoshihara/tsuibami",
   "devDependencies": {
     "expose-loader": "^0.7.3",
-    "node-sass": "^3.4.2",
-    "npm-run-all": "^1.7.0",
-    "watchy": "^0.6.6",
-    "webpack": "^3.4.1"
+    "node-sass": "^4.5.3",
+    "npm-run-all": "^4.0.2",
+    "watchy": "^0.7.0",
+    "webpack": "^3.5.4"
   },
   "dependencies": {
     "bluebird": "^3.5.0",
