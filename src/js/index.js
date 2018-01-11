@@ -16,7 +16,7 @@ const loadPost = function() {
     chrome.storage.sync.get(defaultPost, function(post) {
         storedPost = post;
 
-        toggleButtonDisabled(post.saved);
+        ui.saveButtonDisabled(post.saved);
 
         ui.title(post.title);
         ui.body(post.body);
@@ -138,7 +138,7 @@ const savePost = function(config) {
 
 const storePostAsSaved = function(response) {
     return new Promise(function(resolve, reject) {
-        toggleButtonDisabled(true);
+        ui.saveButtonDisabled(true);
 
         chrome.storage.sync.set({saved: true}, function(){
             storedPost.saved = true;
@@ -158,7 +158,7 @@ const clearPost = function(response) {
         ui.title("");
         ui.body("");
 
-        toggleButtonDisabled(true);
+        ui.saveButtonDisabled(true);
 
         storedPost = {title: "", body: "", cursorPosition: 0, saved: true};
         chrome.storage.sync.set(storedPost, function() {
@@ -232,7 +232,7 @@ const storeTitle = function() {
         storedPost.title = title;
         storedPost.saved = false;
         store({title: title, saved: false});
-        toggleButtonDisabled(false);
+        ui.saveButtonDisabled(false);
     }
 }
 
@@ -242,7 +242,7 @@ const storeBody = function() {
     if (body != storedPost.body) {
         storedPost.body = body;
         storedPost.saved = false;
-        toggleButtonDisabled(false);
+        ui.saveButtonDisabled(false);
     }
 
     let cursorPosition = $(".post__body")[0].selectionStart;
@@ -267,16 +267,12 @@ const store = function(data) {
     });
 }
 
-const toggleButtonDisabled = function(disabled) {
-    $(".esa__post-button").prop("disabled", disabled ? "disabled" : null);
-}
-
 const showSavedStatus = function(saving) {
     $(".esa__post-button").text(saving ? "Saving..." : "Save as WIP");
 }
 
 const runSaveProcess = function() {
-    toggleButtonDisabled(true);
+    ui.saveButtonDisabled(true);
     showSavedStatus(true);
     getConfig().then(searchPost).then(savePost).then(storePostAsSaved).then(clearPost).then(notifySaved).then(notifySuccess).catch(notifyError).finally(function() {
         showSavedStatus(false);
