@@ -12,6 +12,13 @@ export default class UI {
       return $(".post__title").val()
     }
   }
+
+  body(val) {
+    if (val) {
+      $(".post__body").val(val);
+      return undefined;
+    } else {
+      return $(".post__body").val()
     }
   }
 }

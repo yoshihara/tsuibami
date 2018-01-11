@@ -19,7 +19,7 @@ const loadPost = function() {
         toggleButtonDisabled(post.saved);
 
         ui.title(post.title);
-        $(".post__body").val(post.body);
+        ui.body(post.body);
         if (ui.title() != "") {
             $(".post__body").attr("tabindex", "1") // Focus body textarea
 
@@ -105,7 +105,7 @@ const savePost = function(config) {
         var type;
         var url = `https://api.esa.io/v1/teams/${config.teamName}/posts`;
         var title = ui.title();
-        var body = $(".post__body").val();
+        var body = ui.body();
 
         var post = {name: title, category: "", body_md: body, message: "from tsuibami"};
 
@@ -156,8 +156,7 @@ const clearPost = function(response) {
     }
     return new Promise(function(resolve, reject) {
         ui.title("");
-        $(".post__body").val("");
-
+        ui.body("");
 
         toggleButtonDisabled(true);
 
@@ -238,7 +237,7 @@ const storeTitle = function() {
 }
 
 const storeBody = function() {
-    var body = $(".post__body").val();
+    var body = ui.body();
 
     if (body != storedPost.body) {
         storedPost.body = body;
