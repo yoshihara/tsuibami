@@ -27,4 +27,9 @@ export default class UI {
   saveButtonDisabled(disabled) {
     $(".esa__post-button").prop("disabled", disabled ? "disabled" : null);
   }
+
+  // misc
+  focusBodyfirst() {
+    $(".post__body").attr("tabindex", "1"); // Focus body textarea
+  }
 }

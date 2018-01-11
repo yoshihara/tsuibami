@@ -21,7 +21,7 @@ const loadPost = function() {
         ui.title(post.title);
         ui.body(post.body);
         if (ui.title() != "") {
-            $(".post__body").attr("tabindex", "1") // Focus body textarea
+            ui.focusBodyfirst();
 
             // Move cursor at previous position
             $(".post__body")[0].selectionStart = post.cursorPosition;
