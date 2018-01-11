@@ -21,11 +21,8 @@ const loadPost = function() {
         ui.title(post.title);
         ui.body(post.body);
         if (ui.title() != "") {
-            ui.focusBodyfirst();
-
             // Move cursor at previous position
-            $(".post__body")[0].selectionStart = post.cursorPosition;
-            $(".post__body")[0].selectionEnd = post.cursorPosition;
+            ui.moveFocus('body', post.cursorPosition);
         }
     });
 }
