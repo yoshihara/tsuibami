@@ -38,7 +38,7 @@ const getConfig = function() {
                 $(".option__link").remove();
 
                 if (config.postId != "") {
-                    var link = "https://" + config.teamName + ".esa.io/posts/" + config.postId;
+                    var link = `https://${config.teamName}.esa.io/posts/${config.postId}`;
                     $(".esa__link").attr("href", link);
                 }
 
@@ -60,12 +60,12 @@ const searchPost = function(config) {
             title = /.+\/(.+)/.exec(title)[1];
         }
 
-        var q = "name:" + title;
-        if (category.length != 0) { q = q + " category:" + category }
+        var q = `name:$(title}`;
+        if (category.length != 0) { q = `${q} category:${category}` }
 
         $.ajax({
             type: "GET",
-            url: "https://api.esa.io/v1/teams/" + config.teamName + "/posts",
+            url: `https://api.esa.io/v1/teams/${config.teamName}/posts`,
             data: {
                 q: q,
                 access_token: config.token
@@ -99,7 +99,7 @@ const searchPost = function(config) {
 const savePost = function(config) {
     return new Promise(function(resolve, reject) {
         var type;
-        var url = "https://api.esa.io/v1/teams/" + config.teamName + "/posts";
+        var url = `https://api.esa.io/v1/teams/${config.teamName}/posts`;
         var title = $(".post__title").val();
         var body = $(".post__body").val();
 
