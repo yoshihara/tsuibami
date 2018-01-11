@@ -28,8 +28,17 @@ export default class UI {
     $(".esa__post-button").prop("disabled", disabled ? "disabled" : null);
   }
 
-  // misc
-  focusBodyfirst() {
-    $(".post__body").attr("tabindex", "1"); // Focus body textarea
+  // focus
+  moveFocus(target, position) {
+    let targetClass = "";
+    if (target == "body") {
+      targetClass = ".post__body";
+    }
+
+    $(targetClass).focus();
+    if (position) {
+      $(targetClass)[0].selectionStart = position;
+      $(targetClass)[0].selectionEnd = position;
+    }
   }
 }
