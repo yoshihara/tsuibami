@@ -3,6 +3,10 @@ import _ from "lodash";
 import Promise from "bluebird";
 import "../../lib/jquery.selection";
 import "../../lib/jquery.esarea";
+import Ui from "./ui";
+
+let ui = new Ui();
+window.ui = ui; // for debug
 
 // TODO できればグローバルで定義しないほうがよさそう
 var storedPost = {title: "", body: "", cursorPosition: 0, saved: false};
@@ -14,9 +18,9 @@ const loadPost = function() {
 
         toggleButtonDisabled(post.saved);
 
-        $(".post__title").val(post.title);
+        ui.title(post.title);
         $(".post__body").val(post.body);
-        if (post.title != "") {
+        if (ui.title() != "") {
             $(".post__body").attr("tabindex", "1") // Focus body textarea
 
             // Move cursor at previous position
@@ -52,7 +56,7 @@ const getConfig = function() {
 
 const searchPost = function(config) {
     return new Promise(function(resolve, reject) {
-        var title = $(".post__title").val();
+        var title = ui.title();
         var category = "";
 
         if (hasCategory(title)) {
@@ -100,7 +104,7 @@ const savePost = function(config) {
     return new Promise(function(resolve, reject) {
         var type;
         var url = `https://api.esa.io/v1/teams/${config.teamName}/posts`;
-        var title = $(".post__title").val();
+        var title = ui.title();
         var body = $(".post__body").val();
 
         var post = {name: title, category: "", body_md: body, message: "from tsuibami"};
@@ -151,7 +155,7 @@ const clearPost = function(response) {
         });
     }
     return new Promise(function(resolve, reject) {
-        $(".post__title").val("");
+        ui.title("");
         $(".post__body").val("");
 
 
@@ -223,7 +227,7 @@ const showMessage = function(message, succeeded) {
 }
 
 const storeTitle = function() {
-    var title = $(".post__title").val();
+    var title = ui.title();
 
     if (title != storedPost.title) {
         storedPost.title = title;
