@@ -64,7 +64,7 @@ const searchPost = function(config) {
             title = /.+\/(.+)/.exec(title)[1];
         }
 
-        var q = `name:$(title}`;
+        let q = `name:${title}`;
         if (category.length != 0) { q = `${q} category:${category}` }
 
         $.ajax({
