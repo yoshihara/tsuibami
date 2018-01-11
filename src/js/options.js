@@ -26,14 +26,14 @@ const saveConfig = function(config) {
 }
 
 const notifyInvalidConfig = function(config) {
-    var teamName = $(".options__team-name").val();
-    var token = $(".options__token").val();
+    let teamName = $(".options__team-name").val();
+    let token = $(".options__token").val();
 
     showMessage("invalid teamname or token (\\( ˘⊖˘)/)", false);
 }
 
 const showMessage = function(message, succeeded) {
-    var messageDom = $(".options__message");
+    let messageDom = $(".options__message");
 
     $(".message").show();
     messageDom.removeClass('message__body-color-success');
@@ -59,7 +59,7 @@ const toggleButton = function(disabled) {
 }
 
 $(function() {
-    var defaultConfig = {teamName: "", token: ""};
+    let defaultConfig = {teamName: "", token: ""};
     chrome.storage.sync.get(defaultConfig, function(config) {
         $(".options__team-name").val(config.teamName);
         $(".options__token").val(config.token);
@@ -67,7 +67,7 @@ $(function() {
 
     $(".options__save").on("click", function() {
         toggleButton(true);
-        var config = {
+        let config = {
             teamName: $(".options__team-name").val(),
             token: $(".options__token").val()
         };
