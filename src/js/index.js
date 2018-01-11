@@ -9,10 +9,10 @@ let ui = new Ui();
 window.ui = ui; // for debug
 
 // TODO できればグローバルで定義しないほうがよさそう
-var storedPost = {title: "", body: "", cursorPosition: 0, saved: false};
+let storedPost = {title: "", body: "", cursorPosition: 0, saved: false};
 
 const loadPost = function() {
-    var defaultPost = {title: "", body: "", cursorPosition: 0, saved: false};
+    let defaultPost = {title: "", body: "", cursorPosition: 0, saved: false};
     chrome.storage.sync.get(defaultPost, function(post) {
         storedPost = post;
 
@@ -32,7 +32,7 @@ const loadPost = function() {
 
 const getConfig = function() {
     return new Promise(function(resolve, reject) {
-        var defaultConfig = {teamName: "", token: "", teamIcon: "", postId: ""};
+        let defaultConfig = {teamName: "", token: "", teamIcon: "", postId: ""};
         chrome.storage.sync.get(defaultConfig, function(config) {
             if (!config.teamName || !config.token) {
                 $(".option__link").show();
@@ -42,7 +42,7 @@ const getConfig = function() {
                 $(".option__link").remove();
 
                 if (config.postId != "") {
-                    var link = `https://${config.teamName}.esa.io/posts/${config.postId}`;
+                    let link = `https://${config.teamName}.esa.io/posts/${config.postId}`;
                     $(".esa__link").attr("href", link);
                 }
 
@@ -56,8 +56,8 @@ const getConfig = function() {
 
 const searchPost = function(config) {
     return new Promise(function(resolve, reject) {
-        var title = ui.title();
-        var category = "";
+        let title = ui.title();
+        let category = "";
 
         if (hasCategory(title)) {
             category = /(.+)\/.+/.exec(title)[1];
@@ -76,7 +76,7 @@ const searchPost = function(config) {
             }
         }).then(
             function(response) {
-                var hitPost;
+                let hitPost;
                 // カテゴリ無しだけを検索する方法がわからなかったので別途絞込している
                 if (category.length == 0) {
                     hitPost = _.find(response.posts, { name: title, category: null });
@@ -102,19 +102,19 @@ const searchPost = function(config) {
 
 const savePost = function(config) {
     return new Promise(function(resolve, reject) {
-        var type;
-        var url = `https://api.esa.io/v1/teams/${config.teamName}/posts`;
-        var title = ui.title();
-        var body = ui.body();
+        let type;
+        let url = `https://api.esa.io/v1/teams/${config.teamName}/posts`;
+        let title = ui.title();
+        let body = ui.body();
 
-        var post = {name: title, category: "", body_md: body, message: "from tsuibami"};
+        let post = {name: title, category: "", body_md: body, message: "from tsuibami"};
 
         if (hasCategory(title)) {
             post["category"] = /(.+)\/.+/.exec(title)[1];
             post["name"] = /.+\/(.+)/.exec(title)[1];
         }
 
-        var postId = config.postId;
+        let postId = config.postId;
         if (postId) {
             type = "PATCH";
             url = url + "/" + postId;
@@ -173,8 +173,8 @@ const clearPost = function(response) {
 
 const notifySaved = function(response) {
     return new Promise(function(resolve, reject) {
-        var newPostId = response.number;
-        var message;
+        let newPostId = response.number;
+        let message;
 
         chrome.storage.sync.set({postId: newPostId}, function(){
             $(".esa__link").attr("href", response.url);
@@ -226,7 +226,7 @@ const showMessage = function(message, succeeded) {
 }
 
 const storeTitle = function() {
-    var title = ui.title();
+    let title = ui.title();
 
     if (title != storedPost.title) {
         storedPost.title = title;
@@ -237,7 +237,7 @@ const storeTitle = function() {
 }
 
 const storeBody = function() {
-    var body = ui.body();
+    let body = ui.body();
 
     if (body != storedPost.body) {
         storedPost.body = body;
@@ -245,7 +245,7 @@ const storeBody = function() {
         toggleButtonDisabled(false);
     }
 
-    var cursorPosition = $(".post__body")[0].selectionStart;
+    let cursorPosition = $(".post__body")[0].selectionStart;
     if (cursorPosition != storedPost.cursorPosition) {
         storedPost.currentPosition = cursorPosition;
     }
@@ -253,7 +253,7 @@ const storeBody = function() {
 }
 
 const storeCursorPosition = function() {
-    var cursorPosition = $(".post__body")[0].selectionStart;
+    let cursorPosition = $(".post__body")[0].selectionStart;
     if (cursorPosition != storedPost.cursorPosition) {
         store({cursorPosition: cursorPosition});
     }
