@@ -4,6 +4,7 @@ export default class UI {
   constructor() {
   }
 
+  // getter & setter
   title(val) {
     if (val) {
       $(".post__title").val(val);
@@ -20,5 +21,10 @@ export default class UI {
     } else {
       return $(".post__body").val()
     }
+  }
+
+  // toggle
+  saveButtonDisabled(disabled) {
+    $(".esa__post-button").prop("disabled", disabled ? "disabled" : null);
   }
 }
