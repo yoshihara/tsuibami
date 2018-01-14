@@ -5,6 +5,7 @@ export default class UI {
   }
 
   // getter & setter
+  // TODO: class名じゃなくてdata attributesにしたい
   title(val) {
     if (val) {
       $(".post__title").val(val);
