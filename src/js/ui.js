@@ -24,6 +24,15 @@ export default class UI {
     }
   }
 
+  teamName(val) {
+    if (val) {
+      $(".team__name").text(val);
+      return undefined;
+    } else {
+      return $(".team__name").text();
+    }
+  }
+
   savedPostLink(val) {
     if (val) {
       $(".esa__link").attr("href", val);
