@@ -32,11 +32,11 @@ const getConfig = function() {
         let defaultConfig = {teamName: "", token: "", teamIcon: "", postId: ""};
         chrome.storage.sync.get(defaultConfig, function(config) {
             if (!config.teamName || !config.token) {
-                $(".option__link").show();
+                ui.toggle("option-link", "show", true);
                 $(".team__name").text("Configuration failed");
                 reject("Please configure options (\\( ˘⊖˘)/)");
             } else {
-                $(".option__link").remove();
+                ui.toggle("option-link", "show", false);
 
                 if (config.postId != "") {
                     let link = `https://${config.teamName}.esa.io/posts/${config.postId}`;

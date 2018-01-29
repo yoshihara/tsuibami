@@ -25,10 +25,27 @@ export default class UI {
   }
 
   // toggle
-  toggle(target, targetAttribute, value) {
+  toggle(target, purpose, value) {
+    let targetDom = null
     switch (target) {
       case "save-button":
-        $(".esa__post-button").prop(targetAttribute, value ? "disabled" : null);
+        targetDom = ".esa__post-button";
+        break;
+      case "option-link":
+        targetDom = ".option__link";
+        break;
+    }
+
+    switch (purpose){
+      case "disabled":
+        $(targetDom).prop(purpose, value ? "disabled" : null);
+        break;
+      case "show":
+        if (value) {
+          $(targetDom).show();
+        } else {
+          $(targetDom).hide();
+        }
         break;
     }
   }
