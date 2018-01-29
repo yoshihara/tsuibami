@@ -40,7 +40,7 @@ const getConfig = function() {
 
                 if (config.postId != "") {
                     let link = `https://${config.teamName}.esa.io/posts/${config.postId}`;
-                    $(".esa__link").attr("href", link);
+                    ui.savedPostLink(link);
                 }
 
                 $(".team__name").text(config.teamName);
@@ -174,7 +174,7 @@ const notifySaved = function(response) {
         let message;
 
         chrome.storage.sync.set({postId: newPostId}, function(){
-            $(".esa__link").attr("href", response.url);
+            ui.savedPostLink(response.url);
             // 最初の保存の時だけメッセージを変える
             if (response.revision_number == 1) {
                 message = "created!";

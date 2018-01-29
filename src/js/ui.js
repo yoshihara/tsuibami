@@ -24,6 +24,15 @@ export default class UI {
     }
   }
 
+  savedPostLink(val) {
+    if (val) {
+      $(".esa__link").attr("href", val);
+      return undefined;
+    } else {
+      return $(".esa__link").attr("href");
+    }
+  }
+
   // toggle
   toggle(target, purpose, value) {
     let targetDom = null
