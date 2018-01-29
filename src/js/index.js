@@ -148,7 +148,7 @@ const storePostAsSaved = function(response) {
 const clearPost = function(response) {
   if (!ui.checkedclear()) {
     return new Promise(function(resolve, reject) {
-      $(".post__body").focus();
+      ui.moveFocus("body");
       resolve(response);
     });
   }
