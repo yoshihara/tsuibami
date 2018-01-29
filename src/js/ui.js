@@ -7,38 +7,38 @@ export default class UI {
   // getter & setter
   // TODO: class名じゃなくてdata attributesにしたい
   title(val) {
-    if (val) {
+    if (val == null) {
+      return $(".post__title").val();
+    } else {
       $(".post__title").val(val);
       return undefined;
-    } else {
-      return $(".post__title").val();
     }
   }
 
   body(val) {
-    if (val) {
+    if (val == null) {
+      return $(".post__body").val();
+    } else {
       $(".post__body").val(val);
       return undefined;
-    } else {
-      return $(".post__body").val();
     }
   }
 
   teamName(val) {
-    if (val) {
+    if (val == null) {
+      return $(".team__name").text();
+    } else {
       $(".team__name").text(val);
       return undefined;
-    } else {
-      return $(".team__name").text();
     }
   }
 
   savedPostLink(val) {
-    if (val) {
+    if (val == null) {
+      return $(".esa__link").attr("href");
+    } else {
       $(".esa__link").attr("href", val);
       return undefined;
-    } else {
-      return $(".esa__link").attr("href");
     }
   }
 
