@@ -42,6 +42,15 @@ export default class UI {
     }
   }
 
+  checkedclear(val) {
+    if (val == null) {
+      return $(".esa__post_with-clear").prop("checked");
+    } else {
+      $(".esa__post_with-clear").prop("checked", val);
+      return undefined;
+    }
+  }
+
   // toggle
   toggle(target, purpose, value) {
     let targetDom = null

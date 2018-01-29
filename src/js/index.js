@@ -146,7 +146,7 @@ const storePostAsSaved = function(response) {
 }
 
 const clearPost = function(response) {
-  if (!$(".esa__post_with-clear").prop("checked")) {
+  if (!ui.checkedclear()) {
     return new Promise(function(resolve, reject) {
       $(".post__body").focus();
       resolve(response);
