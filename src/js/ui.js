@@ -25,8 +25,12 @@ export default class UI {
   }
 
   // toggle
-  saveButtonDisabled(disabled) {
-    $(".esa__post-button").prop("disabled", disabled ? "disabled" : null);
+  toggle(target, targetAttribute, value) {
+    switch (target) {
+      case "save-button":
+        $(".esa__post-button").prop(targetAttribute, value ? "disabled" : null);
+        break;
+    }
   }
 
   // focus
