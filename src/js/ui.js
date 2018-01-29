@@ -11,7 +11,7 @@ export default class UI {
       $(".post__title").val(val);
       return undefined;
     } else {
-      return $(".post__title").val()
+      return $(".post__title").val();
     }
   }
 
@@ -20,7 +20,7 @@ export default class UI {
       $(".post__body").val(val);
       return undefined;
     } else {
-      return $(".post__body").val()
+      return $(".post__body").val();
     }
   }
 
