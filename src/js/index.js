@@ -45,7 +45,7 @@ const getConfig = function() {
         }
 
         ui.teamName(config.teamName);
-        $('.team__icon')[0].src = config.teamIcon;
+        ui.teamIcon(config.teamIcon);
 
         resolve(config);
       }
