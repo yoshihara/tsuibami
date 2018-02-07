@@ -1,61 +1,62 @@
-import $ from "jquery";
-import _ from "lodash";
-import Promise from "bluebird";
-import "../../lib/jquery.selection";
-import "../../lib/jquery.esarea";
-import Ui from "./ui";
+import $ from 'jquery';
+import _ from 'lodash';
+import Promise from 'bluebird';
+import '../../lib/jquery.selection';
+import '../../lib/jquery.esarea';
+import Ui from './ui';
 
 let ui = new Ui();
 window.ui = ui; // for debug
 
 // TODO できればグローバルで定義しないほうがよさそう
-let storedPost = {title: "", body: "", cursorPosition: 0, saved: false};
+let storedPost = { title: '', body: '', cursorPosition: 0, saved: false };
 
 const loadPost = function() {
-  let defaultPost = {title: "", body: "", cursorPosition: 0, saved: false};
+  let defaultPost = { title: '', body: '', cursorPosition: 0, saved: false };
   chrome.storage.sync.get(defaultPost, function(post) {
     storedPost = post;
 
-    ui.toggle("save-button", "disabled", post.saved);
+    ui.toggle('save-button', 'disabled', post.saved);
 
     ui.title(post.title);
     ui.body(post.body);
-    if (ui.title() != "") {
+    if (ui.title() != '') {
       // Move cursor at previous position
       ui.moveFocus('body', post.cursorPosition);
     }
   });
-}
+};
 
 const getConfig = function() {
   return new Promise(function(resolve, reject) {
-    let defaultConfig = {teamName: "", token: "", teamIcon: "", postId: ""};
+    let defaultConfig = { teamName: '', token: '', teamIcon: '', postId: '' };
     chrome.storage.sync.get(defaultConfig, function(config) {
       if (!config.teamName || !config.token) {
-        ui.toggle("option-link", "show", true);
-        ui.teamName("Configuration failed");
+        ui.toggle('option-link', 'show', true);
+        ui.teamName('Configuration failed');
 
-        reject("Please configure options (\\( ˘⊖˘)/)");
+        reject('Please configure options (\\( ˘⊖˘)/)');
       } else {
-        ui.toggle("option-link", "show", false);
+        ui.toggle('option-link', 'show', false);
 
-        if (config.postId != "") {
+        if (config.postId != '') {
           let link = `https://${config.teamName}.esa.io/posts/${config.postId}`;
           ui.savedPostLink(link);
         }
 
         ui.teamName(config.teamName);
+        $('.team__icon')[0].src = config.teamIcon;
 
         resolve(config);
       }
     });
   });
-}
+};
 
 const searchPost = function(config) {
   return new Promise(function(resolve, reject) {
     let title = ui.title();
-    let category = "";
+    let category = '';
 
     if (hasCategory(title)) {
       category = /(.+)\/.+/.exec(title)[1];
@@ -63,40 +64,39 @@ const searchPost = function(config) {
     }
 
     let q = `name:${title}`;
-    if (category.length != 0) { q = `${q} category:${category}` }
+    if (category.length != 0) {
+      q = `${q} category:${category}`;
+    }
 
     $.ajax({
-      type: "GET",
+      type: 'GET',
       url: `https://api.esa.io/v1/teams/${config.teamName}/posts`,
       data: {
         q: q,
-        access_token: config.token
-      }
-    }).then(
-      function(response) {
-        let hitPost;
-        // カテゴリ無しだけを検索する方法がわからなかったので別途絞込している
-        if (category.length == 0) {
-          hitPost = _.find(response.posts, { name: title, category: null });
-        } else {
-          // 1つしかない想定
-          hitPost = response.posts[0];
-        }
-
-        // 記事があった場合は更新するためIDを保存する
-        if (hitPost) {
-          config.postId = hitPost.number;
-        } else {
-          config.postId = undefined;
-        }
-        chrome.storage.sync.set(config, function(){
-          resolve(config);
-        });
+        access_token: config.token,
       },
-      reject
-    );
-  })
-}
+    }).then(function(response) {
+      let hitPost;
+      // カテゴリ無しだけを検索する方法がわからなかったので別途絞込している
+      if (category.length == 0) {
+        hitPost = _.find(response.posts, { name: title, category: null });
+      } else {
+        // 1つしかない想定
+        hitPost = response.posts[0];
+      }
+
+      // 記事があった場合は更新するためIDを保存する
+      if (hitPost) {
+        config.postId = hitPost.number;
+      } else {
+        config.postId = undefined;
+      }
+      chrome.storage.sync.set(config, function() {
+        resolve(config);
+      });
+    }, reject);
+  });
+};
 
 const savePost = function(config) {
   return new Promise(function(resolve, reject) {
@@ -105,19 +105,24 @@ const savePost = function(config) {
     let title = ui.title();
     let body = ui.body();
 
-    let post = {name: title, category: "", body_md: body, message: "from tsuibami"};
+    let post = {
+      name: title,
+      category: '',
+      body_md: body,
+      message: 'from tsuibami',
+    };
 
     if (hasCategory(title)) {
-      post["category"] = /(.+)\/.+/.exec(title)[1];
-      post["name"] = /.+\/(.+)/.exec(title)[1];
+      post['category'] = /(.+)\/.+/.exec(title)[1];
+      post['name'] = /.+\/(.+)/.exec(title)[1];
     }
 
     let postId = config.postId;
     if (postId) {
-      type = "PATCH";
-      url = url + "/" + postId;
+      type = 'PATCH';
+      url = url + '/' + postId;
     } else {
-      type = "POST";
+      type = 'POST';
     }
 
     $.ajax({
@@ -125,40 +130,37 @@ const savePost = function(config) {
       url: url,
       data: {
         post: post,
-        access_token: config.token
-      }
-    }).then(
-      resolve,
-      reject
-    );
+        access_token: config.token,
+      },
+    }).then(resolve, reject);
   });
-}
+};
 
 const storePostAsSaved = function(response) {
   return new Promise(function(resolve, reject) {
-    ui.toggle("save-button", "disabled", true);
+    ui.toggle('save-button', 'disabled', true);
 
-    chrome.storage.sync.set({saved: true}, function(){
+    chrome.storage.sync.set({ saved: true }, function() {
       storedPost.saved = true;
       resolve(response);
     });
   });
-}
+};
 
 const clearPost = function(response) {
   if (!ui.checkedclear()) {
     return new Promise(function(resolve, reject) {
-      ui.moveFocus("body");
+      ui.moveFocus('body');
       resolve(response);
     });
   }
   return new Promise(function(resolve, reject) {
-    ui.title("");
-    ui.body("");
+    ui.title('');
+    ui.body('');
 
-    ui.toggle("save-button", "disabled", true);
+    ui.toggle('save-button', 'disabled', true);
 
-    storedPost = {title: "", body: "", cursorPosition: 0, saved: true};
+    storedPost = { title: '', body: '', cursorPosition: 0, saved: true };
     chrome.storage.sync.set(storedPost, function() {
       if (chrome.runtime.lastError) {
         reject(response);
@@ -167,61 +169,57 @@ const clearPost = function(response) {
       }
     });
   });
-}
+};
 
 const notifySaved = function(response) {
   return new Promise(function(resolve, reject) {
     let newPostId = response.number;
     let message;
 
-    chrome.storage.sync.set({postId: newPostId}, function(){
+    chrome.storage.sync.set({ postId: newPostId }, function() {
       ui.savedPostLink(response.url);
       // 最初の保存の時だけメッセージを変える
       if (response.revision_number == 1) {
-        message = "created!";
+        message = 'created!';
       } else {
-        message = "updated!";
+        message = 'updated!';
       }
       resolve(message);
     });
   });
-}
+};
 
 const hasCategory = function(title) {
   return /.+\/.+/.test(title);
-}
-
-const notifyReady = function(config) {
-  $(".team__icon")[0].src = config.teamIcon;
-}
+};
 
 const notifySuccess = function(msg) {
-  showMessage(msg + " (\\( ⁰⊖⁰)/)", true);
-}
+  showMessage(msg + ' (\\( ⁰⊖⁰)/)', true);
+};
 
 const notifyError = function(msg) {
   console.log(msg);
   showMessage(msg);
-}
+};
 
 const showMessage = function(message, succeeded) {
-  $(".message").show();
+  $('.message').show();
 
-  $(".message__body").text(message);
-  $(".message__body").removeClass("message__body-color-success");
-  $(".message__body").removeClass("message__body-color-failure");
+  $('.message__body').text(message);
+  $('.message__body').removeClass('message__body-color-success');
+  $('.message__body').removeClass('message__body-color-failure');
 
   if (succeeded) {
-    $(".message__body").addClass("message__body-color-success");
+    $('.message__body').addClass('message__body-color-success');
     setTimeout(function() {
-      $(".message").fadeOut("normal", function() {
-        $(".message__body").text("");
+      $('.message').fadeOut('normal', function() {
+        $('.message__body').text('');
       });
     }, 2000);
   } else {
-    $(".message__body").addClass("message__body-color-failure");
+    $('.message__body').addClass('message__body-color-failure');
   }
-}
+};
 
 const storeTitle = function() {
   let title = ui.title();
@@ -229,10 +227,10 @@ const storeTitle = function() {
   if (title != storedPost.title) {
     storedPost.title = title;
     storedPost.saved = false;
-    store({title: title, saved: false});
-    ui.toggle("save-button", "disabled", false);
+    store({ title: title, saved: false });
+    ui.toggle('save-button', 'disabled', false);
   }
-}
+};
 
 const storeBody = function() {
   let body = ui.body();
@@ -240,42 +238,50 @@ const storeBody = function() {
   if (body != storedPost.body) {
     storedPost.body = body;
     storedPost.saved = false;
-    ui.toggle("save-button", "disabled", false);
+    ui.toggle('save-button', 'disabled', false);
   }
 
-  let cursorPosition = $(".post__body")[0].selectionStart;
+  let cursorPosition = $('.post__body')[0].selectionStart;
   if (cursorPosition != storedPost.cursorPosition) {
     storedPost.currentPosition = cursorPosition;
   }
   store(storedPost);
-}
+};
 
 const storeCursorPosition = function() {
-  let cursorPosition = $(".post__body")[0].selectionStart;
+  let cursorPosition = $('.post__body')[0].selectionStart;
   if (cursorPosition != storedPost.cursorPosition) {
-    store({cursorPosition: cursorPosition});
+    store({ cursorPosition: cursorPosition });
   }
-}
+};
 
 const store = function(data) {
-  chrome.storage.sync.set(data, function(){
+  chrome.storage.sync.set(data, function() {
     if (chrome.runtime.lastError) {
-      showMessage("Error: " + chrome.runtime.lastError.message, false);
+      showMessage('Error: ' + chrome.runtime.lastError.message, false);
     }
   });
-}
+};
 
 const showSavedStatus = function(saving) {
-  $(".esa__post-button").text(saving ? "Saving..." : "Save as WIP");
-}
+  $('.esa__post-button').text(saving ? 'Saving...' : 'Save as WIP');
+};
 
 const runSaveProcess = function() {
-  ui.toggle("save-button", "disabled", true);
+  ui.toggle('save-button', 'disabled', true);
   showSavedStatus(true);
-  getConfig().then(searchPost).then(savePost).then(storePostAsSaved).then(clearPost).then(notifySaved).then(notifySuccess).catch(notifyError).finally(function() {
-    showSavedStatus(false);
-  });
-}
+  getConfig()
+    .then(searchPost)
+    .then(savePost)
+    .then(storePostAsSaved)
+    .then(clearPost)
+    .then(notifySaved)
+    .then(notifySuccess)
+    .catch(notifyError)
+    .finally(function() {
+      showSavedStatus(false);
+    });
+};
 
 const runSaveProcessByShortcut = function(event) {
   // Ctrl+s or Cmd+s
@@ -283,20 +289,20 @@ const runSaveProcessByShortcut = function(event) {
     event.preventDefault();
     runSaveProcess();
   }
-}
+};
 
 $(function() {
   loadPost();
-  getConfig().then(notifyReady).catch(notifyError);
+  getConfig().catch(notifyError);
 
-  $(".post__title").on("keyup", _.debounce(storeTitle, 200));
-  $(".post__body").on("keyup", _.debounce(storeBody, 200));
-  $(".post__body").on("mouseup", storeCursorPosition);
+  $('.post__title').on('keyup', _.debounce(storeTitle, 200));
+  $('.post__body').on('keyup', _.debounce(storeBody, 200));
+  $('.post__body').on('mouseup', storeCursorPosition);
 
-  $(".post__title").on("keydown", runSaveProcessByShortcut);
-  $(".post__body").on("keydown", runSaveProcessByShortcut);
+  $('.post__title').on('keydown', runSaveProcessByShortcut);
+  $('.post__body').on('keydown', runSaveProcessByShortcut);
 
-  $(".post__body").esarea();
+  $('.post__body').esarea();
 
-  $(".esa__post-button").on("click", runSaveProcess);
+  $('.esa__post-button').on('click', runSaveProcess);
 });
