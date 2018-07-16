@@ -16,6 +16,7 @@ const loadPost = function() {
   chrome.storage.sync.get(defaultPost, function(post) {
     storedPost = post;
 
+    // TODO: この辺の処理を ui.loadPost() にまとめたい
     ui.toggle('save-button', 'disabled', post.saved);
 
     ui.title(post.title);
@@ -140,7 +141,8 @@ const storePostAsSaved = function(response) {
   return new Promise(function(resolve, reject) {
     ui.toggle('save-button', 'disabled', true);
 
-    chrome.storage.sync.set({ saved: true }, function() {
+    let newPostId = response.number;
+    chrome.storage.sync.set({ saved: true, postId: newPostId }, function() {
       storedPost.saved = true;
       resolve(response);
     });
@@ -183,19 +185,16 @@ const clearPost = function(response) {
 
 const notifySaved = function(response) {
   return new Promise(function(resolve, reject) {
-    let newPostId = response.number;
     let message;
 
-    chrome.storage.sync.set({ postId: newPostId }, function() {
-      ui.savedPostLink(response.url);
-      // 最初の保存の時だけメッセージを変える
-      if (response.revision_number == 1) {
-        message = 'created!';
-      } else {
-        message = 'updated!';
-      }
-      resolve(message);
-    });
+    ui.savedPostLink(response.url);
+    // 最初の保存の時だけメッセージを変える
+    if (response.revision_number == 1) {
+      message = 'created!';
+    } else {
+      message = 'updated!';
+    }
+    resolve(message);
   });
 };
 
