@@ -147,6 +147,16 @@ const storePostAsSaved = function(response) {
   });
 };
 
+const updatePostTitleDisplay = function(response) {
+  // 保存したタイトルによっては末尾に "(2)" などの表記がesaによってつけられている可能性があるため、再度表示し直す
+  return new Promise(function(resolve, reject) {
+    chrome.storage.sync.set({ title: response.name }, function() {
+      ui.title(response.full_name);
+      resolve(response);
+    });
+  });
+};
+
 const clearPost = function(response) {
   if (!ui.checkedclear()) {
     return new Promise(function(resolve, reject) {
@@ -263,6 +273,7 @@ const runSaveProcess = function() {
     .then(searchPost)
     .then(savePost)
     .then(storePostAsSaved)
+    .then(updatePostTitleDisplay)
     .then(clearPost)
     .then(notifySaved)
     .then(notifySuccess)
