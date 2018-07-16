@@ -232,7 +232,7 @@ const storeBody = function() {
 
   let cursorPosition = $('.post__body')[0].selectionStart;
   if (cursorPosition != storedPost.cursorPosition) {
-    storedPost.currentPosition = cursorPosition;
+    storedPost.cursorPosition = cursorPosition;
   }
   store(storedPost);
 };
