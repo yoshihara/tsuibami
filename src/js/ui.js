@@ -1,7 +1,10 @@
 import $ from 'jquery';
+import MessageArea from './ui/message-area.js';
 
 export default class UI {
-  constructor() {}
+  constructor() {
+    this.messageArea = new MessageArea();
+  }
 
   // getter & setter
   // TODO: class名じゃなくてdata attributesにしたい
@@ -60,6 +63,7 @@ export default class UI {
   }
 
   // toggle
+  // TODO: targetごとに分割してクラス化し、必要なpurposeだけにする
   toggle(target, purpose, value) {
     let targetDom = null;
     switch (target) {
@@ -72,10 +76,10 @@ export default class UI {
     }
 
     switch (purpose) {
-      case 'disabled':
+      case 'disabled': // save-button用
         $(targetDom).prop(purpose, value ? 'disabled' : null);
         break;
-      case 'show':
+      case 'show': // option-link用
         if (value) {
           $(targetDom).show();
         } else {
@@ -97,5 +101,9 @@ export default class UI {
       $(targetClass)[0].selectionStart = position;
       $(targetClass)[0].selectionEnd = position;
     }
+  }
+
+  showMessageOnSuccess(message) {
+    this.messageArea.showMessageOnSuccess(message);
   }
 }

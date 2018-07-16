@@ -203,21 +203,10 @@ const notifyError = function(msg) {
 };
 
 const showMessage = function(message, succeeded) {
-  $('.message').show();
-
-  $('.message__body').text(message);
-  $('.message__body').removeClass('message__body-color-success');
-  $('.message__body').removeClass('message__body-color-failure');
-
   if (succeeded) {
-    $('.message__body').addClass('message__body-color-success');
-    setTimeout(function() {
-      $('.message').fadeOut('normal', function() {
-        $('.message__body').text('');
-      });
-    }, 2000);
+    ui.messageArea.showMessageOnSuccess(message);
   } else {
-    $('.message__body').addClass('message__body-color-failure');
+    ui.messageArea.showMessageOnFailure(message);
   }
 };
 
