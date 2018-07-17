@@ -12,7 +12,6 @@ window.ui = ui; // for debug
 
 const loadPost = function() {
   post.load(function(post) {
-    // TODO: この辺の処理を ui.loadPost() にまとめたい
     ui.toggle('save-button', 'disabled', post.saved);
 
     ui.title(post.title);
