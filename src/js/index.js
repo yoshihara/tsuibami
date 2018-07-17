@@ -238,7 +238,7 @@ const showErrorMessage = function() {
 
 const runSaveProcess = function() {
   ui.toggleDisabledSaveButton(true);
-  ui.toggleSavedStatus(true);
+  ui.toggleSavedStatusMessage(true);
   getConfig()
     .then(searchPost)
     .then(savePost)
@@ -246,7 +246,7 @@ const runSaveProcess = function() {
     .then(updateUI)
     .catch(notifyError)
     .finally(function() {
-      ui.toggleSavedStatus(false);
+      ui.toggleSavedStatusMessage(false);
     });
 };
 
