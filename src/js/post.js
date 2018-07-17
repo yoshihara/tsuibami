@@ -3,11 +3,9 @@ export default class Post {
     this.defaultPost = { title: '', body: '', cursorPosition: 0, saved: false };
     this.storedKeys = ['title', 'body', 'saved', 'cursorPosition', 'postId'];
 
-    this.title = null;
-    this.body = null;
-    this.saved = true;
-    this.cursorPosition = null;
-    this.postId = null;
+    this.storedKeys.forEach((key) => {
+      this[key] = null;
+    });
   }
 
   load(callback) {
