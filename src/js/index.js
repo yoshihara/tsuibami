@@ -139,8 +139,6 @@ const savePost = function(config) {
 
 const storePostAsSaved = function(response) {
   return new Promise(function(resolve, reject) {
-    ui.toggle('save-button', 'disabled', true);
-
     let newPostId = response.number;
     chrome.storage.sync.set({ saved: true, postId: newPostId }, function() {
       storedPost.saved = true;
@@ -153,7 +151,6 @@ const updatePostTitleDisplay = function(response) {
   // 保存したタイトルによっては末尾に "(2)" などの表記がesaによってつけられている可能性があるため、再度表示し直す
   return new Promise(function(resolve, reject) {
     chrome.storage.sync.set({ title: response.name }, function() {
-      ui.title(response.full_name);
       resolve(response);
     });
   });
@@ -162,16 +159,10 @@ const updatePostTitleDisplay = function(response) {
 const clearPost = function(response) {
   if (!ui.checkedclear()) {
     return new Promise(function(resolve, reject) {
-      ui.moveFocus('body');
       resolve(response);
     });
   }
   return new Promise(function(resolve, reject) {
-    ui.title('');
-    ui.body('');
-
-    ui.toggle('save-button', 'disabled', true);
-
     storedPost = { title: '', body: '', cursorPosition: 0, saved: true };
     chrome.storage.sync.set(storedPost, function() {
       if (chrome.runtime.lastError) {
@@ -183,10 +174,20 @@ const clearPost = function(response) {
   });
 };
 
-const notifySaved = function(response) {
-  let message;
+const updateUI = function(response) {
+  ui.toggle('save-button', 'disabled', true);
+
+  if (!ui.checkedclear()) {
+    ui.title(response.full_name);
+    ui.moveFocus('body');
+  } else {
+    ui.title('');
+    ui.body('');
+  }
 
   ui.savedPostLink(response.url);
+
+  let message;
   // 最初の保存の時だけメッセージを変える
   if (response.revision_number == 1) {
     message = 'created!';
@@ -272,7 +273,7 @@ const runSaveProcess = function() {
     .then(storePostAsSaved)
     .then(updatePostTitleDisplay)
     .then(clearPost)
-    .then(notifySaved)
+    .then(updateUI)
     .catch(notifyError)
     .finally(function() {
       showSavedStatus(false);
