@@ -139,27 +139,27 @@ const savePost = function(config) {
 
 const updateStoredPost = function(response) {
   let newPostId = response.number;
-  let storedPost = { postId: newPostId, saved: true };
 
+  post.saved = true;
+  post.postId = newPostId;
   if (ui.checkedclear()) {
-    storedPost.title = '';
-    storedPost.body = '';
-    storedPost.cursorPosition = 0;
+    post.title = '';
+    post.body = '';
+    post.cursorPosition = 0;
   } else {
     // 保存したタイトルによっては末尾に "(2)" などの表記がesaによってつけられている可能性があるため、再度表示し直す
-    storedPost.title = response.name;
+    post.title = response.name;
   }
 
-  post.update(storedPost);
-
   return new Promise(function(resolve, reject) {
-    chrome.storage.sync.set(storedPost, function() {
-      if (chrome.runtime.lastError) {
-        reject(response);
-      } else {
+    post.store(
+      () => {
         resolve(response);
-      }
-    });
+      },
+      () => {
+        reject(response);
+      },
+    );
   });
 };
 
