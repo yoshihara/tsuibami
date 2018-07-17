@@ -139,7 +139,7 @@ const savePost = function(config) {
 
 const updateStoredPost = function(response) {
   let newPostId = response.number;
-  storedPost = { postId: newPostId, saved: true };
+  let storedPost = { postId: newPostId, saved: true };
 
   if (ui.checkedclear()) {
     storedPost.title = '';
@@ -149,6 +149,8 @@ const updateStoredPost = function(response) {
     // 保存したタイトルによっては末尾に "(2)" などの表記がesaによってつけられている可能性があるため、再度表示し直す
     storedPost.title = response.name;
   }
+
+  post.update(storedPost);
 
   return new Promise(function(resolve, reject) {
     chrome.storage.sync.set(storedPost, function() {
@@ -164,8 +166,8 @@ const updateStoredPost = function(response) {
 const updateUI = function(response) {
   ui.toggle('save-button', 'disabled', true);
 
-  ui.title(storedPost.title);
-  ui.body(storedPost.body);
+  ui.title(post.title);
+  ui.body(post.body);
 
   ui.savedPostLink(response.url);
 
