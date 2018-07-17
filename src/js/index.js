@@ -138,38 +138,31 @@ const savePost = function(config) {
 };
 
 const updateStoredPost = function(response) {
-  return new Promise(function(resolve, reject) {
-    let newPostId = response.number;
-    chrome.storage.sync.set(
-      { saved: true, postId: newPostId, title: response.name },
-      function() {
-        storedPost.saved = true;
-        resolve(response);
-      },
-    );
-  });
-};
+  let newPostId = response.number;
+  storedPost = { saved: true, postId: newPostId, saved: true };
 
-const clearPost = function(response) {
+  if (ui.checkedclear()) {
+    storedPost.title = '';
+    storedPost.body = '';
+    storedPost.cursorPosition = 0;
+  } else {
+    storedPost.title = response.name;
+  }
+
   return new Promise(function(resolve, reject) {
-    if (!ui.checkedclear()) {
-      resolve(response);
-    } else {
-      storedPost = { title: '', body: '', cursorPosition: 0, saved: true };
-      chrome.storage.sync.set(storedPost, function() {
-        if (chrome.runtime.lastError) {
-          reject(response);
-        } else {
-          resolve(response);
-        }
-      });
-    }
+    chrome.storage.sync.set(storedPost, function() {
+      if (chrome.runtime.lastError) {
+        reject(response);
+      } else {
+        resolve(response);
+      }
+    });
   });
 };
 
 const updateUI = function(response) {
   ui.toggle('save-button', 'disabled', true);
-
+  // TODO: storedPostを見る形にする
   if (!ui.checkedclear()) {
     ui.title(response.full_name);
     ui.moveFocus('body');
@@ -264,7 +257,6 @@ const runSaveProcess = function() {
     .then(searchPost)
     .then(savePost)
     .then(updateStoredPost)
-    .then(clearPost)
     .then(updateUI)
     .catch(notifyError)
     .finally(function() {
