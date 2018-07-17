@@ -216,7 +216,8 @@ const storeTitle = function() {
 const storeBody = function() {
   let body = ui.body();
 
-  if (body != storedPost.body) {
+  let storedPost = {};
+  if (body != post.body) {
     storedPost.body = body;
     storedPost.saved = false;
     ui.toggle('save-button', 'disabled', false);
@@ -226,6 +227,8 @@ const storeBody = function() {
   if (cursorPosition != storedPost.cursorPosition) {
     storedPost.cursorPosition = cursorPosition;
   }
+  // TODO: あとでstore()をPostに持っていくときにstoredPostを使わないようにする
+  post.update(storedPost);
   store(storedPost);
 };
 
