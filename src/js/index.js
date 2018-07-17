@@ -247,7 +247,7 @@ const store = function(data) {
 };
 
 const showSavedStatus = function(saving) {
-  $('.esa__post-button').text(saving ? 'Saving...' : 'Save as WIP');
+  ui.savedStatus(saving ? 'Saving...' : 'Save as WIP');
 };
 
 const runSaveProcess = function() {

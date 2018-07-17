@@ -53,6 +53,12 @@ export default class UI {
     }
   }
 
+  savedStatus(val) {
+    $('.esa__post-button').text(val);
+    return undefined;
+  }
+
+  // TODO: moveFocusと統合する（moveFucusはbody相手にしか使っていない）
   cursorPosition() {
     return $('.post__body')[0].selectionStart;
   }
