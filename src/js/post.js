@@ -3,7 +3,6 @@ export default class Post {
     this.defaultPost = { title: '', body: '', cursorPosition: 0, saved: false };
     this.storedKeys = ['title', 'body', 'saved', 'cursorPosition', 'postId'];
 
-    // TOOD: storedPostはあとで名前を変えたい
     this.title = null;
     this.body = null;
     this.saved = true;
