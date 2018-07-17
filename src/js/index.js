@@ -163,14 +163,9 @@ const updateStoredPost = function(response) {
 
 const updateUI = function(response) {
   ui.toggle('save-button', 'disabled', true);
-  // TODO: storedPostを見る形にする
-  if (!ui.checkedclear()) {
-    ui.title(response.full_name);
-    ui.moveFocus('body');
-  } else {
-    ui.title('');
-    ui.body('');
-  }
+
+  ui.title(storedPost.title);
+  ui.body(storedPost.body);
 
   ui.savedPostLink(response.url);
 
