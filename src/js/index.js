@@ -139,7 +139,7 @@ const savePost = function(config) {
 
 const updateStoredPost = function(response) {
   let newPostId = response.number;
-  storedPost = { saved: true, postId: newPostId, saved: true };
+  storedPost = { postId: newPostId, saved: true };
 
   if (ui.checkedclear()) {
     storedPost.title = '';
