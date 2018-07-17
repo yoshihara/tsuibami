@@ -4,18 +4,18 @@ import Promise from 'bluebird';
 import '../../lib/jquery.selection';
 import '../../lib/jquery.esarea';
 import Ui from './ui';
+import Post from './post';
 
 let ui = new Ui();
+let post = new Post();
 window.ui = ui; // for debug
 
 // TODO できればグローバルで定義しないほうがよさそう
+// TODO: storedPostをpostで置き換える
 let storedPost = { title: '', body: '', cursorPosition: 0, saved: false };
 
 const loadPost = function() {
-  let defaultPost = { title: '', body: '', cursorPosition: 0, saved: false };
-  chrome.storage.sync.get(defaultPost, function(post) {
-    storedPost = post;
-
+  post.load(function(post) {
     // TODO: この辺の処理を ui.loadPost() にまとめたい
     ui.toggle('save-button', 'disabled', post.saved);
 
