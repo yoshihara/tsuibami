@@ -5,7 +5,7 @@ export default class Post {
   }
 
   load(callback) {
-    chrome.storage.sync.get(this.defaultPost, function(post) {
+    chrome.storage.sync.get(this.defaultPost, (post) => {
       this.storedPost = post;
       callback(post);
     });
