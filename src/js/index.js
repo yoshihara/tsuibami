@@ -12,7 +12,7 @@ window.ui = ui; // for debug
 
 const loadPost = function() {
   post.load(function(post) {
-    ui.toggle('save-button', 'disabled', post.saved);
+    ui.toggleDisabledSaveButton(post.saved);
 
     ui.title(post.title);
     ui.body(post.body);
@@ -28,12 +28,12 @@ const getConfig = function() {
     let defaultConfig = { teamName: '', token: '', teamIcon: '', postId: '' };
     chrome.storage.sync.get(defaultConfig, function(config) {
       if (!config.teamName || !config.token) {
-        ui.toggle('option-link', 'show', true);
+        ui.toggleDisplayOptionLink(true);
         ui.teamName('Configuration failed');
 
         reject('Please configure options (\\( ˘⊖˘)/)');
       } else {
-        ui.toggle('option-link', 'show', false);
+        ui.toggleDisplayOptionLink(false);
 
         if (config.postId != '') {
           let link = `https://${config.teamName}.esa.io/posts/${config.postId}`;
@@ -159,7 +159,7 @@ const updateStoredPost = function(response) {
 };
 
 const updateUI = function(response) {
-  ui.toggle('save-button', 'disabled', true);
+  ui.toggleDisabledSaveButton(true);
 
   ui.title(post.title);
   ui.body(post.body);
@@ -204,7 +204,7 @@ const storeTitle = function() {
     post.title = title;
     post.saved = false;
     post.store(function() {}, showErrorMessage);
-    ui.toggle('save-button', 'disabled', false);
+    ui.toggleDisabledSaveButton(false);
   }
 };
 
@@ -214,7 +214,7 @@ const storeBody = function() {
   if (body != post.body) {
     post.body = body;
     post.saved = false;
-    ui.toggle('save-button', 'disabled', false);
+    ui.toggleDisabledSaveButton(false);
   }
 
   let cursorPosition = ui.cursorPosition();
@@ -241,7 +241,7 @@ const showSavedStatus = function(saving) {
 };
 
 const runSaveProcess = function() {
-  ui.toggle('save-button', 'disabled', true);
+  ui.toggleDisabledSaveButton(true);
   showSavedStatus(true);
   getConfig()
     .then(searchPost)

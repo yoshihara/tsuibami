@@ -83,29 +83,13 @@ export default class UI {
   }
 
   // toggle
-  // TODO: targetごとに分割してクラス化し、必要なpurposeだけにする
-  toggle(target, purpose, value) {
-    let targetDom = null;
-    switch (target) {
-      case 'save-button':
-        targetDom = '.esa__post-button';
-        break;
-      case 'option-link':
-        targetDom = '.option__link';
-        break;
-    }
+  toggleDisabledSaveButton(value) {
+    $('.esa__post-button').prop('disabled', value ? 'disabled' : null);
+  }
 
-    switch (purpose) {
-      case 'disabled': // save-button用
-        $(targetDom).prop(purpose, value ? 'disabled' : null);
-        break;
-      case 'show': // option-link用
-        if (value) {
-          $(targetDom).show();
-        } else {
-          $(targetDom).hide();
-        }
-        break;
-    }
+  toggleDisplayOptionLink(value) {
+    let targetDom = '.option__link';
+
+    value ? $(targetDom).show() : $(targetDom).hide();
   }
 }
