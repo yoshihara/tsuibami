@@ -23,7 +23,7 @@ const loadPost = function() {
     ui.body(post.body);
     if (ui.title() != '') {
       // Move cursor at previous position
-      ui.moveFocus('body', post.cursorPosition);
+      ui.cursorPosition(post.cursorPosition);
     }
   });
 };

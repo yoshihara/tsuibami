@@ -58,9 +58,18 @@ export default class UI {
     return undefined;
   }
 
-  // TODO: moveFocusと統合する（moveFucusはbody相手にしか使っていない）
-  cursorPosition() {
-    return $('.post__body')[0].selectionStart;
+  cursorPosition(val) {
+    if (val == null) {
+      return $('.post__body')[0].selectionStart;
+    } else {
+      let targetClass = '.post__body';
+
+      $(targetClass).focus();
+      $(targetClass)[0].selectionStart = val;
+      $(targetClass)[0].selectionEnd = val;
+
+      return undefined;
+    }
   }
 
   // check
@@ -97,20 +106,6 @@ export default class UI {
           $(targetDom).hide();
         }
         break;
-    }
-  }
-
-  // focus
-  moveFocus(target, position) {
-    let targetClass = '';
-    if (target == 'body') {
-      targetClass = '.post__body';
-    }
-
-    $(targetClass).focus();
-    if (position) {
-      $(targetClass)[0].selectionStart = position;
-      $(targetClass)[0].selectionEnd = position;
     }
   }
 }
