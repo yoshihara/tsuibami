@@ -23,7 +23,7 @@ export default class Post {
     });
   }
 
-  store(callback) {
+  store(callback, errCallback) {
     let data = {};
     // Post全部をstorageに入れると余計なものまで保持するため、storedKeysのキーと値の組み合わせだけ抜き出す
     this.storedKeys.forEach((key) => {
@@ -32,6 +32,8 @@ export default class Post {
 
     chrome.storage.sync.set(data, function() {
       if (chrome.runtime.lastError) {
+        errCallback();
+      } else {
         callback();
       }
     });

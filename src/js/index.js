@@ -208,7 +208,7 @@ const storeTitle = function() {
   if (title != post.title) {
     post.title = title;
     post.saved = false;
-    store();
+    post.store(function() {}, showErrorMessage);
     ui.toggle('save-button', 'disabled', false);
   }
 };
@@ -226,21 +226,19 @@ const storeBody = function() {
   if (cursorPosition != post.cursorPosition) {
     post.cursorPosition = cursorPosition;
   }
-  store();
+  post.store(function() {}, showErrorMessage);
 };
 
 const storeCursorPosition = function() {
   let cursorPosition = ui.cursorPosition();
   if (cursorPosition != post.cursorPosition) {
     post.cursorPosition = cursorPosition;
-    store();
+    post.store(function() {}, showErrorMessage);
   }
 };
 
-const store = function() {
-  post.store(function() {
-    showMessage('Error: ' + chrome.runtime.lastError.message, false);
-  });
+const showErrorMessage = function() {
+  showMessage('Error: ' + chrome.runtime.lastError.message, false);
 };
 
 const showSavedStatus = function(saving) {
