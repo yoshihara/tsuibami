@@ -77,14 +77,14 @@ const searchPost = function(config) {
         access_token: config.token,
       },
     }).then(function(response) {
-      let hitPost;
-      // カテゴリ無しだけを検索する方法がわからなかったので別途絞込している
+      // nameによる検索は部分一致のため、完全一致させるために検索結果から更に絞り込んでいる
+      let filterQuery = { name: title };
       if (category.length == 0) {
-        hitPost = _.find(response.posts, { name: title, category: null });
+        filterQuery.category = null;
       } else {
-        // 1つしかない想定
-        hitPost = response.posts[0];
+        filterQuery.category = category;
       }
+      let hitPost = _.find(response.posts, filterQuery);
 
       // 記事があった場合は更新するためIDを保存する
       if (hitPost) {
@@ -146,6 +146,7 @@ const updateStoredPost = function(response) {
     storedPost.body = '';
     storedPost.cursorPosition = 0;
   } else {
+    // 保存したタイトルによっては末尾に "(2)" などの表記がesaによってつけられている可能性があるため、再度表示し直す
     storedPost.title = response.name;
   }
 
