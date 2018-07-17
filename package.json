@@ -21,8 +21,7 @@
   },
   "lint-staged": {
     "*.js": [
-      "prettier --write .prettierrc",
-      "git add"
+      "prettier --write .prettierrc"
     ]
   },
   "repository": {
