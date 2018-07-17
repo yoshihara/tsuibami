@@ -53,12 +53,6 @@ export default class UI {
     }
   }
 
-  toggleSavedStatusMessage(val) {
-    let message = val ? 'Saving...' : 'Save as WIP';
-    $('.esa__post-button').text(message);
-    return undefined;
-  }
-
   cursorPosition(val) {
     if (val == null) {
       return $('.post__body')[0].selectionStart;
@@ -84,6 +78,12 @@ export default class UI {
   }
 
   // toggle
+  toggleSavedStatusMessage(val) {
+    let message = val ? 'Saving...' : 'Save as WIP';
+    $('.esa__post-button').text(message);
+    return undefined;
+  }
+
   toggleDisabledSaveButton(value) {
     $('.esa__post-button').prop('disabled', value ? 'disabled' : null);
   }
