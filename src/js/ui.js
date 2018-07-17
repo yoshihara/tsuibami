@@ -107,8 +107,4 @@ export default class UI {
       $(targetClass)[0].selectionEnd = position;
     }
   }
-
-  showMessageOnSuccess(message) {
-    this.messageArea.showMessageOnSuccess(message);
-  }
 }
