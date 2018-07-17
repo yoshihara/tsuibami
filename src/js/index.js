@@ -157,20 +157,19 @@ const updatePostTitleDisplay = function(response) {
 };
 
 const clearPost = function(response) {
-  if (!ui.checkedclear()) {
-    return new Promise(function(resolve, reject) {
-      resolve(response);
-    });
-  }
   return new Promise(function(resolve, reject) {
-    storedPost = { title: '', body: '', cursorPosition: 0, saved: true };
-    chrome.storage.sync.set(storedPost, function() {
-      if (chrome.runtime.lastError) {
-        reject(response);
-      } else {
-        resolve(response);
-      }
-    });
+    if (!ui.checkedclear()) {
+      resolve(response);
+    } else {
+      storedPost = { title: '', body: '', cursorPosition: 0, saved: true };
+      chrome.storage.sync.set(storedPost, function() {
+        if (chrome.runtime.lastError) {
+          reject(response);
+        } else {
+          resolve(response);
+        }
+      });
+    }
   });
 };
 
