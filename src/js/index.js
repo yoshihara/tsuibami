@@ -220,7 +220,7 @@ const storeBody = function() {
     ui.toggle('save-button', 'disabled', false);
   }
 
-  let cursorPosition = $('.post__body')[0].selectionStart;
+  let cursorPosition = ui.cursorPosition();
   if (cursorPosition != storedPost.cursorPosition) {
     storedPost.cursorPosition = cursorPosition;
   }
@@ -228,7 +228,7 @@ const storeBody = function() {
 };
 
 const storeCursorPosition = function() {
-  let cursorPosition = $('.post__body')[0].selectionStart;
+  let cursorPosition = ui.cursorPosition();
   if (cursorPosition != storedPost.cursorPosition) {
     store({ cursorPosition: cursorPosition });
   }

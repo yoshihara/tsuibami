@@ -53,6 +53,11 @@ export default class UI {
     }
   }
 
+  cursorPosition() {
+    return $('.post__body')[0].selectionStart;
+  }
+
+  // check
   checkedclear(val) {
     if (val == null) {
       return $('.esa__post_with-clear').prop('checked');
