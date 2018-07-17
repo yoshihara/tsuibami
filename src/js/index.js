@@ -205,9 +205,9 @@ const showMessage = function(message, succeeded) {
 const storeTitle = function() {
   let title = ui.title();
 
-  if (title != storedPost.title) {
-    storedPost.title = title;
-    storedPost.saved = false;
+  if (title != post.title) {
+    post.title = title;
+    post.saved = false;
     store({ title: title, saved: false });
     ui.toggle('save-button', 'disabled', false);
   }
