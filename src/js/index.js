@@ -10,10 +10,6 @@ let ui = new Ui();
 let post = new Post();
 window.ui = ui; // for debug
 
-// TODO できればグローバルで定義しないほうがよさそう
-// TODO: storedPostをpostで置き換える
-let storedPost = { title: '', body: '', cursorPosition: 0, saved: false };
-
 const loadPost = function() {
   post.load(function(post) {
     // TODO: この辺の処理を ui.loadPost() にまとめたい
