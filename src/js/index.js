@@ -208,7 +208,7 @@ const storeTitle = function() {
   if (title != post.title) {
     post.title = title;
     post.saved = false;
-    store({ title: title, saved: false });
+    store();
     ui.toggle('save-button', 'disabled', false);
   }
 };
@@ -227,20 +227,19 @@ const storeBody = function() {
   if (cursorPosition != storedPost.cursorPosition) {
     storedPost.cursorPosition = cursorPosition;
   }
-  // TODO: あとでstore()をPostに持っていくときにstoredPostを使わないようにする
   post.update(storedPost);
-  store(storedPost);
+  store();
 };
 
 const storeCursorPosition = function() {
   let cursorPosition = ui.cursorPosition();
   if (cursorPosition != post.cursorPosition) {
     post.cursorPosition = cursorPosition;
-    store({ cursorPosition: cursorPosition });
+    store();
   }
 };
 
-const store = function(data) {
+const store = function() {
   post.store(function() {
     showMessage('Error: ' + chrome.runtime.lastError.message, false);
   });
