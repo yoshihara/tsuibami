@@ -184,18 +184,16 @@ const clearPost = function(response) {
 };
 
 const notifySaved = function(response) {
-  return new Promise(function(resolve, reject) {
-    let message;
+  let message;
 
-    ui.savedPostLink(response.url);
-    // 最初の保存の時だけメッセージを変える
-    if (response.revision_number == 1) {
-      message = 'created!';
-    } else {
-      message = 'updated!';
-    }
-    resolve(message);
-  });
+  ui.savedPostLink(response.url);
+  // 最初の保存の時だけメッセージを変える
+  if (response.revision_number == 1) {
+    message = 'created!';
+  } else {
+    message = 'updated!';
+  }
+  notifySuccess(message);
 };
 
 const hasCategory = function(title) {
@@ -275,7 +273,6 @@ const runSaveProcess = function() {
     .then(updatePostTitleDisplay)
     .then(clearPost)
     .then(notifySaved)
-    .then(notifySuccess)
     .catch(notifyError)
     .finally(function() {
       showSavedStatus(false);
