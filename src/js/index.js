@@ -236,13 +236,9 @@ const showErrorMessage = function() {
   showMessage('Error: ' + chrome.runtime.lastError.message, false);
 };
 
-const showSavedStatus = function(saving) {
-  ui.savedStatus(saving ? 'Saving...' : 'Save as WIP');
-};
-
 const runSaveProcess = function() {
   ui.toggleDisabledSaveButton(true);
-  showSavedStatus(true);
+  ui.toggleSavedStatus(true);
   getConfig()
     .then(searchPost)
     .then(savePost)
@@ -250,7 +246,7 @@ const runSaveProcess = function() {
     .then(updateUI)
     .catch(notifyError)
     .finally(function() {
-      showSavedStatus(false);
+      ui.toggleSavedStatus(false);
     });
 };
 
