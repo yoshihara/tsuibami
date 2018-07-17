@@ -234,7 +234,8 @@ const storeBody = function() {
 
 const storeCursorPosition = function() {
   let cursorPosition = ui.cursorPosition();
-  if (cursorPosition != storedPost.cursorPosition) {
+  if (cursorPosition != post.cursorPosition) {
+    post.cursorPosition = cursorPosition;
     store({ cursorPosition: cursorPosition });
   }
 };
