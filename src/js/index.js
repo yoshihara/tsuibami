@@ -241,10 +241,8 @@ const storeCursorPosition = function() {
 };
 
 const store = function(data) {
-  chrome.storage.sync.set(data, function() {
-    if (chrome.runtime.lastError) {
-      showMessage('Error: ' + chrome.runtime.lastError.message, false);
-    }
+  post.store(function() {
+    showMessage('Error: ' + chrome.runtime.lastError.message, false);
   });
 };
 

@@ -1,6 +1,8 @@
 export default class Post {
   constructor() {
     this.defaultPost = { title: '', body: '', cursorPosition: 0, saved: false };
+    this.storedKeys = ['title', 'body', 'saved', 'cursorPosition', 'postId'];
+
     // TOOD: storedPostはあとで名前を変えたい
     this.title = null;
     this.body = null;
@@ -17,9 +19,23 @@ export default class Post {
   }
 
   update(post) {
-    ['title', 'body', 'saved', 'cursorPosition', 'postId'].forEach((key) => {
+    this.storedKeys.forEach((key) => {
       if (post.hasOwnProperty(key)) {
         this[key] = post[key];
+      }
+    });
+  }
+
+  store(callback) {
+    let data = {};
+    // Post全部をstorageに入れると余計なものまで保持するため、storedKeysのキーと値の組み合わせだけ抜き出す
+    this.storedKeys.forEach((key) => {
+      data[key] = this[key];
+    });
+
+    chrome.storage.sync.set(data, function() {
+      if (chrome.runtime.lastError) {
+        callback();
       }
     });
   }
