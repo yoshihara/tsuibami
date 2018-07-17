@@ -137,22 +137,16 @@ const savePost = function(config) {
   });
 };
 
-const storePostAsSaved = function(response) {
+const updateStoredPost = function(response) {
   return new Promise(function(resolve, reject) {
     let newPostId = response.number;
-    chrome.storage.sync.set({ saved: true, postId: newPostId }, function() {
-      storedPost.saved = true;
-      resolve(response);
-    });
-  });
-};
-
-const updatePostTitleDisplay = function(response) {
-  // 保存したタイトルによっては末尾に "(2)" などの表記がesaによってつけられている可能性があるため、再度表示し直す
-  return new Promise(function(resolve, reject) {
-    chrome.storage.sync.set({ title: response.name }, function() {
-      resolve(response);
-    });
+    chrome.storage.sync.set(
+      { saved: true, postId: newPostId, title: response.name },
+      function() {
+        storedPost.saved = true;
+        resolve(response);
+      },
+    );
   });
 };
 
@@ -269,8 +263,7 @@ const runSaveProcess = function() {
   getConfig()
     .then(searchPost)
     .then(savePost)
-    .then(storePostAsSaved)
-    .then(updatePostTitleDisplay)
+    .then(updateStoredPost)
     .then(clearPost)
     .then(updateUI)
     .catch(notifyError)
