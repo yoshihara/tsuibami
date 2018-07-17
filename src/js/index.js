@@ -216,18 +216,16 @@ const storeTitle = function() {
 const storeBody = function() {
   let body = ui.body();
 
-  let storedPost = {};
   if (body != post.body) {
-    storedPost.body = body;
-    storedPost.saved = false;
+    post.body = body;
+    post.saved = false;
     ui.toggle('save-button', 'disabled', false);
   }
 
   let cursorPosition = ui.cursorPosition();
-  if (cursorPosition != storedPost.cursorPosition) {
-    storedPost.cursorPosition = cursorPosition;
+  if (cursorPosition != post.cursorPosition) {
+    post.cursorPosition = cursorPosition;
   }
-  post.update(storedPost);
   store();
 };
 
