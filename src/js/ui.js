@@ -60,8 +60,7 @@ export default class UI {
     target[0].selectionEnd = val;
   }
 
-  // check
-  isClearCheckBoxChecked() {
+  get isClearCheckBoxChecked() {
     return $('.esa__post_with-clear').prop('checked');
   }
 
