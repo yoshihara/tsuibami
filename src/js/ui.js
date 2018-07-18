@@ -76,8 +76,8 @@ export default class UI {
   }
 
   toggleDisplayOptionLink(val) {
-    let targetDom = '.option__link';
+    let target = $('.option__link');
 
-    val ? $(targetDom).show() : $(targetDom).hide();
+    val ? target.show() : target.hide();
   }
 }
