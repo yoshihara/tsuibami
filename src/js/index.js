@@ -234,7 +234,11 @@ const storeCursorPosition = function() {
 };
 
 const showErrorMessage = function() {
-  showMessage('Error: ' + chrome.runtime.lastError.message, false);
+  let message;
+  if (chrome.runtime.lastError === undefined) message = 'unknown error';
+  else message = chrome.runtime.lastError.message;
+
+  showMessage('Error: ' + message, false);
 };
 
 const runSaveProcess = function() {
