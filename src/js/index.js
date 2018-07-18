@@ -56,13 +56,7 @@ const getConfig = function() {
 
 const searchPost = function(config) {
   return new Promise(function(resolve, reject) {
-    let title = ui.title;
-    let category = '';
-
-    if (hasCategory(title)) {
-      category = /(.+)\/.+/.exec(title)[1];
-      title = /.+\/(.+)/.exec(title)[1];
-    }
+    let [category, title] = splitCategory(ui.title);
 
     let q = `name:${title}`;
     if (category.length != 0) {
@@ -90,6 +84,16 @@ const searchPost = function(config) {
   });
 };
 
+const splitCategory = function(fullNameAsTitle) {
+  if (!hasCategory(fullNameAsTitle)) return ['', fullNameAsTitle];
+  else {
+    let category = /(.+)\/.+/.exec(fullNameAsTitle)[1];
+    let title = /.+\/(.+)/.exec(fullNameAsTitle)[1];
+
+    return [category, title];
+  }
+};
+
 const filterPosts = function(title, category, response) {
   let filterQuery = { name: title };
   if (category.length == 0) {
@@ -114,10 +118,9 @@ const savePost = function(config) {
       message: 'from tsuibami',
     };
 
-    if (hasCategory(title)) {
-      post['category'] = /(.+)\/.+/.exec(title)[1];
-      post['name'] = /.+\/(.+)/.exec(title)[1];
-    }
+    let [category, title] = splitCategory(ui.title);
+    post.category = category;
+    post.name = title;
 
     let postId = config.postId;
     if (postId) {
