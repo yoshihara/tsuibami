@@ -75,9 +75,9 @@ export default class UI {
     $('.esa__post-button').prop('disabled', val ? 'disabled' : null);
   }
 
-  toggleDisplayOptionLink(value) {
+  toggleDisplayOptionLink(val) {
     let targetDom = '.option__link';
 
-    value ? $(targetDom).show() : $(targetDom).hide();
+    val ? $(targetDom).show() : $(targetDom).hide();
   }
 }
