@@ -11,6 +11,10 @@ export default class UI {
     return $('.post__title');
   }
 
+  bodyDom() {
+    return $('.post__body');
+  }
+
   // getter & setter
   title(val) {
     if (val == null) {

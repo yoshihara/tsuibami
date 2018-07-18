@@ -263,13 +263,13 @@ $(function() {
   getConfig().catch(notifyError);
 
   ui.titleDom().on('keyup', _.debounce(storeTitle, 200));
-  $('.post__body').on('keyup', _.debounce(storeBody, 200));
-  $('.post__body').on('mouseup', storeCursorPosition);
+  ui.bodyDom().on('keyup', _.debounce(storeBody, 200));
+  ui.bodyDom().on('mouseup', storeCursorPosition);
 
   ui.titleDom().on('keydown', runSaveProcessByShortcut);
-  $('.post__body').on('keydown', runSaveProcessByShortcut);
+  ui.bodyDom().on('keydown', runSaveProcessByShortcut);
 
-  $('.post__body').esarea();
+  ui.bodyDom().esarea();
 
   $('.esa__post-button').on('click', runSaveProcess);
 });
