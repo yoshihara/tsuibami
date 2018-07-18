@@ -61,13 +61,8 @@ export default class UI {
   }
 
   // check
-  isClearCheckBoxChecked(val) {
-    if (val == null) {
-      return $('.esa__post_with-clear').prop('checked');
-    } else {
-      $('.esa__post_with-clear').prop('checked', val);
-      return undefined;
-    }
+  isClearCheckBoxChecked() {
+    return $('.esa__post_with-clear').prop('checked');
   }
 
   // toggle
