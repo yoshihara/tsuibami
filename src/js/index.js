@@ -13,9 +13,9 @@ const loadPost = function() {
   post.load(function(post) {
     ui.toggleDisabledSaveButton(post.saved);
 
-    ui.title(post.title);
+    ui.title = post.title;
     ui.body(post.body);
-    if (ui.title() != '') {
+    if (ui.title != '') {
       // Move cursor at previous position
       ui.cursorPosition(post.cursorPosition);
     }
@@ -50,7 +50,7 @@ const getConfig = function() {
 
 const searchPost = function(config) {
   return new Promise(function(resolve, reject) {
-    let title = ui.title();
+    let title = ui.title;
     let category = '';
 
     if (hasCategory(title)) {
@@ -97,7 +97,7 @@ const savePost = function(config) {
   return new Promise(function(resolve, reject) {
     let type;
     let url = `https://api.esa.io/v1/teams/${config.teamName}/posts`;
-    let title = ui.title();
+    let title = ui.title;
     let body = ui.body();
 
     let post = {
@@ -160,7 +160,7 @@ const updateStoredPost = function(response) {
 const updateUI = function(response) {
   ui.toggleDisabledSaveButton(true);
 
-  ui.title(post.title);
+  ui.title = post.title;
   ui.body(post.body);
 
   ui.savedPostLink(response.url);
@@ -197,7 +197,7 @@ const showMessage = function(message, succeeded) {
 };
 
 const storeTitle = function() {
-  let title = ui.title();
+  let title = ui.title;
 
   if (title != post.title) {
     post.title = title;

@@ -20,13 +20,12 @@ export default class UI {
   }
 
   // getter & setter
-  title(val) {
-    if (val == null) {
-      return $('.post__title').val();
-    } else {
-      $('.post__title').val(val);
-      return undefined;
-    }
+  get title() {
+    return $('.post__title').val();
+  }
+
+  set title(val) {
+    $('.post__title').val(val);
   }
 
   body(val) {
