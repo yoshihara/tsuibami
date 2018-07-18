@@ -59,9 +59,7 @@ const searchPost = function(config) {
     let [category, title] = splitCategory(ui.title);
 
     let q = `name:${title}`;
-    if (category.length != 0) {
-      q = `${q} category:${category}`;
-    }
+    if (category.length != 0) q = `${q} category:${category}`;
 
     let setConfigFunc = function(response) {
       // nameによる検索は部分一致のため、完全一致させるために検索結果から更に絞り込んでいる
