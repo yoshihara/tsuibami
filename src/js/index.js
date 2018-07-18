@@ -8,7 +8,6 @@ import Post from './post';
 
 let ui = new Ui();
 let post = new Post();
-window.ui = ui; // for debug
 
 const loadPost = function() {
   post.load(function(post) {
