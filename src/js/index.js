@@ -14,7 +14,7 @@ const loadPost = function() {
     ui.toggleDisabledSaveButton(post.saved);
 
     ui.title = post.title;
-    ui.body(post.body);
+    ui.body = post.body;
     if (ui.title != '') {
       // Move cursor at previous position
       ui.cursorPosition(post.cursorPosition);
@@ -98,7 +98,7 @@ const savePost = function(config) {
     let type;
     let url = `https://api.esa.io/v1/teams/${config.teamName}/posts`;
     let title = ui.title;
-    let body = ui.body();
+    let body = ui.body;
 
     let post = {
       name: title,
@@ -161,7 +161,7 @@ const updateUI = function(response) {
   ui.toggleDisabledSaveButton(true);
 
   ui.title = post.title;
-  ui.body(post.body);
+  ui.body = post.body;
 
   ui.savedPostLink(response.url);
 
@@ -208,7 +208,7 @@ const storeTitle = function() {
 };
 
 const storeBody = function() {
-  let body = ui.body();
+  let body = ui.body;
 
   if (body != post.body) {
     post.body = body;

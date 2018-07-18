@@ -28,13 +28,12 @@ export default class UI {
     $('.post__title').val(val);
   }
 
-  body(val) {
-    if (val == null) {
-      return $('.post__body').val();
-    } else {
-      $('.post__body').val(val);
-      return undefined;
-    }
+  get body() {
+    return $('.post__body').val();
+  }
+
+  set body(val) {
+    $('.post__body').val(val);
   }
 
   teamName(val) {
