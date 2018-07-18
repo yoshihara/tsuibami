@@ -5,13 +5,17 @@ import $ from 'jquery';
 export default class MessageArea {
   constructor() {}
 
-  showMessageOnSuccess(message) {
+  init() {
     $('.message').show();
-    $('.message__body').text(message);
     $('.message__body').removeClass(
       'message__body-color-success',
       'message__body-color-failure',
     );
+  }
+
+  showMessageOnSuccess(message) {
+    this.init();
+    $('.message__body').text(message);
 
     $('.message__body').addClass('message__body-color-success');
     setTimeout(function() {
@@ -22,12 +26,8 @@ export default class MessageArea {
   }
 
   showMessageOnFailure(message) {
-    $('.message').show();
+    this.init();
     $('.message__body').text(message);
-    $('.message__body').removeClass(
-      'message__body-color-success',
-      'message__body-color-failure',
-    );
 
     $('.message__body').addClass('message__body-color-failure');
   }
