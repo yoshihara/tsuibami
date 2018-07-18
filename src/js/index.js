@@ -63,24 +63,22 @@ const searchPost = function(config) {
       q = `${q} category:${category}`;
     }
 
-    esa.search(
-      q,
-      function(response) {
-        // nameによる検索は部分一致のため、完全一致させるために検索結果から更に絞り込んでいる
-        let hitPost = filterPosts(title, category, response);
+    let setConfigFunc = function(response) {
+      // nameによる検索は部分一致のため、完全一致させるために検索結果から更に絞り込んでいる
+      let hitPost = filterPosts(title, category, response);
 
-        // 記事があった場合は更新するためIDを保存する
-        if (hitPost) {
-          config.postId = hitPost.number;
-        } else {
-          config.postId = undefined;
-        }
-        chrome.storage.sync.set(config, function() {
-          resolve(config);
-        });
-      },
-      reject,
-    );
+      // 記事があった場合は更新するためIDを保存する
+      if (hitPost) {
+        config.postId = hitPost.number;
+      } else {
+        config.postId = undefined;
+      }
+      chrome.storage.sync.set(config, function() {
+        resolve(config);
+      });
+    };
+
+    esa.search(q, setConfigFunc, reject);
   });
 };
 
