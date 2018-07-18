@@ -15,6 +15,10 @@ export default class UI {
     return $('.post__body');
   }
 
+  postButtonDom() {
+    return $('.esa__post-button');
+  }
+
   // getter & setter
   title(val) {
     if (val == null) {

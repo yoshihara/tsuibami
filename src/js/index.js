@@ -271,5 +271,5 @@ $(function() {
 
   ui.bodyDom().esarea();
 
-  $('.esa__post-button').on('click', runSaveProcess);
+  ui.postButtonDom().on('click', runSaveProcess);
 });
