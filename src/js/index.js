@@ -40,7 +40,7 @@ const getConfig = function() {
         }
 
         ui.teamName = config.teamName;
-        ui.teamIcon(config.teamIcon);
+        ui.teamIcon = config.teamIcon;
 
         resolve(config);
       }

@@ -40,13 +40,8 @@ export default class UI {
     $('.team__name').text(val);
   }
 
-  teamIcon(val) {
-    if (val == null) {
-      return $('.team__icon')[0].src;
-    } else {
-      $('.team__icon')[0].src = val;
-      return undefined;
-    }
+  set teamIcon(val) {
+    $('.team__icon')[0].src = val;
   }
 
   savedPostLink(val) {
