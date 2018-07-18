@@ -44,13 +44,8 @@ export default class UI {
     $('.team__icon')[0].src = val;
   }
 
-  savedPostLink(val) {
-    if (val == null) {
-      return $('.esa__link').attr('href');
-    } else {
-      $('.esa__link').attr('href', val);
-      return undefined;
-    }
+  set savedPostLink(val) {
+    $('.esa__link').attr('href', val);
   }
 
   cursorPosition(val) {

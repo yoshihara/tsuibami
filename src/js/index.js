@@ -36,7 +36,7 @@ const getConfig = function() {
 
         if (config.postId != '') {
           let link = `https://${config.teamName}.esa.io/posts/${config.postId}`;
-          ui.savedPostLink(link);
+          ui.savedPostLink = link;
         }
 
         ui.teamName = config.teamName;
@@ -163,7 +163,7 @@ const updateUI = function(response) {
   ui.title = post.title;
   ui.body = post.body;
 
-  ui.savedPostLink(response.url);
+  ui.savedPostLink = response.url;
 
   let message;
   // 最初の保存の時だけメッセージを変える
