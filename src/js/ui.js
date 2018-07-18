@@ -71,8 +71,8 @@ export default class UI {
     return undefined;
   }
 
-  toggleDisabledSaveButton(value) {
-    $('.esa__post-button').prop('disabled', value ? 'disabled' : null);
+  toggleDisabledSaveButton(val) {
+    $('.esa__post-button').prop('disabled', val ? 'disabled' : null);
   }
 
   toggleDisplayOptionLink(value) {
