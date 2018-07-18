@@ -136,7 +136,7 @@ const updateStoredPost = function(response) {
 
   post.saved = true;
   post.postId = newPostId;
-  if (ui.checkedclear()) {
+  if (ui.isClearCheckBoxChecked()) {
     post.title = '';
     post.body = '';
     post.cursorPosition = 0;
