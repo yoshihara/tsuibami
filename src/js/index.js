@@ -73,13 +73,7 @@ const searchPost = function(config) {
       q,
       function(response) {
         // nameによる検索は部分一致のため、完全一致させるために検索結果から更に絞り込んでいる
-        let filterQuery = { name: title };
-        if (category.length == 0) {
-          filterQuery.category = null;
-        } else {
-          filterQuery.category = category;
-        }
-        let hitPost = _.find(response.posts, filterQuery);
+        let hitPost = filterPosts(title, category, response);
 
         // 記事があった場合は更新するためIDを保存する
         if (hitPost) {
@@ -94,6 +88,16 @@ const searchPost = function(config) {
       reject,
     );
   });
+};
+
+const filterPosts = function(title, category, response) {
+  let filterQuery = { name: title };
+  if (category.length == 0) {
+    filterQuery.category = null;
+  } else {
+    filterQuery.category = category;
+  }
+  return _.find(response.posts, filterQuery);
 };
 
 const savePost = function(config) {
