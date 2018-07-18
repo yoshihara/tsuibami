@@ -108,12 +108,9 @@ const savePost = function(config) {
   return new Promise(function(resolve, reject) {
     let type;
     let url = `https://api.esa.io/v1/teams/${config.teamName}/posts`;
-    let title = ui.title;
     let body = ui.body;
 
     let post = {
-      name: title,
-      category: '',
       body_md: body,
       message: 'from tsuibami',
     };
