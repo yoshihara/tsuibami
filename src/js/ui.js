@@ -7,15 +7,15 @@ export default class UI {
   }
 
   // TODO: class名じゃなくてdata attributesにしたい
-  titleDom() {
+  get titleDom() {
     return $('.post__title');
   }
 
-  bodyDom() {
+  get bodyDom() {
     return $('.post__body');
   }
 
-  postButtonDom() {
+  get postButtonDom() {
     return $('.esa__post-button');
   }
 
