@@ -48,18 +48,16 @@ export default class UI {
     $('.esa__link').attr('href', val);
   }
 
-  cursorPosition(val) {
-    if (val == null) {
-      return $('.post__body')[0].selectionStart;
-    } else {
-      let targetClass = '.post__body';
+  get cursorPosition() {
+    return $('.post__body')[0].selectionStart;
+  }
 
-      $(targetClass).focus();
-      $(targetClass)[0].selectionStart = val;
-      $(targetClass)[0].selectionEnd = val;
+  set cursorPosition(val) {
+    let target = $('.post__body');
 
-      return undefined;
-    }
+    target.focus();
+    target[0].selectionStart = val;
+    target[0].selectionEnd = val;
   }
 
   // check

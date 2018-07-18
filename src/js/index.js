@@ -17,7 +17,7 @@ const loadPost = function() {
     ui.body = post.body;
     if (ui.title != '') {
       // Move cursor at previous position
-      ui.cursorPosition(post.cursorPosition);
+      ui.cursorPosition = post.cursorPosition;
     }
   });
 };
@@ -216,7 +216,7 @@ const storeBody = function() {
     ui.toggleDisabledSaveButton(false);
   }
 
-  let cursorPosition = ui.cursorPosition();
+  let cursorPosition = ui.cursorPosition;
   if (cursorPosition != post.cursorPosition) {
     post.cursorPosition = cursorPosition;
   }
@@ -224,7 +224,7 @@ const storeBody = function() {
 };
 
 const storeCursorPosition = function() {
-  let cursorPosition = ui.cursorPosition();
+  let cursorPosition = ui.cursorPosition;
   if (cursorPosition != post.cursorPosition) {
     post.cursorPosition = cursorPosition;
     post.store(function() {}, showErrorMessage);
