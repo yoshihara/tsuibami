@@ -143,8 +143,8 @@ const updateStoredPost = function(response) {
     post.body = '';
     post.cursorPosition = 0;
   } else {
-    // 保存したタイトルによっては末尾に "(2)" などの表記がesaによってつけられている可能性があるため、再度表示し直す
-    post.title = response.name;
+    // 保存したタイトルによっては末尾に "(2)" などの表記がesaによってつけられていたり、タイトル無しで保存した場合にカテゴリが変わっている可能性があるため、再度表示し直す
+    post.title = response.full_name;
   }
 
   return new Promise(function(resolve, reject) {
