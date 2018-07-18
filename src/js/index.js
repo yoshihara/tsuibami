@@ -7,9 +7,11 @@ import '../../lib/jquery.selection';
 import '../../lib/jquery.esarea';
 import Ui from './ui';
 import Post from './post';
+import Esa from './esa';
 
 let ui = new Ui();
 let post = new Post();
+let esa;
 
 const loadPost = function() {
   post.load(function(post) {
@@ -34,6 +36,8 @@ const getConfig = function() {
 
         reject('Please configure options (\\( ˘⊖˘)/)');
       } else {
+        esa = new Esa(config);
+
         ui.toggleDisplayOptionLink(false);
 
         if (config.postId != '') {
@@ -65,33 +69,30 @@ const searchPost = function(config) {
       q = `${q} category:${category}`;
     }
 
-    $.ajax({
-      type: 'GET',
-      url: `https://api.esa.io/v1/teams/${config.teamName}/posts`,
-      data: {
-        q: q,
-        access_token: config.token,
-      },
-    }).then(function(response) {
-      // nameによる検索は部分一致のため、完全一致させるために検索結果から更に絞り込んでいる
-      let filterQuery = { name: title };
-      if (category.length == 0) {
-        filterQuery.category = null;
-      } else {
-        filterQuery.category = category;
-      }
-      let hitPost = _.find(response.posts, filterQuery);
+    esa.search(
+      q,
+      function(response) {
+        // nameによる検索は部分一致のため、完全一致させるために検索結果から更に絞り込んでいる
+        let filterQuery = { name: title };
+        if (category.length == 0) {
+          filterQuery.category = null;
+        } else {
+          filterQuery.category = category;
+        }
+        let hitPost = _.find(response.posts, filterQuery);
 
-      // 記事があった場合は更新するためIDを保存する
-      if (hitPost) {
-        config.postId = hitPost.number;
-      } else {
-        config.postId = undefined;
-      }
-      chrome.storage.sync.set(config, function() {
-        resolve(config);
-      });
-    }, reject);
+        // 記事があった場合は更新するためIDを保存する
+        if (hitPost) {
+          config.postId = hitPost.number;
+        } else {
+          config.postId = undefined;
+        }
+        chrome.storage.sync.set(config, function() {
+          resolve(config);
+        });
+      },
+      reject,
+    );
   });
 };
 
