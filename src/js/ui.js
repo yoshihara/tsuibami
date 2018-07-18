@@ -6,8 +6,12 @@ export default class UI {
     this.messageArea = new MessageArea();
   }
 
-  // getter & setter
   // TODO: class名じゃなくてdata attributesにしたい
+  titleDom() {
+    return $('.post__title');
+  }
+
+  // getter & setter
   title(val) {
     if (val == null) {
       return $('.post__title').val();

@@ -262,11 +262,11 @@ $(function() {
   loadPost();
   getConfig().catch(notifyError);
 
-  $('.post__title').on('keyup', _.debounce(storeTitle, 200));
+  ui.titleDom().on('keyup', _.debounce(storeTitle, 200));
   $('.post__body').on('keyup', _.debounce(storeBody, 200));
   $('.post__body').on('mouseup', storeCursorPosition);
 
-  $('.post__title').on('keydown', runSaveProcessByShortcut);
+  ui.titleDom().on('keydown', runSaveProcessByShortcut);
   $('.post__body').on('keydown', runSaveProcessByShortcut);
 
   $('.post__body').esarea();
