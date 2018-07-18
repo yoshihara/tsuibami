@@ -1,3 +1,5 @@
+'use strict';
+
 import $ from 'jquery';
 import _ from 'lodash';
 import Promise from 'bluebird';
