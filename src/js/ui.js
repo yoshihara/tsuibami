@@ -36,13 +36,8 @@ export default class UI {
     $('.post__body').val(val);
   }
 
-  teamName(val) {
-    if (val == null) {
-      return $('.team__name').text();
-    } else {
-      $('.team__name').text(val);
-      return undefined;
-    }
+  set teamName(val) {
+    $('.team__name').text(val);
   }
 
   teamIcon(val) {

@@ -28,7 +28,7 @@ const getConfig = function() {
     chrome.storage.sync.get(defaultConfig, function(config) {
       if (!config.teamName || !config.token) {
         ui.toggleDisplayOptionLink(true);
-        ui.teamName('Configuration failed');
+        ui.teamName = 'Configuration failed';
 
         reject('Please configure options (\\( ˘⊖˘)/)');
       } else {
@@ -39,7 +39,7 @@ const getConfig = function() {
           ui.savedPostLink(link);
         }
 
-        ui.teamName(config.teamName);
+        ui.teamName = config.teamName;
         ui.teamIcon(config.teamIcon);
 
         resolve(config);
