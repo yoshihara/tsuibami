@@ -170,7 +170,11 @@ const notifySuccess = function(msg) {
 
 const notifyError = function(msg) {
   console.log(msg);
-  showMessage(msg);
+  let message = msg.hasOwnProperty('statusText') ? msg.statusText : msg;
+  message = msg.hasOwnProperty('status')
+    ? `${message} (${msg.status})`
+    : message;
+  showMessage(message);
 };
 
 const showMessage = function(message, succeeded) {
