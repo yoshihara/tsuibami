@@ -2,8 +2,6 @@
 
 import $ from 'jquery';
 import _ from 'lodash';
-import '../../lib/jquery.selection';
-import '../../lib/jquery.esarea';
 
 import Popup from './popup';
 
@@ -77,8 +75,6 @@ $(function() {
     keydown: saveByShortcut,
     mouseup: storeCursorPosition,
   });
-
-  popup.ui.bodyDom.esarea();
 
   popup.setHooks('post-button', { click: popup.save.bind(popup) });
 });

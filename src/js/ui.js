@@ -3,9 +3,13 @@
 import $ from 'jquery';
 import MessageArea from './ui/message-area.js';
 
+import '../../lib/jquery.selection';
+import '../../lib/jquery.esarea';
+
 export default class UI {
   constructor() {
     this.messageArea = new MessageArea();
+    this.bodyDom.esarea();
   }
 
   set post(postObj) {
