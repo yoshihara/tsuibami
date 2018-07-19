@@ -146,7 +146,14 @@ export default class Popup {
 
     this.ui.savedPostLink = this.post.savedPostLink;
 
-    // TODO: ここから下notifySuccessに移動
+    this.notifySuccess(response);
+  }
+
+  syncSaveButtonWithPost() {
+    this.ui.toggleDisabledSaveButton(this.post.saved);
+  }
+
+  notifySuccess(response) {
     let message;
     // 最初の保存の時だけメッセージを変える
     if (response.revision_number == 1) {
@@ -154,15 +161,7 @@ export default class Popup {
     } else {
       message = 'updated!';
     }
-    this.notifySuccess(message);
-  }
-
-  syncSaveButtonWithPost() {
-    this.ui.toggleDisabledSaveButton(this.post.saved);
-  }
-
-  notifySuccess(msg) {
-    this.showMessage(msg + ' (\\( ⁰⊖⁰)/)', true);
+    this.showMessage(message + ' (\\( ⁰⊖⁰)/)', true);
   }
 
   notifyError(msg) {
