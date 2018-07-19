@@ -13,7 +13,7 @@ let ui = new Ui();
 let post = new Post();
 let esa;
 
-const loadPost = function() {
+const setPreviousPost = function() {
   Post.load(function(loadedPost) {
     post = loadedPost;
     ui.toggleDisabledSaveButton(post.saved);
@@ -229,7 +229,7 @@ const runSaveProcessByShortcut = function(event) {
 };
 
 $(function() {
-  loadPost();
+  setPreviousPost();
   setPreviousState().catch(notifyError);
 
   ui.titleDom.on('keyup', _.debounce(storeTitle, 200));
