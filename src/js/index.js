@@ -14,7 +14,8 @@ let post = new Post();
 let esa;
 
 const loadPost = function() {
-  post.load(function(post) {
+  Post.load(function(loadedPost) {
+    post = loadedPost;
     ui.toggleDisabledSaveButton(post.saved);
 
     ui.title = post.title;

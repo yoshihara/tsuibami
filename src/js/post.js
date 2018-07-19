@@ -2,7 +2,6 @@
 
 export default class Post {
   constructor() {
-    this.defaultPost = { title: '', body: '', cursorPosition: 0, saved: false };
     this.storedKeys = [
       'title',
       'body',
@@ -40,10 +39,11 @@ export default class Post {
     return _.find(response.posts, filterQuery);
   }
 
-  // TODO: class methodにする
-  load(callback) {
-    chrome.storage.sync.get(this.defaultPost, (post) => {
-      this.update(post);
+  static load(callback) {
+    let defaultPost = { title: '', body: '', cursorPosition: 0, saved: false };
+    chrome.storage.sync.get(defaultPost, (postData) => {
+      let post = new this();
+      post.update(postData);
       callback(post);
     });
   }
