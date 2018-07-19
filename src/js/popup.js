@@ -70,7 +70,7 @@ export default class Popup {
     this.ui.toggleDisabledSaveButton(true);
     this.ui.toggleUploadingStatus(true);
 
-    this.searchPost()
+    this.searchTargetPostInEsa()
       .then(this.uploadPost.bind(this))
       .then(this.updateStoredPost.bind(this))
       .then(this.syncUIWithPost.bind(this))
@@ -80,7 +80,7 @@ export default class Popup {
       });
   }
 
-  searchPost() {
+  searchTargetPostInEsa() {
     return new Promise((resolve, reject) => {
       let [category, title] = Post.splitCategory(this.ui.title);
 
