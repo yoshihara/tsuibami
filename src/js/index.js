@@ -56,7 +56,7 @@ const runSaveProcessByShortcut = function(event) {
   // Ctrl+s or Cmd+s
   if ((event.metaKey || event.ctrlKey) && event.keyCode == 83) {
     event.preventDefault();
-    popup.runSaveProcess();
+    popup.save();
   }
 };
 
@@ -73,5 +73,5 @@ $(function() {
 
   popup.ui.bodyDom.esarea();
 
-  popup.ui.postButtonDom.on('click', popup.runSaveProcess.bind(popup));
+  popup.ui.postButtonDom.on('click', popup.save.bind(popup));
 });

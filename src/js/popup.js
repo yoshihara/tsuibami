@@ -66,7 +66,7 @@ export default class Popup {
     });
   }
 
-  runSaveProcess() {
+  save() {
     this.ui.toggleDisabledSaveButton(true);
     this.ui.toggleUploadingStatus(true);
 
