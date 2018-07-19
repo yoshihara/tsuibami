@@ -74,6 +74,7 @@ export default class Popup {
       .then(this.uploadPost.bind(this))
       .then(this.syncPostWithEsaResponse.bind(this))
       .then(this.syncUIWithPost.bind(this))
+      .then(this.notifySuccess.bind(this))
       .catch(this.notifyError.bind(this))
       .finally(() => {
         this.ui.toggleUploadingStatus(false);
@@ -141,12 +142,13 @@ export default class Popup {
   }
 
   syncUIWithPost(response) {
-    this.ui.title = this.post.title;
-    this.ui.body = this.post.body;
+    return new Promise((resolve, _reject) => {
+      this.ui.title = this.post.title;
+      this.ui.body = this.post.body;
 
-    this.ui.savedPostLink = this.post.savedPostLink;
-
-    this.notifySuccess(response);
+      this.ui.savedPostLink = this.post.savedPostLink;
+      resolve(response);
+    });
   }
 
   syncSaveButtonWithPost() {
