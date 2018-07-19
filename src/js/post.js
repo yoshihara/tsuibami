@@ -16,11 +16,11 @@ export default class Post {
     });
   }
 
-  static splitCategory(fullNameAsTitle) {
-    if (!this.hasCategory(fullNameAsTitle)) return ['', fullNameAsTitle];
+  static splitCategory(fullName) {
+    if (!this.hasCategory(fullName)) return ['', fullName];
     else {
-      let category = /(.+)\/.+/.exec(fullNameAsTitle)[1];
-      let title = /.+\/(.+)/.exec(fullNameAsTitle)[1];
+      let category = /(.+)\/.+/.exec(fullName)[1];
+      let title = /.+\/(.+)/.exec(fullName)[1];
 
       return [category, title];
     }
