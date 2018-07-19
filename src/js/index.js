@@ -26,8 +26,7 @@ const loadPost = function() {
   });
 };
 
-// TODO: config以外のものを取ってきてるのでいい感じの名前にする
-const getConfig = function() {
+const setPreviousState = function() {
   return new Promise(function(resolve, reject) {
     let defaultConfig = {
       teamName: '',
@@ -234,7 +233,7 @@ const showErrorMessage = function() {
 const runSaveProcess = function() {
   ui.toggleDisabledSaveButton(true);
   ui.toggleSavedStatusMessage(true);
-  getConfig()
+  setPreviousState() // TODO: この呼び出しが不要のはずなので消す
     .then(searchPost)
     .then(savePost)
     .then(updateStoredPost)
@@ -255,7 +254,7 @@ const runSaveProcessByShortcut = function(event) {
 
 $(function() {
   loadPost();
-  getConfig().catch(notifyError);
+  setPreviousState().catch(notifyError);
 
   ui.titleDom.on('keyup', _.debounce(storeTitle, 200));
   ui.bodyDom.on('keyup', _.debounce(storeBody, 200));
