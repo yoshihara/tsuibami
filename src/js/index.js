@@ -100,15 +100,15 @@ const filterPosts = function(title, category, response) {
 
 const savePost = function(config) {
   return new Promise(function(resolve, reject) {
+    let [category, title] = splitCategory(ui.title);
+
     let postData = {
       id: config.postId,
+      name: title,
+      category: category,
       body_md: ui.body,
       message: 'from tsuibami',
     };
-
-    let [category, title] = splitCategory(ui.title);
-    postData.category = category;
-    postData.name = title;
 
     esa.save(postData, resolve, reject);
   });
