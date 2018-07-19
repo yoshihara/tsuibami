@@ -102,35 +102,17 @@ const filterPosts = function(title, category, response) {
 
 const savePost = function(config) {
   return new Promise(function(resolve, reject) {
-    let type;
-    let url = `https://api.esa.io/v1/teams/${config.teamName}/posts`;
-    let body = ui.body;
-
-    let post = {
-      body_md: body,
+    let postData = {
+      id: config.postId,
+      body_md: ui.body,
       message: 'from tsuibami',
     };
 
     let [category, title] = splitCategory(ui.title);
-    post.category = category;
-    post.name = title;
+    postData.category = category;
+    postData.name = title;
 
-    let postId = config.postId;
-    if (postId) {
-      type = 'PATCH';
-      url = url + '/' + postId;
-    } else {
-      type = 'POST';
-    }
-
-    $.ajax({
-      type: type,
-      url: url,
-      data: {
-        post: post,
-        access_token: config.token,
-      },
-    }).then(resolve, reject);
+    esa.save(postData, resolve, reject);
   });
 };
 

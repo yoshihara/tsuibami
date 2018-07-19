@@ -18,4 +18,24 @@ export default class Esa {
       },
     }).then(callback, errCallback);
   }
+
+  save(post, callback, errCallback) {
+    let type;
+    let url = `https://api.esa.io/v1/teams/${this.teamName}/posts`;
+    if (post.id) {
+      type = 'PATCH';
+      url = url + '/' + post.id;
+    } else {
+      type = 'POST';
+    }
+
+    $.ajax({
+      type: type,
+      url: url,
+      data: {
+        post: post,
+        access_token: this.token,
+      },
+    }).then(callback, errCallback);
+  }
 }
