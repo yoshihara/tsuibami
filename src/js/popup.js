@@ -156,13 +156,8 @@ export default class Popup {
   }
 
   notifySuccess(response) {
-    let message;
     // 最初の保存の時だけメッセージを変える
-    if (response.revision_number == 1) {
-      message = 'created!';
-    } else {
-      message = 'updated!';
-    }
+    let message = response.revision_number == 1 ? 'created!' : 'updated!';
     this.showMessage(message + ' (\\( ⁰⊖⁰)/)', true);
   }
 
