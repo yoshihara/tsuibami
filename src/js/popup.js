@@ -72,7 +72,7 @@ export default class Popup {
 
     this.searchTargetPostInEsa()
       .then(this.uploadPost.bind(this))
-      .then(this.updateStoredPost.bind(this))
+      .then(this.syncPostWithEsaResponse.bind(this))
       .then(this.syncUIWithPost.bind(this))
       .catch(this.notifyError.bind(this))
       .finally(() => {
@@ -115,7 +115,7 @@ export default class Popup {
     });
   }
 
-  updateStoredPost(response) {
+  syncPostWithEsaResponse(response) {
     this.post.saved = true;
     this.post.savedPostLink = response.url;
     if (this.ui.isClearCheckBoxChecked) {
