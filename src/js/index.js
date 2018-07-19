@@ -58,7 +58,7 @@ const saveByShortcut = function(event) {
   }
 };
 
-$(function() {
+document.addEventListener('DOMContentLoaded', function() {
   popup.setPreviousPost();
   popup
     .setPreviousState()
