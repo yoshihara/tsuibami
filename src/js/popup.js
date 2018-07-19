@@ -68,7 +68,7 @@ export default class Popup {
 
   runSaveProcess() {
     this.ui.toggleDisabledSaveButton(true);
-    this.ui.toggleSavedStatusMessage(true);
+    this.ui.toggleUploadingStatus(true);
 
     this.searchPost()
       .then(this.savePost.bind(this))
@@ -76,7 +76,7 @@ export default class Popup {
       .then(this.updateUI.bind(this))
       .catch(this.notifyError.bind(this))
       .finally(() => {
-        this.ui.toggleSavedStatusMessage(false);
+        this.ui.toggleUploadingStatus(false);
       });
   }
 

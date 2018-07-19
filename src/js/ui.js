@@ -67,7 +67,7 @@ export default class UI {
   }
 
   // toggle
-  toggleSavedStatusMessage(val) {
+  toggleUploadingStatus(val) {
     let message = val ? 'Saving...' : 'Save as WIP';
     $('.esa__post-button').text(message);
   }
