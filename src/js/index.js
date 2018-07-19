@@ -233,8 +233,7 @@ const showErrorMessage = function() {
 const runSaveProcess = function() {
   ui.toggleDisabledSaveButton(true);
   ui.toggleSavedStatusMessage(true);
-  setPreviousState() // TODO: この呼び出しが不要のはずなので消す
-    .then(searchPost)
+  searchPost()
     .then(savePost)
     .then(updateStoredPost)
     .then(updateUI)
