@@ -13,6 +13,11 @@ export default class UI {
     this.body = postObj.body;
   }
 
+  set team(teamObj) {
+    this.teamName = teamObj.teamName;
+    this.teamIcon = teamObj.teamIcon;
+  }
+
   // TODO: class名じゃなくてdata attributesにしたい
   get titleDom() {
     return $('.post__title');

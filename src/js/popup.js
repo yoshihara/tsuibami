@@ -36,7 +36,7 @@ export default class Popup {
       chrome.storage.sync.get(defaultConfig, (config) => {
         if (!config.teamName || !config.token) {
           this.ui.toggleDisplayOptionLink(true);
-          this.ui.teamName = 'Configuration failed';
+          this.ui.team = { teamName: 'Configuration failed' };
 
           reject('Please configure options (\\( ˘⊖˘)/)');
         }
@@ -45,8 +45,7 @@ export default class Popup {
 
         this.ui.toggleDisplayOptionLink(false);
 
-        this.ui.teamName = config.teamName;
-        this.ui.teamIcon = config.teamIcon;
+        this.ui.team = config;
 
         resolve();
       });
