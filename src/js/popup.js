@@ -71,7 +71,7 @@ export default class Popup {
     this.ui.toggleUploadingStatus(true);
 
     this.searchPost()
-      .then(this.savePost.bind(this))
+      .then(this.uploadPost.bind(this))
       .then(this.updateStoredPost.bind(this))
       .then(this.syncUIWithPost.bind(this))
       .catch(this.notifyError.bind(this))
@@ -99,7 +99,7 @@ export default class Popup {
     });
   }
 
-  savePost(postId) {
+  uploadPost(postId) {
     return new Promise((resolve, reject) => {
       let [category, title] = Post.splitCategory(this.ui.title);
 
