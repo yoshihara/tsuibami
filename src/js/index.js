@@ -44,24 +44,24 @@ const setPreviousState = function() {
         reject('Please configure options (\\( ˘⊖˘)/)');
       }
 
-        esa = new Esa(config);
+      esa = new Esa(config);
 
-        ui.toggleDisplayOptionLink(false);
+      ui.toggleDisplayOptionLink(false);
 
-        if (config.savedPostLink != '') {
-          ui.savedPostLink = config.savedPostLink;
-        } else {
-          // NOTE: 0.2.1以前の後方互換性のための対応
-          // TODO: 次々回のリリースで削除する（storageから取得する部分も一緒に削除する）
-          ui.savedPostLink = `https://${config.teamName}.esa.io/posts/${
-            config.postId
-          }`;
-        }
+      if (config.savedPostLink != '') {
+        ui.savedPostLink = config.savedPostLink;
+      } else {
+        // NOTE: 0.2.1以前の後方互換性のための対応
+        // TODO: 次々回のリリースで削除する（storageから取得する部分も一緒に削除する）
+        ui.savedPostLink = `https://${config.teamName}.esa.io/posts/${
+          config.postId
+        }`;
+      }
 
-        ui.teamName = config.teamName;
-        ui.teamIcon = config.teamIcon;
+      ui.teamName = config.teamName;
+      ui.teamIcon = config.teamIcon;
 
-        resolve();
+      resolve();
     });
   });
 };
