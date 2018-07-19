@@ -16,6 +16,17 @@ export default class Post {
     });
   }
 
+  static filterPosts(title, category, response) {
+    let filterQuery = { name: title };
+    if (category.length == 0) {
+      filterQuery.category = null;
+    } else {
+      filterQuery.category = category;
+    }
+    return _.find(response.posts, filterQuery);
+  };
+
+  // TODO: class methodにする
   load(callback) {
     chrome.storage.sync.get(this.defaultPost, (post) => {
       this.update(post);

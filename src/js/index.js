@@ -74,7 +74,7 @@ const searchPost = function() {
 
     let filterPostsFunc = function(response) {
       // nameによる検索は部分一致のため、完全一致させるために検索結果から更に絞り込んでいる
-      let hitPost = filterPosts(title, category, response);
+      let hitPost = Post.filterPosts(title, category, response);
 
       let postId = hitPost ? hitPost.number : undefined;
       resolve(postId);
@@ -93,17 +93,6 @@ const splitCategory = function(fullNameAsTitle) {
     return [category, title];
   }
 };
-
-const filterPosts = function(title, category, response) {
-  let filterQuery = { name: title };
-  if (category.length == 0) {
-    filterQuery.category = null;
-  } else {
-    filterQuery.category = category;
-  }
-  return _.find(response.posts, filterQuery);
-};
-
 const savePost = function(postId) {
   return new Promise(function(resolve, reject) {
     let [category, title] = splitCategory(ui.title);
