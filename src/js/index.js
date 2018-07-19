@@ -73,21 +73,15 @@ const searchPost = function(config) {
     let q = `name:${title}`;
     if (category.length != 0) q = `${q} category:${category}`;
 
-    let setConfigFunc = function(response) {
+    let filterPostsFunc = function(response) {
       // nameによる検索は部分一致のため、完全一致させるために検索結果から更に絞り込んでいる
       let hitPost = filterPosts(title, category, response);
 
-      // 記事があった場合は更新するためIDを更新する
-      // TODO: configを渡す必要がなくなったのでhitPost.numberを直接resolveに渡す
-      if (hitPost) {
-        config.postId = hitPost.number;
-      } else {
-        config.postId = undefined;
-      }
-      resolve(config);
+      let postId = hitPost ? hitPost.number : undefined;
+      resolve(postId);
     };
 
-    esa.search(q, setConfigFunc, reject);
+    esa.search(q, filterPostsFunc, reject);
   });
 };
 
@@ -111,12 +105,12 @@ const filterPosts = function(title, category, response) {
   return _.find(response.posts, filterQuery);
 };
 
-const savePost = function(config) {
+const savePost = function(postId) {
   return new Promise(function(resolve, reject) {
     let [category, title] = splitCategory(ui.title);
 
     let postData = {
-      id: config.postId,
+      id: postId,
       name: title,
       category: category,
       body_md: ui.body,
