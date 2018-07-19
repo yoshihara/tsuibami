@@ -16,6 +16,20 @@ export default class Post {
     });
   }
 
+  static splitCategory(fullNameAsTitle) {
+    if (!this.hasCategory(fullNameAsTitle)) return ['', fullNameAsTitle];
+    else {
+      let category = /(.+)\/.+/.exec(fullNameAsTitle)[1];
+      let title = /.+\/(.+)/.exec(fullNameAsTitle)[1];
+
+      return [category, title];
+    }
+  }
+
+  static hasCategory(title) {
+    return /.+\/.+/.test(title);
+  }
+
   static filterPosts(title, category, response) {
     let filterQuery = { name: title };
     if (category.length == 0) {
@@ -24,7 +38,7 @@ export default class Post {
       filterQuery.category = category;
     }
     return _.find(response.posts, filterQuery);
-  };
+  }
 
   // TODO: class methodにする
   load(callback) {

@@ -67,7 +67,7 @@ const setPreviousState = function() {
 
 const searchPost = function() {
   return new Promise(function(resolve, reject) {
-    let [category, title] = splitCategory(ui.title);
+    let [category, title] = Post.splitCategory(ui.title);
 
     let q = `name:${title}`;
     if (category.length != 0) q = `${q} category:${category}`;
@@ -84,18 +84,9 @@ const searchPost = function() {
   });
 };
 
-const splitCategory = function(fullNameAsTitle) {
-  if (!hasCategory(fullNameAsTitle)) return ['', fullNameAsTitle];
-  else {
-    let category = /(.+)\/.+/.exec(fullNameAsTitle)[1];
-    let title = /.+\/(.+)/.exec(fullNameAsTitle)[1];
-
-    return [category, title];
-  }
-};
 const savePost = function(postId) {
   return new Promise(function(resolve, reject) {
-    let [category, title] = splitCategory(ui.title);
+    let [category, title] = Post.splitCategory(ui.title);
 
     let postData = {
       id: postId,
@@ -149,10 +140,6 @@ const updateUI = function(response) {
     message = 'updated!';
   }
   notifySuccess(message);
-};
-
-const hasCategory = function(title) {
-  return /.+\/.+/.test(title);
 };
 
 const notifySuccess = function(msg) {
