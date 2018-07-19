@@ -73,7 +73,7 @@ export default class Popup {
     this.searchPost()
       .then(this.savePost.bind(this))
       .then(this.updateStoredPost.bind(this))
-      .then(this.updateUI.bind(this))
+      .then(this.syncUIWithPost.bind(this))
       .catch(this.notifyError.bind(this))
       .finally(() => {
         this.ui.toggleUploadingStatus(false);
@@ -140,12 +140,13 @@ export default class Popup {
     });
   }
 
-  updateUI(response) {
+  syncUIWithPost(response) {
     this.ui.title = this.post.title;
     this.ui.body = this.post.body;
 
     this.ui.savedPostLink = this.post.savedPostLink;
 
+    // TODO: ここから下notifySuccessに移動
     let message;
     // 最初の保存の時だけメッセージを変える
     if (response.revision_number == 1) {
