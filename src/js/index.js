@@ -60,13 +60,13 @@ const getConfig = function() {
         ui.teamName = config.teamName;
         ui.teamIcon = config.teamIcon;
 
-        resolve(config); // TODO: searchPostでconfigを使わなくなったので渡さなくてよいようにする
+        resolve();
       }
     });
   });
 };
 
-const searchPost = function(config) {
+const searchPost = function() {
   return new Promise(function(resolve, reject) {
     let [category, title] = splitCategory(ui.title);
 
