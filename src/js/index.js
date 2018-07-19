@@ -42,7 +42,8 @@ const setPreviousState = function() {
         ui.teamName = 'Configuration failed';
 
         reject('Please configure options (\\( ˘⊖˘)/)');
-      } else {
+      }
+
         esa = new Esa(config);
 
         ui.toggleDisplayOptionLink(false);
@@ -61,7 +62,6 @@ const setPreviousState = function() {
         ui.teamIcon = config.teamIcon;
 
         resolve();
-      }
     });
   });
 };
