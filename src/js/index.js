@@ -52,7 +52,7 @@ const showErrorMessage = function() {
   popup.showMessage('Error: ' + message, false);
 };
 
-const runSaveProcessByShortcut = function(event) {
+const saveByShortcut = function(event) {
   // Ctrl+s or Cmd+s
   if ((event.metaKey || event.ctrlKey) && event.keyCode == 83) {
     event.preventDefault();
@@ -68,8 +68,8 @@ $(function() {
   popup.ui.bodyDom.on('keyup', _.debounce(storeBody, 200));
   popup.ui.bodyDom.on('mouseup', storeCursorPosition);
 
-  popup.ui.titleDom.on('keydown', runSaveProcessByShortcut);
-  popup.ui.bodyDom.on('keydown', runSaveProcessByShortcut);
+  popup.ui.titleDom.on('keydown', saveByShortcut);
+  popup.ui.bodyDom.on('keydown', saveByShortcut);
 
   popup.ui.bodyDom.esarea();
 
