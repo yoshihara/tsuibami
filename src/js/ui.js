@@ -8,6 +8,11 @@ export default class UI {
     this.messageArea = new MessageArea();
   }
 
+  set post(postObj) {
+    this.title = postObj.title;
+    this.body = postObj.body;
+  }
+
   // TODO: class名じゃなくてdata attributesにしたい
   get titleDom() {
     return $('.post__title');

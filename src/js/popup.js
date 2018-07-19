@@ -18,8 +18,7 @@ export default class Popup {
       this.post = loadedPost;
       this.syncSaveButtonWithPost();
 
-      this.ui.title = this.post.title;
-      this.ui.body = this.post.body;
+      this.ui.post = this.post;
       if (this.ui.title != '') {
         // Move cursor at previous position
         this.ui.cursorPosition = this.post.cursorPosition;
@@ -143,8 +142,7 @@ export default class Popup {
 
   syncUIWithPost(response) {
     return new Promise((resolve, _reject) => {
-      this.ui.title = this.post.title;
-      this.ui.body = this.post.body;
+      this.ui.post = this.post;
 
       this.ui.savedPostLink = this.post.savedPostLink;
       resolve(response);
