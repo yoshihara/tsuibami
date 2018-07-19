@@ -2,13 +2,10 @@
 
 import $ from 'jquery';
 import _ from 'lodash';
-import Promise from 'bluebird';
 import '../../lib/jquery.selection';
 import '../../lib/jquery.esarea';
+
 import Popup from './popup';
-import Ui from './ui';
-import Post from './post';
-import Esa from './esa';
 
 const popup = new Popup();
 
