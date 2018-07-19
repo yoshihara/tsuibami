@@ -3,7 +3,13 @@
 export default class Post {
   constructor() {
     this.defaultPost = { title: '', body: '', cursorPosition: 0, saved: false };
-    this.storedKeys = ['title', 'body', 'saved', 'cursorPosition', 'postId'];
+    this.storedKeys = [
+      'title',
+      'body',
+      'saved',
+      'cursorPosition',
+      'savedPostLink',
+    ];
 
     this.storedKeys.forEach((key) => {
       this[key] = null;

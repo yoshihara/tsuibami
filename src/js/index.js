@@ -26,9 +26,16 @@ const loadPost = function() {
   });
 };
 
+// TODO: config以外のものを取ってきてるのでいい感じの名前にする
 const getConfig = function() {
   return new Promise(function(resolve, reject) {
-    let defaultConfig = { teamName: '', token: '', teamIcon: '', postId: '' };
+    let defaultConfig = {
+      teamName: '',
+      token: '',
+      teamIcon: '',
+      savedPostLink: '',
+      postId: '',
+    };
     chrome.storage.sync.get(defaultConfig, function(config) {
       if (!config.teamName || !config.token) {
         ui.toggleDisplayOptionLink(true);
@@ -40,15 +47,20 @@ const getConfig = function() {
 
         ui.toggleDisplayOptionLink(false);
 
-        if (config.postId != '') {
-          let link = `https://${config.teamName}.esa.io/posts/${config.postId}`;
-          ui.savedPostLink = link;
+        if (config.savedPostLink != '') {
+          ui.savedPostLink = config.savedPostLink;
+        } else {
+          // NOTE: 0.2.1以前の後方互換性のための対応
+          // TODO: 次々回のリリースで削除する（storageから取得する部分も一緒に削除する）
+          ui.savedPostLink = `https://${config.teamName}.esa.io/posts/${
+            config.postId
+          }`;
         }
 
         ui.teamName = config.teamName;
         ui.teamIcon = config.teamIcon;
 
-        resolve(config);
+        resolve(config); // TODO: searchPostでconfigを使わなくなったので渡さなくてよいようにする
       }
     });
   });
@@ -65,7 +77,8 @@ const searchPost = function(config) {
       // nameによる検索は部分一致のため、完全一致させるために検索結果から更に絞り込んでいる
       let hitPost = filterPosts(title, category, response);
 
-      // 記事があった場合は更新するためIDを保存する
+      // 記事があった場合は更新するためIDを更新する
+      // TODO: configを渡す必要がなくなったのでhitPost.numberを直接resolveに渡す
       if (hitPost) {
         config.postId = hitPost.number;
       } else {
@@ -115,10 +128,8 @@ const savePost = function(config) {
 };
 
 const updateStoredPost = function(response) {
-  let newPostId = response.number;
-
   post.saved = true;
-  post.postId = newPostId;
+  post.savedPostLink = response.url;
   if (ui.isClearCheckBoxChecked) {
     post.title = '';
     post.body = '';
@@ -146,7 +157,7 @@ const updateUI = function(response) {
   ui.title = post.title;
   ui.body = post.body;
 
-  ui.savedPostLink = response.url;
+  ui.savedPostLink = post.savedPostLink;
 
   let message;
   // 最初の保存の時だけメッセージを変える
