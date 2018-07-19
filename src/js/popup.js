@@ -44,7 +44,6 @@ export default class Popup {
         this.esa = new Esa(config);
 
         this.ui.toggleDisplayOptionLink(false);
-
         this.ui.team = config;
 
         resolve();
