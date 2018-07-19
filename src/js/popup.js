@@ -73,6 +73,29 @@ export default class Popup {
     });
   }
 
+  setHooks(targetName, hooks) {
+    let targetDom;
+    switch (targetName) {
+      case 'title':
+        targetDom = this.ui.titleDom;
+        break;
+      case 'body':
+        targetDom = this.ui.bodyDom;
+        break;
+      case 'post-button':
+        targetDom = this.ui.postButtonDom;
+        break;
+
+      default:
+        console.error(`error: invalid target '${targetName}' is specified`);
+        return;
+    }
+
+    Object.keys(hooks).forEach((key) => {
+      targetDom.on(key, hooks[key]);
+    });
+  }
+
   save() {
     this.ui.toggleDisabledSaveButton(true);
     this.ui.toggleUploadingStatus(true);
@@ -88,6 +111,8 @@ export default class Popup {
       });
   }
 
+  // private
+  // TODO: privateっぽい名前にする？
   searchTargetPostInEsa() {
     return new Promise((resolve, reject) => {
       let [category, title] = Post.splitCategory(this.ui.title);

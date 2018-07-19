@@ -67,14 +67,18 @@ $(function() {
     .then(popup.setPreviousSavedPostLink.bind(popup))
     .catch(popup.notifyError);
 
-  popup.ui.titleDom.on('keyup', _.debounce(storeTitle, 200));
-  popup.ui.bodyDom.on('keyup', _.debounce(storeBody, 200));
-  popup.ui.bodyDom.on('mouseup', storeCursorPosition);
+  popup.setHooks('title', {
+    keyup: _.debounce(storeTitle, 200),
+    keydown: saveByShortcut,
+  });
 
-  popup.ui.titleDom.on('keydown', saveByShortcut);
-  popup.ui.bodyDom.on('keydown', saveByShortcut);
+  popup.setHooks('body', {
+    keyup: _.debounce(storeBody, 200),
+    keydown: saveByShortcut,
+    mouseup: storeCursorPosition,
+  });
 
   popup.ui.bodyDom.esarea();
 
-  popup.ui.postButtonDom.on('click', popup.save.bind(popup));
+  popup.setHooks('post-button', { click: popup.save.bind(popup) });
 });
