@@ -71,9 +71,7 @@ const searchPost = function(config) {
       } else {
         config.postId = undefined;
       }
-      chrome.storage.sync.set(config, function() {
-        resolve(config);
-      });
+      resolve(config);
     };
 
     esa.search(q, setConfigFunc, reject);
@@ -126,7 +124,7 @@ const updateStoredPost = function(response) {
     post.body = '';
     post.cursorPosition = 0;
   } else {
-    // 保存したタイトルによっては末尾に "(2)" などの表記がesaによってつけられていたり、タイトル無しで保存した場合にカテゴリが変わっている可能性があるため、再度表示し直す
+    // 保存したタイトルによっては末尾に "(2)" などの表記がesaによってつけられていたり、タイトル無しで保存した場合にカテゴリが変わっている可能性があるため、内容を更新する
     post.title = response.full_name;
   }
 
