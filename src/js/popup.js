@@ -32,8 +32,6 @@ export default class Popup {
         teamName: '',
         token: '',
         teamIcon: '',
-        savedPostLink: '',
-        postId: '',
       };
       chrome.storage.sync.get(defaultConfig, (config) => {
         if (!config.teamName || !config.token) {
@@ -47,19 +45,31 @@ export default class Popup {
 
         this.ui.toggleDisplayOptionLink(false);
 
-        if (config.savedPostLink != '') {
-          this.ui.savedPostLink = config.savedPostLink;
-        } else {
-          // NOTE: 0.2.1以前の後方互換性のための対応
-          // TODO: 次々回のリリースで削除する（storageから取得する部分も一緒に削除する）
-          this.ui.savedPostLink = `https://${config.teamName}.esa.io/posts/${
-            config.postId
-          }`;
-        }
-
         this.ui.teamName = config.teamName;
         this.ui.teamIcon = config.teamIcon;
 
+        resolve();
+      });
+    });
+  }
+
+  setPreviousSavedPostLink() {
+    return new Promise((resolve, reject) => {
+      let defaultLinkData = {
+        savedPostLink: '',
+        postId: '',
+      };
+      chrome.storage.sync.get(defaultLinkData, (data) => {
+        if (data.savedPostLink) {
+          this.ui.savedPostLink = data.savedPostLink;
+        } else {
+          // NOTE: 0.2.1以前の後方互換性のための対応
+          // TODO: 次々回のリリースで削除する
+          // 合わせてこの関数で行っているsavedPostLinkの設定をsetPreviousPost()に統合する（Postの持つデータとしてsavedPostLinkを使う）
+          this.ui.savedPostLink = `https://${this.ui.teamName}.esa.io/posts/${
+            data.postId
+          }`;
+        }
         resolve();
       });
     });

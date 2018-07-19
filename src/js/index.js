@@ -62,7 +62,10 @@ const saveByShortcut = function(event) {
 
 $(function() {
   popup.setPreviousPost();
-  popup.setPreviousState().catch(popup.notifyError);
+  popup
+    .setPreviousState()
+    .then(popup.setPreviousSavedPostLink.bind(popup))
+    .catch(popup.notifyError);
 
   popup.ui.titleDom.on('keyup', _.debounce(storeTitle, 200));
   popup.ui.bodyDom.on('keyup', _.debounce(storeBody, 200));

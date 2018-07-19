@@ -43,6 +43,10 @@ export default class UI {
     $('.post__body').val(val);
   }
 
+  get teamName() {
+    return $('.team__name').text();
+  }
+
   set teamName(val) {
     $('.team__name').text(val);
   }
