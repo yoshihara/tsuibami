@@ -16,7 +16,7 @@ export default class Popup {
   setPreviousPost() {
     Post.load((loadedPost) => {
       this.post = loadedPost;
-      this.ui.toggleDisabledSaveButton(this.post.saved);
+      this.syncSaveButtonWithPost();
 
       this.ui.title = this.post.title;
       this.ui.body = this.post.body;
@@ -130,6 +130,7 @@ export default class Popup {
     return new Promise((resolve, reject) => {
       this.post.store(
         () => {
+          this.syncSaveButtonWithPost();
           resolve(response);
         },
         () => {
@@ -140,8 +141,6 @@ export default class Popup {
   }
 
   updateUI(response) {
-    this.ui.toggleDisabledSaveButton(true);
-
     this.ui.title = this.post.title;
     this.ui.body = this.post.body;
 
@@ -155,6 +154,10 @@ export default class Popup {
       message = 'updated!';
     }
     this.notifySuccess(message);
+  }
+
+  syncSaveButtonWithPost() {
+    this.ui.toggleDisabledSaveButton(this.post.saved);
   }
 
   notifySuccess(msg) {
