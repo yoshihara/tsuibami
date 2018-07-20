@@ -100,12 +100,16 @@ export default class Popup {
     this.ui.toggleDisabledSaveButton(true);
     this.ui.toggleUploadingStatus(true);
 
-    this.searchTargetPostInEsa()
-      .then(this.uploadPost.bind(this))
-      .then(this.syncPostWithEsaResponse.bind(this))
-      .then(this.syncUIWithPost.bind(this))
-      .then(this.notifySuccess.bind(this))
-      .catch(this.notifyError.bind(this))
+    (async () => {
+      let postId = await this.searchTargetPostInEsa();
+      let response = await this.uploadPost(postId);
+
+      await this.syncPostWithEsaResponse(response);
+      await this.syncUIWithPost(response);
+
+      await this.notifySuccess(response);
+    })()
+      .catch((error) => this.notifyError(error))
       .finally(() => {
         this.ui.toggleUploadingStatus(false);
       });
