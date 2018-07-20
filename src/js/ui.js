@@ -19,8 +19,9 @@ export default class UI {
   }
 
   set team(teamObj) {
-    this.teamName = teamObj.teamName;
-    this.teamIcon = teamObj.teamIcon;
+    ['teamName', 'teamIcon'].forEach((key) => {
+      if (teamObj.hasOwnProperty(key)) this[key] = teamObj[key];
+    });
   }
 
   // TODO: class名じゃなくてdata attributesにしたい
