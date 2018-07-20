@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
   popup
     .setPreviousState()
     .then(popup.setPreviousSavedPostLink.bind(popup))
-    .catch(popup.notifyError);
+    .catch(popup.notifyError.bind(popup));
 
   popup.setHooks('title', {
     keyup: _.debounce(storeTitle, 200),
