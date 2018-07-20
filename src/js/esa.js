@@ -6,12 +6,13 @@ export default class Esa {
   constructor(config) {
     this.teamName = config.teamName;
     this.token = config.token;
+    this.endpoint = `https://api.esa.io/v1/teams/${config.teamName}`;
   }
 
   search(q, callback, errCallback) {
     $.ajax({
       type: 'GET',
-      url: `https://api.esa.io/v1/teams/${this.teamName}/posts`,
+      url: `${this.endpoint}/posts`,
       data: {
         q: q,
         access_token: this.token,
@@ -21,7 +22,7 @@ export default class Esa {
 
   save(post, callback, errCallback) {
     let type;
-    let url = `https://api.esa.io/v1/teams/${this.teamName}/posts`;
+    let url = `${this.endpoint}/posts`;
     if (post.id) {
       type = 'PATCH';
       url = url + '/' + post.id;
