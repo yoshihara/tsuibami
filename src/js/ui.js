@@ -13,8 +13,9 @@ export default class UI {
   }
 
   set post(postObj) {
-    this.title = postObj.title;
-    this.body = postObj.body;
+    ['title', 'body'].forEach((key) => {
+      if (postObj.hasOwnProperty(key)) this[key] = postObj[key];
+    });
   }
 
   set team(teamObj) {
