@@ -1,305 +1,79 @@
-import $ from "jquery";
-import _ from "lodash";
-import Promise from "bluebird";
-import "../../lib/jquery.selection";
-import "../../lib/jquery.esarea";
+'use strict';
 
-// TODO できればグローバルで定義しないほうがよさそう
-var storedPost = {title: "", body: "", cursorPosition: 0, saved: false};
+import _ from 'lodash';
 
-const loadPost = function() {
-    var defaultPost = {title: "", body: "", cursorPosition: 0, saved: false};
-    chrome.storage.sync.get(defaultPost, function(post) {
-        storedPost = post;
+import Popup from './popup';
 
-        toggleButtonDisabled(post.saved);
-
-        $(".post__title").val(post.title);
-        $(".post__body").val(post.body);
-        if (post.title != "") {
-            $(".post__body").attr("tabindex", "1") // Focus body textarea
-
-            // Move cursor at previous position
-            $(".post__body")[0].selectionStart = post.cursorPosition;
-            $(".post__body")[0].selectionEnd = post.cursorPosition;
-        }
-    });
-}
-
-const getConfig = function() {
-    return new Promise(function(resolve, reject) {
-        var defaultConfig = {teamName: "", token: "", teamIcon: "", postId: ""};
-        chrome.storage.sync.get(defaultConfig, function(config) {
-            if (!config.teamName || !config.token) {
-                $(".option__link").show();
-                $(".team__name").text("Configuration failed");
-                reject("Please configure options (\\( ˘⊖˘)/)");
-            } else {
-                $(".option__link").remove();
-
-                if (config.postId != "") {
-                    var link = "https://" + config.teamName + ".esa.io/posts/" + config.postId;
-                    $(".esa__link").attr("href", link);
-                }
-
-                $(".team__name").text(config.teamName);
-
-                resolve(config);
-            }
-        });
-    });
-}
-
-const searchPost = function(config) {
-    return new Promise(function(resolve, reject) {
-        var title = $(".post__title").val();
-        var category = "";
-
-        if (hasCategory(title)) {
-            category = /(.+)\/.+/.exec(title)[1];
-            title = /.+\/(.+)/.exec(title)[1];
-        }
-
-        var q = "name:" + title;
-        if (category.length != 0) { q = q + " category:" + category }
-
-        $.ajax({
-            type: "GET",
-            url: "https://api.esa.io/v1/teams/" + config.teamName + "/posts",
-            data: {
-                q: q,
-                access_token: config.token
-            }
-        }).then(
-            function(response) {
-                var hitPost;
-                // カテゴリ無しだけを検索する方法がわからなかったので別途絞込している
-                if (category.length == 0) {
-                    hitPost = _.find(response.posts, { name: title, category: null });
-                } else {
-                    // 1つしかない想定
-                    hitPost = response.posts[0];
-                }
-
-                // 記事があった場合は更新するためIDを保存する
-                if (hitPost) {
-                    config.postId = hitPost.number;
-                } else {
-                    config.postId = undefined;
-                }
-                chrome.storage.sync.set(config, function(){
-                    resolve(config);
-                });
-            },
-            reject
-        );
-    })
-}
-
-const savePost = function(config) {
-    return new Promise(function(resolve, reject) {
-        var type;
-        var url = "https://api.esa.io/v1/teams/" + config.teamName + "/posts";
-        var title = $(".post__title").val();
-        var body = $(".post__body").val();
-
-        var post = {name: title, category: "", body_md: body, message: "from tsuibami"};
-
-        if (hasCategory(title)) {
-            post["category"] = /(.+)\/.+/.exec(title)[1];
-            post["name"] = /.+\/(.+)/.exec(title)[1];
-        }
-
-        var postId = config.postId;
-        if (postId) {
-            type = "PATCH";
-            url = url + "/" + postId;
-        } else {
-            type = "POST";
-        }
-
-        $.ajax({
-            type: type,
-            url: url,
-            data: {
-                post: post,
-                access_token: config.token
-            }
-        }).then(
-            resolve,
-            reject
-        );
-    });
-}
-
-const storePostAsSaved = function(response) {
-    return new Promise(function(resolve, reject) {
-        toggleButtonDisabled(true);
-
-        chrome.storage.sync.set({saved: true}, function(){
-            storedPost.saved = true;
-            resolve(response);
-        });
-    });
-}
-
-const clearPost = function(response) {
-    if (!$(".esa__post_with-clear").prop("checked")) {
-        return new Promise(function(resolve, reject) {
-            $(".post__body").focus();
-            resolve(response);
-        });
-    }
-    return new Promise(function(resolve, reject) {
-        $(".post__title").val("");
-        $(".post__body").val("");
-
-
-        toggleButtonDisabled(true);
-
-        storedPost = {title: "", body: "", cursorPosition: 0, saved: true};
-        chrome.storage.sync.set(storedPost, function() {
-            if (chrome.runtime.lastError) {
-                reject(response);
-            } else {
-                resolve(response);
-            }
-        });
-    });
-}
-
-const notifySaved = function(response) {
-    return new Promise(function(resolve, reject) {
-        var newPostId = response.number;
-        var message;
-
-        chrome.storage.sync.set({postId: newPostId}, function(){
-            $(".esa__link").attr("href", response.url);
-            // 最初の保存の時だけメッセージを変える
-            if (response.revision_number == 1) {
-                message = "created!";
-            } else {
-                message = "updated!";
-            }
-            resolve(message);
-        });
-    });
-}
-
-const hasCategory = function(title) {
-    return /.+\/.+/.test(title);
-}
-
-const notifyReady = function(config) {
-    $(".team__icon")[0].src = config.teamIcon;
-}
-
-const notifySuccess = function(msg) {
-    showMessage(msg + " (\\( ⁰⊖⁰)/)", true);
-}
-
-const notifyError = function(msg) {
-    console.log(msg);
-    showMessage(msg);
-}
-
-const showMessage = function(message, succeeded) {
-    $(".message").show();
-
-    $(".message__body").text(message);
-    $(".message__body").removeClass("message__body-color-success");
-    $(".message__body").removeClass("message__body-color-failure");
-
-    if (succeeded) {
-        $(".message__body").addClass("message__body-color-success");
-        setTimeout(function() {
-            $(".message").fadeOut("normal", function() {
-                $(".message__body").text("");
-            });
-        }, 2000);
-    } else {
-        $(".message__body").addClass("message__body-color-failure");
-    }
-}
+const popup = new Popup();
 
 const storeTitle = function() {
-    var title = $(".post__title").val();
+  let title = popup.ui.title;
 
-    if (title != storedPost.title) {
-        storedPost.title = title;
-        storedPost.saved = false;
-        store({title: title, saved: false});
-        toggleButtonDisabled(false);
-    }
-}
+  if (title != popup.post.title) {
+    popup.post.title = title;
+    popup.post.saved = false;
+    popup.post.store(function() {}, showErrorMessage);
+    popup.ui.toggleDisabledSaveButton(false);
+  }
+};
 
 const storeBody = function() {
-    var body = $(".post__body").val();
+  let body = popup.ui.body;
 
-    if (body != storedPost.body) {
-        storedPost.body = body;
-        storedPost.saved = false;
-        toggleButtonDisabled(false);
-    }
+  if (body != popup.post.body) {
+    popup.post.body = body;
+    popup.post.saved = false;
+    popup.ui.toggleDisabledSaveButton(false);
+  }
 
-    var cursorPosition = $(".post__body")[0].selectionStart;
-    if (cursorPosition != storedPost.cursorPosition) {
-        storedPost.currentPosition = cursorPosition;
-    }
-    store(storedPost);
-}
+  let cursorPosition = popup.ui.cursorPosition;
+  if (cursorPosition != popup.post.cursorPosition) {
+    popup.post.cursorPosition = cursorPosition;
+  }
+  popup.post.store(function() {}, showErrorMessage);
+};
 
 const storeCursorPosition = function() {
-    var cursorPosition = $(".post__body")[0].selectionStart;
-    if (cursorPosition != storedPost.cursorPosition) {
-        store({cursorPosition: cursorPosition});
-    }
-}
+  let cursorPosition = popup.ui.cursorPosition;
+  if (cursorPosition != popup.post.cursorPosition) {
+    popup.post.cursorPosition = cursorPosition;
+    popup.post.store(function() {}, showErrorMessage);
+  }
+};
 
-const store = function(data) {
-    chrome.storage.sync.set(data, function(){
-        if (chrome.runtime.lastError) {
-            showMessage("Error: " + chrome.runtime.lastError.message, false);
-        }
-    });
-}
+const showErrorMessage = function() {
+  let message;
+  if (chrome.runtime.lastError === undefined) message = 'unknown error';
+  else message = chrome.runtime.lastError.message;
 
-const toggleButtonDisabled = function(disabled) {
-    $(".esa__post-button").prop("disabled", disabled ? "disabled" : null);
-}
+  popup.showMessage('Error: ' + message, false);
+};
 
-const showSavedStatus = function(saving) {
-    $(".esa__post-button").text(saving ? "Saving..." : "Save as WIP");
-}
+const saveByShortcut = function(event) {
+  // Ctrl+s or Cmd+s
+  if ((event.metaKey || event.ctrlKey) && event.keyCode == 83) {
+    event.preventDefault();
+    popup.save();
+  }
+};
 
-const runSaveProcess = function() {
-    toggleButtonDisabled(true);
-    showSavedStatus(true);
-    getConfig().then(searchPost).then(savePost).then(storePostAsSaved).then(clearPost).then(notifySaved).then(notifySuccess).catch(notifyError).finally(function() {
-        showSavedStatus(false);
-    });
-}
+document.addEventListener('DOMContentLoaded', function() {
+  popup.setPreviousPost();
+  popup
+    .setPreviousState()
+    .then(popup.setPreviousSavedPostLink.bind(popup))
+    .catch(popup.notifyError.bind(popup));
 
-const runSaveProcessByShortcut = function(event) {
-    // Ctrl+s or Cmd+s
-    if ((event.metaKey || event.ctrlKey) && event.keyCode == 83) {
-        event.preventDefault();
-        runSaveProcess();
-    }
-}
+  popup.setHooks('title', {
+    keyup: _.debounce(storeTitle, 200),
+    keydown: saveByShortcut,
+  });
 
-$(function() {
-    loadPost();
-    getConfig().then(notifyReady).catch(notifyError);
+  popup.setHooks('body', {
+    keyup: _.debounce(storeBody, 200),
+    keydown: saveByShortcut,
+    mouseup: storeCursorPosition,
+  });
 
-    $(".post__title").on("keyup", _.debounce(storeTitle, 200));
-    $(".post__body").on("keyup", _.debounce(storeBody, 200));
-    $(".post__body").on("mouseup", storeCursorPosition);
-
-    $(".post__title").on("keydown", runSaveProcessByShortcut);
-    $(".post__body").on("keydown", runSaveProcessByShortcut);
-
-    $(".post__body").esarea();
-
-    $(".esa__post-button").on("click", runSaveProcess);
+  popup.setHooks('post-button', { click: popup.save.bind(popup) });
 });
