@@ -109,7 +109,16 @@ export default class Popup {
 
       await this.notifySuccess(response);
     })()
-      .catch((error) => this.notifyError(error))
+      .catch((error) => {
+        console.log(error);
+        let message = error.hasOwnProperty('statusText')
+          ? error.statusText
+          : error;
+        message = error.hasOwnProperty('status')
+          ? `${message} (${error.status})`
+          : message;
+        this.showMessage(message);
+      })
       .finally(() => {
         this.ui.toggleUploadingStatus(false);
       });
