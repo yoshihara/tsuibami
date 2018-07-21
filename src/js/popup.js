@@ -26,8 +26,7 @@ export default class Popup {
     });
   }
 
-  setPreviousState() {
-    return new Promise((resolve, reject) => {
+  async setPreviousState() {
       let defaultConfig = {
         teamName: '',
         token: '',
@@ -45,14 +44,10 @@ export default class Popup {
 
         this.ui.toggleDisplayOptionLink(false);
         this.ui.team = config;
-
-        resolve();
-      });
     });
   }
 
-  setPreviousSavedPostLink() {
-    return new Promise((resolve, reject) => {
+  async setPreviousSavedPostLink() {
       let defaultLinkData = {
         savedPostLink: '',
         postId: '',
@@ -68,8 +63,6 @@ export default class Popup {
             data.postId
           }`;
         }
-        resolve();
-      });
     });
   }
 
@@ -196,7 +189,7 @@ export default class Popup {
     });
   }
 
-  syncPostWithEsaResponse(response) {
+  async syncPostWithEsaResponse(response) {
     this.post.saved = true;
     this.post.savedPostLink = response.url;
     if (this.ui.isClearCheckBoxChecked) {
@@ -208,17 +201,15 @@ export default class Popup {
       this.post.title = response.full_name;
     }
 
-    return new Promise((resolve, reject) => {
       this.post.store(
         () => {
           this.syncSaveButtonWithPost();
-          resolve(response);
+          return response;
         },
         () => {
-          reject(response);
+          throw Error(response);
         },
       );
-    });
   }
 
   syncUIWithPost(response) {
