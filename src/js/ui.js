@@ -75,11 +75,11 @@ export default class UI {
   }
 
   set cursorPosition(val) {
-    let target = $('.post__body');
+    let target = $('.post__body')[0];
 
     this.focusBody();
-    target[0].selectionStart = val;
-    target[0].selectionEnd = val;
+    target.selectionStart = val;
+    target.selectionEnd = val;
   }
 
   get isClearCheckBoxChecked() {
