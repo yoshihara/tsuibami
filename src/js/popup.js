@@ -231,14 +231,6 @@ export default class Popup {
     this.showMessage(message + ' (\\( ⁰⊖⁰)/)', true);
   }
 
-  notifyError(msg) {
-    console.log(msg);
-    let message = msg.hasOwnProperty('statusText') ? msg.statusText : msg;
-    message = msg.hasOwnProperty('status')
-      ? `${message} (${msg.status})`
-      : message;
-    this.showMessage(message);
-  }
   showErrorMessage() {
     let message;
     if (chrome.runtime.lastError === undefined) message = 'unknown error';
