@@ -26,50 +26,43 @@ export default class Popup {
     });
   }
 
-  setPreviousState() {
-    return new Promise((resolve, reject) => {
-      let defaultConfig = {
-        teamName: '',
-        token: '',
-        teamIcon: '',
-      };
-      chrome.storage.sync.get(defaultConfig, (config) => {
-        if (!config.teamName || !config.token) {
-          this.ui.toggleDisplayOptionLink(true);
-          this.ui.team = { teamName: 'Configuration failed' };
+  async setPreviousState() {
+    let defaultConfig = {
+      teamName: '',
+      token: '',
+      teamIcon: '',
+    };
+    chrome.storage.sync.get(defaultConfig, (config) => {
+      if (!config.teamName || !config.token) {
+        this.ui.toggleDisplayOptionLink(true);
+        this.ui.team = { teamName: 'Configuration failed' };
 
-          throw new Error('Please configure options (\\( ˘⊖˘)/)');
-        }
+        throw Error('Please configure options (\\( ˘⊖˘)/)');
+      }
 
-        this.esa = new Esa(config);
+      this.esa = new Esa(config);
 
-        this.ui.toggleDisplayOptionLink(false);
-        this.ui.team = config;
-
-        resolve();
-      });
+      this.ui.toggleDisplayOptionLink(false);
+      this.ui.team = config;
     });
   }
 
-  setPreviousSavedPostLink() {
-    return new Promise((resolve, reject) => {
-      let defaultLinkData = {
-        savedPostLink: '',
-        postId: '',
-      };
-      chrome.storage.sync.get(defaultLinkData, (data) => {
-        if (data.savedPostLink) {
-          this.ui.savedPostLink = data.savedPostLink;
-        } else {
-          // NOTE: 0.2.1以前の後方互換性のための対応
-          // TODO: 次々回のリリースで削除する
-          // 合わせてこの関数で行っているsavedPostLinkの設定をsetPreviousPost()に統合する（Postの持つデータとしてsavedPostLinkを使う）
-          this.ui.savedPostLink = `https://${this.ui.teamName}.esa.io/posts/${
-            data.postId
-          }`;
-        }
-        resolve();
-      });
+  async setPreviousSavedPostLink() {
+    let defaultLinkData = {
+      savedPostLink: '',
+      postId: '',
+    };
+    chrome.storage.sync.get(defaultLinkData, (data) => {
+      if (data.savedPostLink) {
+        this.ui.savedPostLink = data.savedPostLink;
+      } else {
+        // NOTE: 0.2.1以前の後方互換性のための対応
+        // TODO: 次々回のリリースで削除する
+        // 合わせてこの関数で行っているsavedPostLinkの設定をsetPreviousPost()に統合する（Postの持つデータとしてsavedPostLinkを使う）
+        this.ui.savedPostLink = `https://${this.ui.teamName}.esa.io/posts/${
+          data.postId
+        }`;
+      }
     });
   }
 
@@ -105,9 +98,9 @@ export default class Popup {
       let response = await this.uploadPost(postId);
 
       await this.syncPostWithEsaResponse(response);
-      await this.syncUIWithPost(response);
+      this.syncUIWithPost(response);
 
-      await this.notifySuccess(response);
+      this.notifySuccess(response);
     })()
       .catch((error) => {
         console.log(error);
@@ -162,6 +155,7 @@ export default class Popup {
   // private
   // TODO: privateっぽい名前にする？
   searchTargetPostInEsa() {
+    // TODO: jQuery捨てるときにPromiseをreturnしないようにしてresolve/rejectをそれぞれreturn/throwを使って置き換える
     return new Promise((resolve, reject) => {
       let [category, title] = Post.splitCategory(this.ui.title);
 
@@ -181,6 +175,7 @@ export default class Popup {
   }
 
   uploadPost(postId) {
+    // TODO: jQuery捨てるときにPromiseをreturnしないようにしてresolve/rejectをそれぞれreturn/throwを使って置き換える
     return new Promise((resolve, reject) => {
       let [category, title] = Post.splitCategory(this.ui.title);
 
@@ -196,38 +191,31 @@ export default class Popup {
     });
   }
 
-  syncPostWithEsaResponse(response) {
+  async syncPostWithEsaResponse(response) {
     this.post.saved = true;
     this.post.savedPostLink = response.url;
     if (this.ui.isClearCheckBoxChecked) {
-      this.post.title = '';
-      this.post.body = '';
-      this.post.cursorPosition = 0;
+      this.post.update({ title: '', body: '', cursorPosition: '' });
     } else {
       // 保存したタイトルによっては末尾に "(2)" などの表記がesaによってつけられていたり、タイトル無しで保存した場合にカテゴリが変わっている可能性があるため、内容を更新する
       this.post.title = response.full_name;
     }
 
-    return new Promise((resolve, reject) => {
-      this.post.store(
-        () => {
-          this.syncSaveButtonWithPost();
-          resolve(response);
-        },
-        () => {
-          reject(response);
-        },
-      );
-    });
+    this.post.store(
+      () => {
+        this.syncSaveButtonWithPost();
+        return response;
+      },
+      () => {
+        throw Error(response);
+      },
+    );
   }
 
   syncUIWithPost(response) {
-    return new Promise((resolve, _reject) => {
-      this.ui.post = this.post;
+    this.ui.post = this.post;
 
-      this.ui.savedPostLink = this.post.savedPostLink;
-      resolve(response);
-    });
+    this.ui.savedPostLink = this.post.savedPostLink;
   }
 
   syncSaveButtonWithPost() {

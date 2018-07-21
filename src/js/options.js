@@ -4,6 +4,7 @@ import $ from 'jquery';
 import Promise from 'bluebird';
 
 const getTeamIcon = function(config) {
+  // TODO: jQuery捨てるときにPromiseをreturnしないようにしてresolve/rejectをそれぞれreturn/throwを使って置き換える
   return new Promise(function(resolve, reject) {
     $.ajax({
       type: 'GET',
@@ -70,8 +71,11 @@ $(function() {
       teamName: $('.options__team-name').val(),
       token: $('.options__token').val(),
     };
-    getTeamIcon(config)
-      .then(saveConfig)
+
+    (async function(config) {
+      let updatedConfig = await getTeamIcon(config);
+      saveConfig(updatedConfig);
+    })(config)
       .catch(notifyInvalidConfig)
       .finally(function() {
         toggleButton(false);
