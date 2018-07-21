@@ -115,6 +115,23 @@ export default class Popup {
       });
   }
 
+  storeBody() {
+    let body = this.ui.body;
+
+    if (body != this.post.body) {
+      this.post.body = body;
+      this.post.saved = false;
+      this.ui.toggleDisabledSaveButton(false);
+    }
+
+    let cursorPosition = this.ui.cursorPosition;
+    if (cursorPosition != this.post.cursorPosition) {
+      this.post.cursorPosition = cursorPosition;
+    }
+    // TODO: bodyが変更されていたらcursorPositionも変更されているはずなので↑のif文の中に↓を入れる
+    this.post.store(function() {}, this.showErrorMessage);
+  }
+
   storeCursorPosition() {
     let cursorPosition = this.ui.cursorPosition;
 
