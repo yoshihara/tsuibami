@@ -155,6 +155,7 @@ export default class Popup {
   // private
   // TODO: privateっぽい名前にする？
   searchTargetPostInEsa() {
+    // TODO: jQuery捨てるときにPromiseをreturnしないようにしてresolve/rejectをそれぞれreturn/throwを使って置き換える
     return new Promise((resolve, reject) => {
       let [category, title] = Post.splitCategory(this.ui.title);
 
@@ -174,6 +175,7 @@ export default class Popup {
   }
 
   uploadPost(postId) {
+    // TODO: jQuery捨てるときにPromiseをreturnしないようにしてresolve/rejectをそれぞれreturn/throwを使って置き換える
     return new Promise((resolve, reject) => {
       let [category, title] = Post.splitCategory(this.ui.title);
 
