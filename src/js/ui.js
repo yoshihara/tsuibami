@@ -101,4 +101,9 @@ export default class UI {
 
     val ? target.show() : target.hide();
   }
+
+  // focus
+  focusTitle() {
+    this.titleDom.focus();
+  }
 }

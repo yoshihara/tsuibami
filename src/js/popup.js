@@ -14,6 +14,8 @@ export default class Popup {
   }
 
   setPreviousPost() {
+    this.ui.focusTitle();
+
     Post.load((loadedPost) => {
       this.post = loadedPost;
       this.syncSaveButtonWithPost();
