@@ -38,7 +38,7 @@ export default class Popup {
           this.ui.toggleDisplayOptionLink(true);
           this.ui.team = { teamName: 'Configuration failed' };
 
-          throw new Error('Please configure options (\\( ˘⊖˘)/)');
+          throw Error('Please configure options (\\( ˘⊖˘)/)');
         }
 
         this.esa = new Esa(config);
