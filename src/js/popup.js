@@ -193,9 +193,7 @@ export default class Popup {
     this.post.saved = true;
     this.post.savedPostLink = response.url;
     if (this.ui.isClearCheckBoxChecked) {
-      this.post.title = '';
-      this.post.body = '';
-      this.post.cursorPosition = 0;
+      this.post.update({ title: '', body: '', cursorPosition: '' });
     } else {
       // 保存したタイトルによっては末尾に "(2)" などの表記がesaによってつけられていたり、タイトル無しで保存した場合にカテゴリが変わっている可能性があるため、内容を更新する
       this.post.title = response.full_name;
