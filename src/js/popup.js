@@ -115,6 +115,15 @@ export default class Popup {
       });
   }
 
+  storeCursorPosition() {
+    let cursorPosition = this.ui.cursorPosition;
+
+    if (cursorPosition != this.post.cursorPosition) {
+      this.post.cursorPosition = cursorPosition;
+      this.post.store(function() {}, this.showErrorMessage);
+    }
+  }
+
   // private
   // TODO: privateっぽい名前にする？
   searchTargetPostInEsa() {
@@ -203,6 +212,13 @@ export default class Popup {
       ? `${message} (${msg.status})`
       : message;
     this.showMessage(message);
+  }
+  showErrorMessage() {
+    let message;
+    if (chrome.runtime.lastError === undefined) message = 'unknown error';
+    else message = chrome.runtime.lastError.message;
+
+    this.showMessage('Error: ' + message, false);
   }
 
   showMessage(message, succeeded) {

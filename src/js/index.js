@@ -34,11 +34,7 @@ const storeBody = function() {
 };
 
 const storeCursorPosition = function() {
-  let cursorPosition = popup.ui.cursorPosition;
-  if (cursorPosition != popup.post.cursorPosition) {
-    popup.post.cursorPosition = cursorPosition;
-    popup.post.store(function() {}, showErrorMessage);
-  }
+  popup.storeCursorPosition();
 };
 
 const showErrorMessage = function() {
