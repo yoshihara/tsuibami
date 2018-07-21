@@ -107,7 +107,7 @@ export default class Popup {
       await this.syncPostWithEsaResponse(response);
       await this.syncUIWithPost(response);
 
-      await this.notifySuccess(response);
+      this.notifySuccess(response);
     })()
       .catch((error) => {
         console.log(error);
