@@ -115,6 +115,17 @@ export default class Popup {
       });
   }
 
+  storeTitle() {
+    let title = this.ui.title;
+
+    if (title != this.post.title) {
+      this.post.title = title;
+      this.post.saved = false;
+      this.post.store(function() {}, this.showErrorMessage);
+      this.ui.toggleDisabledSaveButton(false);
+    }
+  }
+
   storeBody() {
     let body = this.ui.body;
 

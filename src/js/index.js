@@ -7,14 +7,7 @@ import Popup from './popup';
 const popup = new Popup();
 
 const storeTitle = function() {
-  let title = popup.ui.title;
-
-  if (title != popup.post.title) {
-    popup.post.title = title;
-    popup.post.saved = false;
-    popup.post.store(function() {}, showErrorMessage);
-    popup.ui.toggleDisabledSaveButton(false);
-  }
+  popup.storeTitle();
 };
 
 const storeBody = function() {
