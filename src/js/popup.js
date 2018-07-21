@@ -216,7 +216,6 @@ export default class Popup {
     this.ui.post = this.post;
 
     this.ui.savedPostLink = this.post.savedPostLink;
-    return response; // TODO: あとで消す
   }
 
   syncSaveButtonWithPost() {
