@@ -38,7 +38,7 @@ export default class Popup {
           this.ui.toggleDisplayOptionLink(true);
           this.ui.team = { teamName: 'Configuration failed' };
 
-          reject('Please configure options (\\( ˘⊖˘)/)');
+          throw new Error('Please configure options (\\( ˘⊖˘)/)');
         }
 
         this.esa = new Esa(config);
@@ -109,10 +109,54 @@ export default class Popup {
 
       await this.notifySuccess(response);
     })()
-      .catch((error) => this.notifyError(error))
+      .catch((error) => {
+        console.log(error);
+        let message = error.hasOwnProperty('statusText')
+          ? error.statusText
+          : error;
+        message = error.hasOwnProperty('status')
+          ? `${message} (${error.status})`
+          : message;
+        this.showMessage(message);
+      })
       .finally(() => {
         this.ui.toggleUploadingStatus(false);
       });
+  }
+
+  storeTitle() {
+    let title = this.ui.title;
+
+    if (title != this.post.title) {
+      this.post.update({ title: title, saved: false });
+      this.post.store(function() {}, this.showErrorMessage);
+      this.ui.toggleDisabledSaveButton(false);
+    }
+  }
+
+  storeBody() {
+    let body = this.ui.body;
+
+    if (body != this.post.body) {
+      this.post.update({ body: body, saved: false });
+      this.ui.toggleDisabledSaveButton(false);
+    }
+
+    let cursorPosition = this.ui.cursorPosition;
+    if (cursorPosition != this.post.cursorPosition) {
+      this.post.cursorPosition = cursorPosition;
+    }
+    // TODO: bodyが変更されていたらcursorPositionも変更されているはずなので↑のif文の中に↓を入れる
+    this.post.store(function() {}, this.showErrorMessage);
+  }
+
+  storeCursorPosition() {
+    let cursorPosition = this.ui.cursorPosition;
+
+    if (cursorPosition != this.post.cursorPosition) {
+      this.post.cursorPosition = cursorPosition;
+      this.post.store(function() {}, this.showErrorMessage);
+    }
   }
 
   // private
@@ -196,13 +240,12 @@ export default class Popup {
     this.showMessage(message + ' (\\( ⁰⊖⁰)/)', true);
   }
 
-  notifyError(msg) {
-    console.log(msg);
-    let message = msg.hasOwnProperty('statusText') ? msg.statusText : msg;
-    message = msg.hasOwnProperty('status')
-      ? `${message} (${msg.status})`
-      : message;
-    this.showMessage(message);
+  showErrorMessage() {
+    let message;
+    if (chrome.runtime.lastError === undefined) message = 'unknown error';
+    else message = chrome.runtime.lastError.message;
+
+    this.showMessage('Error: ' + message, false);
   }
 
   showMessage(message, succeeded) {

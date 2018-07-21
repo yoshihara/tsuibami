@@ -7,38 +7,15 @@ import Popup from './popup';
 const popup = new Popup();
 
 const storeTitle = function() {
-  let title = popup.ui.title;
-
-  if (title != popup.post.title) {
-    popup.post.title = title;
-    popup.post.saved = false;
-    popup.post.store(function() {}, showErrorMessage);
-    popup.ui.toggleDisabledSaveButton(false);
-  }
+  popup.storeTitle();
 };
 
 const storeBody = function() {
-  let body = popup.ui.body;
-
-  if (body != popup.post.body) {
-    popup.post.body = body;
-    popup.post.saved = false;
-    popup.ui.toggleDisabledSaveButton(false);
-  }
-
-  let cursorPosition = popup.ui.cursorPosition;
-  if (cursorPosition != popup.post.cursorPosition) {
-    popup.post.cursorPosition = cursorPosition;
-  }
-  popup.post.store(function() {}, showErrorMessage);
+  popup.storeBody();
 };
 
 const storeCursorPosition = function() {
-  let cursorPosition = popup.ui.cursorPosition;
-  if (cursorPosition != popup.post.cursorPosition) {
-    popup.post.cursorPosition = cursorPosition;
-    popup.post.store(function() {}, showErrorMessage);
-  }
+  popup.storeCursorPosition();
 };
 
 const showErrorMessage = function() {
