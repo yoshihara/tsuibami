@@ -77,7 +77,7 @@ export default class UI {
   set cursorPosition(val) {
     let target = $('.post__body');
 
-    target.focus();
+    this.focusBody();
     target[0].selectionStart = val;
     target[0].selectionEnd = val;
   }
@@ -105,5 +105,9 @@ export default class UI {
   // focus
   focusTitle() {
     this.titleDom.focus();
+  }
+
+  focusBody() {
+    this.bodyDom.focus();
   }
 }
