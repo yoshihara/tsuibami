@@ -119,8 +119,7 @@ export default class Popup {
     let title = this.ui.title;
 
     if (title != this.post.title) {
-      this.post.title = title;
-      this.post.saved = false;
+      this.post.update({ title: title, saved: false });
       this.post.store(function() {}, this.showErrorMessage);
       this.ui.toggleDisabledSaveButton(false);
     }
@@ -130,8 +129,7 @@ export default class Popup {
     let body = this.ui.body;
 
     if (body != this.post.body) {
-      this.post.body = body;
-      this.post.saved = false;
+      this.post.update({ body: body, saved: false });
       this.ui.toggleDisabledSaveButton(false);
     }
 
