@@ -1,5 +1,7 @@
 'use strict';
 
+import _ from 'lodash';
+
 export default class Post {
   constructor() {
     this.storedKeys = [

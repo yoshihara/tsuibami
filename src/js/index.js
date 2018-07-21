@@ -59,10 +59,10 @@ const saveByShortcut = function(event) {
 
 document.addEventListener('DOMContentLoaded', function() {
   popup.setPreviousPost();
-  popup
-    .setPreviousState()
-    .then(popup.setPreviousSavedPostLink.bind(popup))
-    .catch(popup.notifyError.bind(popup));
+  (async function() {
+    await popup.setPreviousState();
+    await popup.setPreviousSavedPostLink();
+  })().catch((error) => popup.notifyError(error));
 
   popup.setHooks('title', {
     keyup: _.debounce(storeTitle, 200),
