@@ -27,42 +27,42 @@ export default class Popup {
   }
 
   async setPreviousState() {
-      let defaultConfig = {
-        teamName: '',
-        token: '',
-        teamIcon: '',
-      };
-      chrome.storage.sync.get(defaultConfig, (config) => {
-        if (!config.teamName || !config.token) {
-          this.ui.toggleDisplayOptionLink(true);
-          this.ui.team = { teamName: 'Configuration failed' };
+    let defaultConfig = {
+      teamName: '',
+      token: '',
+      teamIcon: '',
+    };
+    chrome.storage.sync.get(defaultConfig, (config) => {
+      if (!config.teamName || !config.token) {
+        this.ui.toggleDisplayOptionLink(true);
+        this.ui.team = { teamName: 'Configuration failed' };
 
-          throw Error('Please configure options (\\( ˘⊖˘)/)');
-        }
+        throw Error('Please configure options (\\( ˘⊖˘)/)');
+      }
 
-        this.esa = new Esa(config);
+      this.esa = new Esa(config);
 
-        this.ui.toggleDisplayOptionLink(false);
-        this.ui.team = config;
+      this.ui.toggleDisplayOptionLink(false);
+      this.ui.team = config;
     });
   }
 
   async setPreviousSavedPostLink() {
-      let defaultLinkData = {
-        savedPostLink: '',
-        postId: '',
-      };
-      chrome.storage.sync.get(defaultLinkData, (data) => {
-        if (data.savedPostLink) {
-          this.ui.savedPostLink = data.savedPostLink;
-        } else {
-          // NOTE: 0.2.1以前の後方互換性のための対応
-          // TODO: 次々回のリリースで削除する
-          // 合わせてこの関数で行っているsavedPostLinkの設定をsetPreviousPost()に統合する（Postの持つデータとしてsavedPostLinkを使う）
-          this.ui.savedPostLink = `https://${this.ui.teamName}.esa.io/posts/${
-            data.postId
-          }`;
-        }
+    let defaultLinkData = {
+      savedPostLink: '',
+      postId: '',
+    };
+    chrome.storage.sync.get(defaultLinkData, (data) => {
+      if (data.savedPostLink) {
+        this.ui.savedPostLink = data.savedPostLink;
+      } else {
+        // NOTE: 0.2.1以前の後方互換性のための対応
+        // TODO: 次々回のリリースで削除する
+        // 合わせてこの関数で行っているsavedPostLinkの設定をsetPreviousPost()に統合する（Postの持つデータとしてsavedPostLinkを使う）
+        this.ui.savedPostLink = `https://${this.ui.teamName}.esa.io/posts/${
+          data.postId
+        }`;
+      }
     });
   }
 
@@ -201,15 +201,15 @@ export default class Popup {
       this.post.title = response.full_name;
     }
 
-      this.post.store(
-        () => {
-          this.syncSaveButtonWithPost();
-          return response;
-        },
-        () => {
-          throw Error(response);
-        },
-      );
+    this.post.store(
+      () => {
+        this.syncSaveButtonWithPost();
+        return response;
+      },
+      () => {
+        throw Error(response);
+      },
+    );
   }
 
   syncUIWithPost(response) {
