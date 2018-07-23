@@ -18,14 +18,6 @@ const storeCursorPosition = function() {
   popup.storeCursorPosition();
 };
 
-const showErrorMessage = function() {
-  let message;
-  if (chrome.runtime.lastError === undefined) message = 'unknown error';
-  else message = chrome.runtime.lastError.message;
-
-  popup.showMessage('Error: ' + message, false);
-};
-
 const saveByShortcut = function(event) {
   // Ctrl+s or Cmd+s
   if ((event.metaKey || event.ctrlKey) && event.keyCode == 83) {
