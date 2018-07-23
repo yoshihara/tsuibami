@@ -15,6 +15,7 @@
     "chrome": true
   },
   "rules": {
+    "no-console": ["off"],
     "comma-dangle": ["error", "always-multiline"],
     "prettier/prettier": [
       "error",
