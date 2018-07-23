@@ -15,7 +15,7 @@
     "chrome": true
   },
   "rules": {
-    "comma-dangle": ["error", "never"],
+    "comma-dangle": ["error", "always-multiline"],
     "prettier/prettier": [
       "error",
       {
