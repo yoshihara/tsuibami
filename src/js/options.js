@@ -25,10 +25,7 @@ const saveConfig = function(config) {
   });
 };
 
-const notifyInvalidConfig = function(config) {
-  let teamName = $('.options__team-name').val();
-  let token = $('.options__token').val();
-
+const notifyInvalidConfig = function() {
   showMessage('invalid teamname or token (\\( ˘⊖˘)/)', false);
 };
 
