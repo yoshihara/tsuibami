@@ -26,6 +26,14 @@ const saveByShortcut = function(event) {
   }
 };
 
+const focusBody = function(event) {
+  // Enter
+  if (event.keyCode == 13) {
+    event.preventDefault();
+    popup.focusBody();
+  }
+};
+
 document.addEventListener('DOMContentLoaded', function() {
   popup.setPreviousPost();
   (async function() {
@@ -35,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   popup.setHooks('title', {
     keyup: _.debounce(storeTitle, 200),
-    keydown: saveByShortcut,
+    keydown: [saveByShortcut, focusBody],
   });
 
   popup.setHooks('body', {

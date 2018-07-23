@@ -1,6 +1,7 @@
 'use strict';
 
 import Promise from 'bluebird';
+import _ from 'lodash';
 
 import Ui from './ui';
 import Post from './post';
@@ -87,7 +88,14 @@ export default class Popup {
     }
 
     Object.keys(hooks).forEach((key) => {
-      targetDom.on(key, hooks[key]);
+      let hooksForKey = hooks[key];
+      if (_.isArray(hooksForKey)) {
+        hooksForKey.forEach((func) => {
+          targetDom.on(key, func);
+        });
+      } else {
+        targetDom.on(key, hooksForKey);
+      }
     });
   }
 
@@ -127,6 +135,10 @@ export default class Popup {
       this.post.store(function() {}, this.showErrorMessage);
       this.ui.toggleDisabledSaveButton(false);
     }
+  }
+
+  focusBody() {
+    this.ui.focusBody();
   }
 
   storeBody() {
