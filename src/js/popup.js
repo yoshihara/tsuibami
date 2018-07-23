@@ -216,7 +216,6 @@ export default class Popup {
 
   syncUIWithPost() {
     this.ui.post = this.post;
-
     this.ui.savedPostLink = this.post.savedPostLink;
   }
 
