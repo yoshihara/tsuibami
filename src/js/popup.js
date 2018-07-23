@@ -100,7 +100,7 @@ export default class Popup {
       let response = await this.uploadPost(postId);
 
       await this.syncPostWithEsaResponse(response);
-      this.syncUIWithPost(response);
+      this.syncUIWithPost();
 
       this.notifySuccess(response);
     })()
@@ -214,7 +214,7 @@ export default class Popup {
     );
   }
 
-  syncUIWithPost(response) {
+  syncUIWithPost() {
     this.ui.post = this.post;
 
     this.ui.savedPostLink = this.post.savedPostLink;
