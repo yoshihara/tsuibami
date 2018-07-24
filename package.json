@@ -8,13 +8,13 @@
     "clean": "rm -rf build/ && mkdir -p build",
     "build:js": "webpack --config webpack.config.js",
     "build:metadata": "rm -rf build/*.png build/manifest.json && cp -a metadata/* build/",
-    "build:html": "rm -rf build/*.html && ./scripts/build_haml.sh",
+    "build:html": "rm -rf build/*.html && pug -o build/ src/pug",
     "build:css": "rm -rf build/*.css && node-sass -q src/sass -o build",
     "build": "npm-run-all clean build:*",
     "watch:js": "watchy -w src/js -w webpack.config.js -- npm run build:js",
     "watch:lib": "watchy -w lib -- npm run build:js",
     "watch:metadata": "watchy -w metadata -- npm run build:metadata",
-    "watch:html": "watchy -w src/haml -- npm run build:html",
+    "watch:html": "watchy -w src/pug -- npm run build:html",
     "watch:css": "watchy -w src/sass -- npm run build:css",
     "watch": "npm-run-all clean -p watch:*",
     "precommit": "lint-staged"
@@ -47,6 +47,7 @@
     "node-sass": "^4.5.3",
     "npm-run-all": "^4.0.2",
     "prettier": "1.10.2",
+    "pug-cli": "^1.0.0-alpha6",
     "watchy": "^0.7.0",
     "webpack": "^3.5.4"
   },

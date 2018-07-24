@@ -1,0 +1,26 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    link(rel="stylesheet" type="text/css" href="/main.css")
+  body
+    .row
+      img.team__icon
+      .team__name tsuibami
+      .option__link
+        a.esa__option-link(href="options.html" target="_blank") open Options
+    .row
+      input.post__title(type="input" placeholder="title")
+    .row
+      textarea.post__body(placeholder="body")
+    .row.menu
+      .menu__post
+        input#post-with-clear.esa__post_with-clear(type="checkbox")
+        label(for="post-with-clear") Clear title/body after saving
+        button.esa__post-button(type="button" disabled="disabled") Save as WIP
+      .menu__link
+        a.esa__link(href="#" target="_blank") open previous saved post
+    .row
+      .message
+        .message__body
+  script(src="/index.bundle.js")
