@@ -24,7 +24,6 @@ For Japanese, you can also use https://esa-pages.io/p/sharing/1303/posts/251/eca
 ```sh
 $ git clone https://github.com/yoshihara/tsuibami.git
 $ npm install
-$ gem install haml # Ruby
 $ npm run build
 $ npm run watch
 ```
