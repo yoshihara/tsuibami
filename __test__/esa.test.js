@@ -10,7 +10,7 @@ let config = { teamName: 'test', token: 'token' };
 const esa = new Esa(config);
 
 describe('Esa', () => {
-  describe('search', () => {
+  describe('#search', () => {
     beforeAll(() => {
       $.ajax = jest.fn(() => {
         return new Promise(() => {});
@@ -76,7 +76,7 @@ describe('Esa', () => {
     });
   });
 
-  describe('save', () => {
+  describe('#save', () => {
     beforeAll(() => {
       $.ajax = jest.fn(() => {
         return new Promise(() => {});
