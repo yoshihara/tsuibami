@@ -9,9 +9,9 @@ import $ from 'jquery';
 let config = { teamName: 'test', token: 'token' };
 const esa = new Esa(config);
 
-describe('Esa', function() {
+describe('Esa', () => {
   describe('search', () => {
-    beforeAll(function() {
+    beforeAll(() => {
       $.ajax = jest.fn(() => {
         return new Promise(() => {});
       });
@@ -32,7 +32,7 @@ describe('Esa', function() {
     });
 
     describe('when ajax succeeded', () => {
-      beforeAll(function() {
+      beforeAll(() => {
         $.ajax = jest.fn(() => {
           return new Promise((resolve, _) => {
             resolve({
@@ -54,7 +54,7 @@ describe('Esa', function() {
     });
 
     describe('when ajax failed', () => {
-      beforeAll(function() {
+      beforeAll(() => {
         $.ajax = jest.fn(() => {
           return new Promise((_, reject) => {
             reject({
@@ -77,7 +77,7 @@ describe('Esa', function() {
   });
 
   describe('save', () => {
-    beforeAll(function() {
+    beforeAll(() => {
       $.ajax = jest.fn(() => {
         return new Promise(() => {});
       });
@@ -121,7 +121,7 @@ describe('Esa', function() {
       let post = { name: 'name', body_md: '- body' };
 
       describe('when ajax succeeded', () => {
-        beforeAll(function() {
+        beforeAll(() => {
           $.ajax = jest.fn(() => {
             return new Promise((resolve, _) => {
               resolve({
@@ -143,7 +143,7 @@ describe('Esa', function() {
       });
 
       describe('when ajax failed', () => {
-        beforeAll(function() {
+        beforeAll(() => {
           $.ajax = jest.fn(() => {
             return new Promise((_, reject) => {
               reject({
