@@ -178,7 +178,10 @@ export default class Popup {
 
       let filterPostsFunc = (response) => {
         // nameによる検索は部分一致のため、完全一致させるために検索結果から更に絞り込んでいる
-        let hitPost = Post.filterPosts(title, category, response);
+        let hitPost = _.find(response.posts, {
+          name: title,
+          category: category.length ? null : category,
+        });
 
         let postId = hitPost ? hitPost.number : undefined;
         resolve(postId);

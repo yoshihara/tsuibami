@@ -1,7 +1,5 @@
 'use strict';
 
-import _ from 'lodash';
-
 export default class Post {
   constructor() {
     this.storedKeys = [
@@ -25,16 +23,6 @@ export default class Post {
 
       return [category, title];
     }
-  }
-
-  static filterPosts(title, category, response) {
-    let filterQuery = { name: title };
-    if (category.length == 0) {
-      filterQuery.category = null;
-    } else {
-      filterQuery.category = category;
-    }
-    return _.find(response.posts, filterQuery);
   }
 
   static load(callback) {
