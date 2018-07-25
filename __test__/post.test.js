@@ -16,6 +16,27 @@ describe('Post', () => {
     });
   });
 
+  describe('.splitCategory', () => {
+    describe('when argument has no category', () => {
+      it('should return argument as title', () => {
+        expect(Post.splitCategory('title')).toEqual(['', 'title']);
+      });
+    });
+
+    describe('when argument has category', () => {
+      it('should return category and title', () => {
+        expect(Post.splitCategory('category/title')).toEqual([
+          'category',
+          'title',
+        ]);
+        expect(Post.splitCategory('category1/category2/title')).toEqual([
+          'category1/category2',
+          'title',
+        ]);
+      });
+    });
+  });
+
   describe('#update', () => {
     beforeAll(() => {
       post.title = 'title';
