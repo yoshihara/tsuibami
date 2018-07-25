@@ -37,6 +37,43 @@ describe('Post', () => {
     });
   });
 
+  describe('.load', () => {
+    beforeAll(() => {
+      chrome.storage.sync.get = jest.fn((data, callback) => {
+        let postData = { title: 'name', body: '- body', cursorPosition: 3 };
+        callback(postData);
+      });
+    });
+
+    it('should return Post object', async () => {
+      await Post.load((data) => {
+        expect(data.constructor).toEqual(Post);
+        expect(data.title).toEqual('name');
+        expect(data.body).toEqual('- body');
+        expect(data.cursorPosition).toEqual(3);
+        expect(data.saved).toBeNull();
+        expect(data.savedPostLink).toBeNull();
+      });
+    });
+
+    it('should get data from chrome storage', async () => {
+      await Post.load((_) => {});
+
+      let defaultPost = {
+        title: '',
+        body: '',
+        cursorPosition: 0,
+        saved: false,
+      };
+      let storageGetFunc = chrome.storage.sync.get;
+      expect(storageGetFunc).toBeCalled();
+      expect(storageGetFunc.mock.calls[0][0]).toEqual(defaultPost);
+      expect(typeof storageGetFunc.mock.calls[0][1]).toEqual(
+        'function', // callback
+      );
+    });
+  });
+
   describe('#update', () => {
     beforeAll(() => {
       post.title = 'title';
