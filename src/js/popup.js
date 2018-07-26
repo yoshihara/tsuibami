@@ -98,11 +98,11 @@ export default class Popup {
     });
   }
 
-  save() {
+  async save() {
     this.ui.toggleDisabledSaveButton(true);
     this.ui.toggleUploadingStatus(true);
 
-    (async () => {
+    try {
       let postId = await this.searchTargetPostInEsa();
       let response = await this.uploadPost(postId);
 
@@ -110,20 +110,17 @@ export default class Popup {
       this.syncUIWithPost();
 
       this.notifySuccess(response);
-    })()
-      .catch((error) => {
-        console.log(error);
-        let message = error.hasOwnProperty('statusText')
-          ? error.statusText
-          : error;
-        message = error.hasOwnProperty('status')
-          ? `${message} (${error.status})`
-          : message;
-        this.showMessage(message);
-      })
-      .finally(() => {
-        this.ui.toggleUploadingStatus(false);
-      });
+    } catch (error) {
+      let message = error.hasOwnProperty('statusText')
+        ? error.statusText
+        : error;
+      message = error.hasOwnProperty('status')
+        ? `${message} (${error.status})`
+        : message;
+      this.showMessage(message);
+    } finally {
+      this.ui.toggleUploadingStatus(false);
+    }
   }
 
   storeTitle() {
