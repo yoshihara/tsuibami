@@ -83,8 +83,7 @@ export default class Popup {
         break;
 
       default:
-        console.error(`error: invalid target '${targetName}' is specified`);
-        return;
+        throw Error(`error: invalid target '${targetName}' is specified`);
     }
 
     Object.keys(hooks).forEach((key) => {
