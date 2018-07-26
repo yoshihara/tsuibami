@@ -180,7 +180,7 @@ export default class Popup {
         // nameによる検索は部分一致のため、完全一致させるために検索結果から更に絞り込んでいる
         let hitPost = _.find(response.posts, {
           name: title,
-          category: category.length ? null : category,
+          category: category.length ? category : null,
         });
 
         let postId = hitPost ? hitPost.number : undefined;
