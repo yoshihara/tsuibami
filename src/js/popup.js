@@ -22,7 +22,7 @@ export default class Popup {
       this.syncSaveButtonWithPost();
 
       this.ui.post = this.post;
-      if (this.ui.title != '') {
+      if (this.post.title != '') {
         // Move cursor at previous position
         this.ui.cursorPosition = this.post.cursorPosition;
       }
