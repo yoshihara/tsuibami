@@ -1,5 +1,7 @@
 'use strict';
 
+// TODO: Add specs for prototype methods to upload post to esa
+
 import Popup from '../src/js/popup';
 jest.unmock('../src/js/popup.js');
 
