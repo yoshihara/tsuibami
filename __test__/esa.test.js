@@ -7,7 +7,7 @@ import Promise from 'promise';
 import $ from 'jquery';
 
 describe('Esa', () => {
-  let config = { teamName: 'test', token: 'token' };
+  const config = { teamName: 'test', token: 'token' };
 
   describe('#search', () => {
     beforeAll(() => {
@@ -19,7 +19,7 @@ describe('Esa', () => {
     it('should request Esa search API by ajax', async () => {
       const esa = new Esa(config);
 
-      let q = 'search query';
+      const q = 'search query';
 
       esa.search(q, () => {}, () => {});
       expect($.ajax).toBeCalledWith({
@@ -46,7 +46,7 @@ describe('Esa', () => {
       it('should call callback for success', async () => {
         const esa = new Esa(config);
 
-        let callback = jest.fn((data) => {
+        const callback = jest.fn((data) => {
           expect(data.posts).toEqual([
             { number: 123, name: 'name', body_md: '- body' },
           ]);
@@ -70,7 +70,7 @@ describe('Esa', () => {
       it('should call callback for error', async () => {
         const esa = new Esa(config);
 
-        let errCallback = jest.fn((data) => {
+        const errCallback = jest.fn((data) => {
           expect(data.posts).toEqual([
             { number: 123, name: 'name', body_md: '- body' },
           ]);
@@ -92,7 +92,7 @@ describe('Esa', () => {
       it('should POST request Esa post API by ajax', async () => {
         const esa = new Esa(config);
 
-        let post = { name: 'name', body_md: '- body' };
+        const post = { name: 'name', body_md: '- body' };
 
         esa.save(post, () => {}, () => {});
         expect($.ajax).toBeCalledWith({
@@ -110,7 +110,7 @@ describe('Esa', () => {
       it('should PATCH request Esa post API by ajax', async () => {
         const esa = new Esa(config);
 
-        let post = { id: 123, name: 'name', body_md: '- body' };
+        const post = { id: 123, name: 'name', body_md: '- body' };
 
         esa.save(post, () => {}, () => {});
         expect($.ajax).toBeCalledWith({
@@ -127,7 +127,7 @@ describe('Esa', () => {
     });
 
     describe('callbacks', () => {
-      let post = { name: 'name', body_md: '- body' };
+      const post = { name: 'name', body_md: '- body' };
 
       describe('when ajax succeeded', () => {
         beforeAll(() => {
@@ -143,7 +143,7 @@ describe('Esa', () => {
         it('should call callback for success', async () => {
           const esa = new Esa(config);
 
-          let callback = jest.fn((data) => {
+          const callback = jest.fn((data) => {
             expect(data.posts).toEqual([
               { number: 123, name: 'name', body_md: '- body' },
             ]);
@@ -167,7 +167,7 @@ describe('Esa', () => {
         it('should call callback for error', async () => {
           const esa = new Esa(config);
 
-          let errCallback = jest.fn((data) => {
+          const errCallback = jest.fn((data) => {
             expect(data.posts).toEqual([
               { number: 123, name: 'name', body_md: '- body' },
             ]);

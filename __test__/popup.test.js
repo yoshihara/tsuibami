@@ -38,7 +38,7 @@ describe('Popup', () => {
     });
 
     it('should load post and set post & UI', () => {
-      let post = { title: 'title', body: 'body', cursorPosition: 2 };
+      const post = { title: 'title', body: 'body', cursorPosition: 2 };
 
       Post.load = jest.fn((callback) => {
         callback(post);
@@ -57,7 +57,7 @@ describe('Popup', () => {
     });
 
     it('should not set cursor potision when title is blank', () => {
-      let post = { title: '', body: 'body', cursorPosition: 2 };
+      const post = { title: '', body: 'body', cursorPosition: 2 };
 
       Post.load = jest.fn((callback) => {
         callback(post);
@@ -109,7 +109,7 @@ describe('Popup', () => {
   });
 
   describe('#setPreviousSavedPostLink', () => {
-    let savedPostLink = 'https://saved_post_link.esa.io/posts/11111111';
+    const savedPostLink = 'https://saved_post_link.esa.io/posts/11111111';
 
     beforeEach(() => {
       popup = new Popup();
@@ -137,7 +137,7 @@ describe('Popup', () => {
     });
 
     it('should set hook to specified target', () => {
-      let hook = function() {};
+      const hook = function() {};
       popup.setHooks('title', { keyup: hook });
       expect(popup.ui.titleDom.on).toHaveBeenCalledWith('keyup', hook);
 
@@ -149,7 +149,7 @@ describe('Popup', () => {
     });
 
     it('should throw error for invalid target', () => {
-      let hook = function() {};
+      const hook = function() {};
 
       expect(() => {
         popup.setHooks('hoge', { keyup: hook });
@@ -157,8 +157,8 @@ describe('Popup', () => {
     });
 
     it('should allow to set multiple hooks', () => {
-      let hook1 = function() {};
-      let hook2 = function() {};
+      const hook1 = function() {};
+      const hook2 = function() {};
 
       popup.setHooks('title', { keyup: [hook1, hook2] });
 
@@ -168,7 +168,7 @@ describe('Popup', () => {
   });
 
   describe('#save', () => {
-    let postId = 123;
+    const postId = 123;
 
     beforeEach(() => {
       popup = new Popup();

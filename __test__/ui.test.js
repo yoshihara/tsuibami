@@ -47,7 +47,7 @@ describe('UI', () => {
 
   describe('#post', () => {
     it('should update DOMs from Post data', () => {
-      let postObj = { title: 'updated title', body: '- body' };
+      const postObj = { title: 'updated title', body: '- body' };
       ui.post = postObj;
 
       expect($('.post__title').val()).toEqual(postObj.title);
@@ -69,7 +69,7 @@ describe('UI', () => {
 
   describe('#team', () => {
     it('should update DOMs from team data', () => {
-      let teamObj = {
+      const teamObj = {
         teamName: 'updated teamName',
         teamIcon: 'https://updated.png/',
       };
