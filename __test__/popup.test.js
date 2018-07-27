@@ -12,8 +12,6 @@ import Esa from '../src/js/esa';
 import Util from './util';
 jest.unmock('./util.js');
 
-let popup;
-
 describe('Popup', () => {
   beforeEach(() => {
     UI.mockClear();
@@ -32,19 +30,22 @@ describe('Popup', () => {
   });
 
   describe('#setPreviousPost', () => {
+    let popup;
+    let mockUIObject;
+
+    const post = { title: 'title', body: 'body', cursorPosition: 2 };
+
     beforeEach(() => {
       popup = new Popup();
       popup.syncSaveButtonWithPost = jest.fn();
-    });
-
-    it('should load post and set post & UI', () => {
-      const post = { title: 'title', body: 'body', cursorPosition: 2 };
 
       Post.load = jest.fn((callback) => {
         callback(post);
       });
-      const mockUIObject = UI.mock.instances[0];
+      mockUIObject = UI.mock.instances[0];
+    });
 
+    it('should load post and set post & UI', () => {
       popup.setPreviousPost();
 
       expect(popup.syncSaveButtonWithPost).toHaveBeenCalledTimes(1);
@@ -57,6 +58,8 @@ describe('Popup', () => {
     });
 
     it('should not set cursor potision when title is blank', () => {
+      const popup = new Popup();
+
       const post = { title: '', body: 'body', cursorPosition: 2 };
 
       Post.load = jest.fn((callback) => {
@@ -68,8 +71,9 @@ describe('Popup', () => {
   });
 
   describe('#setPreviousState', () => {
+    const popup = new Popup();
+
     beforeEach(() => {
-      popup = new Popup();
       popup.ui.toggleDisplayOptionLink = jest.fn();
     });
 
@@ -93,12 +97,14 @@ describe('Popup', () => {
     });
 
     describe('when config is invalid', () => {
-      it('should show option link & message', async () => {
+      beforeEach(() => {
         const config = { teamName: '', token: '', teamIcon: 'icon_url' };
         chrome.storage.sync.get = jest.fn((defaultConfig, callback) => {
           callback(Util.merge(defaultConfig, config));
         });
+      });
 
+      it('should show option link & message', async () => {
         expect(popup.setPreviousState()).rejects.toThrow();
 
         expect(popup.ui.toggleDisplayOptionLink).toHaveBeenCalledWith(true);
@@ -112,7 +118,6 @@ describe('Popup', () => {
     const savedPostLink = 'https://saved_post_link.esa.io/posts/11111111';
 
     beforeEach(() => {
-      popup = new Popup();
       chrome.storage.sync.get = jest.fn((defaultLinkData, callback) => {
         const linkData = { savedPostLink: savedPostLink };
         callback(Util.merge(defaultLinkData, linkData));
@@ -120,6 +125,8 @@ describe('Popup', () => {
     });
 
     it('should set savedPostLink loaded chrome storage', async () => {
+      const popup = new Popup();
+
       await popup.setPreviousSavedPostLink();
 
       expect(popup.ui.savedPostLink).toEqual(savedPostLink);
@@ -127,8 +134,9 @@ describe('Popup', () => {
   });
 
   describe('#setHook', () => {
+    const popup = new Popup();
+
     beforeEach(() => {
-      popup = new Popup();
       popup.ui = {
         titleDom: { on: jest.fn() },
         bodyDom: { on: jest.fn() },
@@ -168,10 +176,13 @@ describe('Popup', () => {
   });
 
   describe('#save', () => {
+    let popup;
+    let mockUIObject;
     const postId = 123;
 
-    beforeEach(() => {
+    beforeAll(() => {
       popup = new Popup();
+      mockUIObject = UI.mock.instances[0];
 
       popup.searchTargetPostInEsa = jest.fn(() => {
         return postId;
@@ -205,8 +216,6 @@ describe('Popup', () => {
 
       expect(popup.searchTargetPostInEsa).toHaveBeenCalledTimes(1);
       expect(popup.uploadPost).toHaveBeenCalledWith(postId);
-
-      const mockUIObject = UI.mock.instances[0];
 
       expect(mockUIObject.toggleDisabledSaveButton).toHaveBeenCalledWith(true);
       expect(mockUIObject.toggleUploadingStatus).toHaveBeenCalledWith(true);
