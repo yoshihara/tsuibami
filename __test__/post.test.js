@@ -39,9 +39,11 @@ describe('Post', () => {
 
   describe('.load', () => {
     beforeAll(() => {
-      chrome.storage.sync.get = jest.fn((data, callback) => {
+      chrome.storage.sync.get = jest.fn((defaultPost, callback) => {
+        let copiedDefaultPost = Object.assign({}, defaultPost);
+
         let postData = { title: 'name', body: '- body', cursorPosition: 3 };
-        callback(postData);
+        callback(Object.assign(copiedDefaultPost, postData));
       });
     });
 
@@ -51,7 +53,7 @@ describe('Post', () => {
         expect(data.title).toEqual('name');
         expect(data.body).toEqual('- body');
         expect(data.cursorPosition).toEqual(3);
-        expect(data.saved).toBeNull();
+        expect(data.saved).toEqual(false);
         expect(data.savedPostLink).toBeNull();
       });
     });
