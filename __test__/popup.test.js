@@ -9,6 +9,9 @@ import UI from '../src/js/ui';
 import Post from '../src/js/post';
 import Esa from '../src/js/esa';
 
+import Util from './util';
+jest.unmock('./util.js');
+
 let popup;
 
 describe('Popup', () => {
@@ -77,8 +80,8 @@ describe('Popup', () => {
           token: 'token',
           teamIcon: 'icon_url',
         };
-        chrome.storage.sync.get = jest.fn((_, callback) => {
-          callback(config);
+        chrome.storage.sync.get = jest.fn((defaultConfig, callback) => {
+          callback(Util.merge(defaultConfig, config));
         });
 
         await popup.setPreviousState();
@@ -92,8 +95,8 @@ describe('Popup', () => {
     describe('when config is invalid', () => {
       it('should show option link & message', async () => {
         let config = { teamName: '', token: '', teamIcon: 'icon_url' };
-        chrome.storage.sync.get = jest.fn((_, callback) => {
-          callback(config);
+        chrome.storage.sync.get = jest.fn((defaultConfig, callback) => {
+          callback(Util.merge(defaultConfig, config));
         });
 
         expect(popup.setPreviousState()).rejects.toThrow();
@@ -110,8 +113,9 @@ describe('Popup', () => {
 
     beforeEach(() => {
       popup = new Popup();
-      chrome.storage.sync.get = jest.fn((_, callback) => {
-        callback({ savedPostLink: savedPostLink });
+      chrome.storage.sync.get = jest.fn((defaultLinkData, callback) => {
+        const linkData = { savedPostLink: savedPostLink };
+        callback(Util.merge(defaultLinkData, linkData));
       });
     });
 

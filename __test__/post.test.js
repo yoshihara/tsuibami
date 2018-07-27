@@ -3,6 +3,9 @@
 import Post from '../src/js/post';
 jest.unmock('../src/js/post.js');
 
+import Util from './util';
+jest.unmock('./util.js');
+
 const post = new Post();
 
 describe('Post', () => {
@@ -40,10 +43,9 @@ describe('Post', () => {
   describe('.load', () => {
     beforeAll(() => {
       chrome.storage.sync.get = jest.fn((defaultPost, callback) => {
-        let copiedDefaultPost = Object.assign({}, defaultPost);
 
         let postData = { title: 'name', body: '- body', cursorPosition: 3 };
-        callback(Object.assign(copiedDefaultPost, postData));
+        callback(Util.merge(defaultPost, postData));
       });
     });
 
