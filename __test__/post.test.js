@@ -6,11 +6,11 @@ jest.unmock('../src/js/post.js');
 import Util from './util';
 jest.unmock('./util.js');
 
-const post = new Post();
-
 describe('Post', () => {
   describe('constructor', () => {
     it('should have null values for some keys', () => {
+      const post = new Post();
+
       expect(post.title).toBeNull();
       expect(post.body).toBeNull();
       expect(post.saved).toBeNull();
@@ -79,6 +79,8 @@ describe('Post', () => {
   });
 
   describe('#update', () => {
+    const post = new Post();
+
     beforeAll(() => {
       post.title = 'title';
       post.body = '- body';
@@ -104,6 +106,8 @@ describe('Post', () => {
   });
 
   describe('#store', () => {
+    const post = new Post();
+
     beforeAll(() => {
       const postData = {
         title: 'updated',
@@ -122,8 +126,8 @@ describe('Post', () => {
         title: 'updated',
         body: '- body\n- fuga',
         saved: true,
-        cursorPosition: 1,
-        savedPostLink: 'URL',
+        cursorPosition: null,
+        savedPostLink: null,
       };
 
       await post.store(() => {}, () => {});
@@ -143,6 +147,8 @@ describe('Post', () => {
       });
 
       it('should call callback', async () => {
+        const post = new Post();
+
         const callback = jest.fn();
         await post.store(callback, () => {});
 
@@ -159,6 +165,8 @@ describe('Post', () => {
       });
 
       it('should call errCallback', async () => {
+        const post = new Post();
+
         const errCallback = jest.fn();
         await post.store(() => {}, errCallback);
 
