@@ -11,11 +11,13 @@ const originalTitle = 'title';
 const originalBody = 'body';
 const originalTeamIcon = 'https://example.png/';
 
-let ui;
-
 // NOTE: ほぼDOM操作してるだけのメソッドはテスト対象から除外している
 
 describe('UI', () => {
+  beforeAll(() => {
+    $.fn.esarea = jest.fn();
+  });
+
   beforeEach(() => {
     document.body.innerHTML = `<div>
          <span class="team__name">team name</span>
@@ -30,12 +32,15 @@ describe('UI', () => {
 
          <a class="option__link" href="option_link_url">open Option</a>
        </div>`;
-
-    $.fn.esarea = jest.fn();
-    ui = new UI();
   });
 
   describe('constructor', () => {
+    let ui;
+
+    beforeAll(() => {
+      ui = new UI();
+    });
+
     it('should have messageArea', () => {
       expect(ui.messageArea.constructor).toEqual(MessageArea);
     });
@@ -47,6 +52,8 @@ describe('UI', () => {
 
   describe('#post', () => {
     it('should update DOMs from Post data', () => {
+      const ui = new UI();
+
       const postObj = { title: 'updated title', body: '- body' };
       ui.post = postObj;
 
@@ -55,6 +62,8 @@ describe('UI', () => {
     });
 
     it('should update DOM specified by Post data only', () => {
+      const ui = new UI();
+
       ui.post = { title: 'updated title' };
 
       expect($('.post__title').val()).toEqual('updated title');
@@ -69,6 +78,8 @@ describe('UI', () => {
 
   describe('#team', () => {
     it('should update DOMs from team data', () => {
+      const ui = new UI();
+
       const teamObj = {
         teamName: 'updated teamName',
         teamIcon: 'https://updated.png/',
@@ -80,6 +91,8 @@ describe('UI', () => {
     });
 
     it('should update DOM specified by team data only', () => {
+      const ui = new UI();
+
       ui.team = { teamName: 'updated teamName' };
 
       expect($('.team__name').text()).toEqual('updated teamName');
