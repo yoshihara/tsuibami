@@ -75,7 +75,7 @@ describe('Popup', () => {
 
     describe('when config is valid', () => {
       it('should configure Esa & team info in UI', async () => {
-        let config = {
+        const config = {
           teamName: 'team name',
           token: 'token',
           teamIcon: 'icon_url',
@@ -94,7 +94,7 @@ describe('Popup', () => {
 
     describe('when config is invalid', () => {
       it('should show option link & message', async () => {
-        let config = { teamName: '', token: '', teamIcon: 'icon_url' };
+        const config = { teamName: '', token: '', teamIcon: 'icon_url' };
         chrome.storage.sync.get = jest.fn((defaultConfig, callback) => {
           callback(Util.merge(defaultConfig, config));
         });

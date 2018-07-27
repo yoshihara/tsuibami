@@ -43,8 +43,8 @@ describe('Post', () => {
   describe('.load', () => {
     beforeAll(() => {
       chrome.storage.sync.get = jest.fn((defaultPost, callback) => {
+        const postData = { title: 'name', body: '- body', cursorPosition: 3 };
 
-        let postData = { title: 'name', body: '- body', cursorPosition: 3 };
         callback(Util.merge(defaultPost, postData));
       });
     });
@@ -63,13 +63,13 @@ describe('Post', () => {
     it('should get data from chrome storage', async () => {
       await Post.load((_) => {});
 
-      let defaultPost = {
+      const defaultPost = {
         title: '',
         body: '',
         cursorPosition: 0,
         saved: false,
       };
-      let storageGetFunc = chrome.storage.sync.get;
+      const storageGetFunc = chrome.storage.sync.get;
       expect(storageGetFunc).toBeCalled();
       expect(storageGetFunc.mock.calls[0][0]).toEqual(defaultPost);
       expect(typeof storageGetFunc.mock.calls[0][1]).toEqual(
@@ -88,7 +88,11 @@ describe('Post', () => {
     });
 
     it('should update specified values only', () => {
-      let postData = { title: 'updated', body: '- body\n- fuga', saved: true };
+      const postData = {
+        title: 'updated',
+        body: '- body\n- fuga',
+        saved: true,
+      };
       post.update(postData);
 
       expect(post.title).toEqual('updated');
@@ -101,7 +105,11 @@ describe('Post', () => {
 
   describe('#store', () => {
     beforeAll(() => {
-      let postData = { title: 'updated', body: '- body\n- fuga', saved: true };
+      const postData = {
+        title: 'updated',
+        body: '- body\n- fuga',
+        saved: true,
+      };
       post.update(postData);
     });
 
@@ -110,7 +118,7 @@ describe('Post', () => {
         callback();
       });
 
-      let storedData = {
+      const storedData = {
         title: 'updated',
         body: '- body\n- fuga',
         saved: true,
@@ -135,7 +143,7 @@ describe('Post', () => {
       });
 
       it('should call callback', async () => {
-        let callback = jest.fn();
+        const callback = jest.fn();
         await post.store(callback, () => {});
 
         expect(callback).toBeCalled();
@@ -151,7 +159,7 @@ describe('Post', () => {
       });
 
       it('should call errCallback', async () => {
-        let errCallback = jest.fn();
+        const errCallback = jest.fn();
         await post.store(() => {}, errCallback);
 
         expect(errCallback).toBeCalled();
