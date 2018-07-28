@@ -20,7 +20,7 @@ export default class Esa {
     });
   }
 
-  save(post, callback, errCallback) {
+  save(post) {
     let type;
     let url = `${this.endpoint}/posts`;
     if (post.id) {
@@ -30,13 +30,13 @@ export default class Esa {
       type = 'POST';
     }
 
-    $.ajax({
+    return $.ajax({
       type: type,
       url: url,
       data: {
         post: post,
         access_token: this.token,
       },
-    }).then(callback, errCallback);
+    });
   }
 }

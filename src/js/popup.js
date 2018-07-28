@@ -203,7 +203,10 @@ export default class Popup {
         message: 'from tsuibami',
       };
 
-      this.esa.save(postData, resolve, reject);
+      this.esa
+        .save(postData)
+        .then(resolve)
+        .catch(reject);
     });
   }
 

@@ -102,7 +102,7 @@ describe('Esa', () => {
     });
 
     describe('when post has no id', () => {
-      it('should POST request Esa post API by ajax', async () => {
+      it('should POST request Esa post API by ajax', () => {
         const esa = new Esa(config);
 
         const post = { name: 'name', body_md: '- body' };
@@ -120,7 +120,7 @@ describe('Esa', () => {
     });
 
     describe('when post has id', () => {
-      it('should PATCH request Esa post API by ajax', async () => {
+      it('should PATCH request Esa post API by ajax', () => {
         const esa = new Esa(config);
 
         const post = { id: 123, name: 'name', body_md: '- body' };
@@ -153,16 +153,21 @@ describe('Esa', () => {
           });
         });
 
-        it('should call callback for success', async () => {
+        it('should call callback for success', () => {
           const esa = new Esa(config);
 
-          const callback = jest.fn((data) => {
+          const callback = (data) => {
             expect(data.posts).toEqual([
               { number: 123, name: 'name', body_md: '- body' },
             ]);
-          });
+          };
 
-          await esa.save(post, callback, () => {});
+          return esa
+            .save(post)
+            .then(callback)
+            .catch(() => {
+              throw Error('Unexpected callback was called');
+            });
         });
       });
 
@@ -177,16 +182,21 @@ describe('Esa', () => {
           });
         });
 
-        it('should call callback for error', async () => {
+        it('should call callback for error', () => {
           const esa = new Esa(config);
 
-          const errCallback = jest.fn((data) => {
+          const errCallback = (data) => {
             expect(data.posts).toEqual([
               { number: 123, name: 'name', body_md: '- body' },
             ]);
-          });
+          };
 
-          await esa.save(post, () => {}, errCallback);
+          return esa
+            .save(post)
+            .then(() => {
+              throw Error('Unexpected callback was called');
+            })
+            .catch(errCallback);
         });
       });
     });
