@@ -18,11 +18,11 @@ const storeCursorPosition = function() {
   popup.storeCursorPosition();
 };
 
-const saveByShortcut = function(event) {
+const saveByShortcut = async function(event) {
   // Ctrl+s or Cmd+s
   if ((event.metaKey || event.ctrlKey) && event.keyCode == 83) {
     event.preventDefault();
-    popup.save();
+    await popup.save();
   }
 };
 

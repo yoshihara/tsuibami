@@ -17,6 +17,7 @@
     "watch:html": "watchy -w src/pug -- npm run build:html",
     "watch:css": "watchy -w src/sass -- npm run build:css",
     "watch": "npm-run-all clean -p watch:*",
+    "test": "jest",
     "precommit": "lint-staged"
   },
   "lint-staged": {
@@ -38,11 +39,14 @@
   },
   "homepage": "https://github.com/yoshihara/tsuibami",
   "devDependencies": {
+    "babel-preset-env": "^1.7.0",
     "eslint": "^5.2.0",
     "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-jest": "^21.18.0",
     "eslint-plugin-prettier": "^2.6.2",
     "expose-loader": "^0.7.3",
     "husky": "^0.14.3",
+    "jest": "^23.4.1",
     "lint-staged": "^6.1.0",
     "node-sass": "^4.5.3",
     "npm-run-all": "^4.0.2",
@@ -55,5 +59,14 @@
     "bluebird": "^3.5.0",
     "jquery": "^3.2.1",
     "lodash": "^4.17.4"
+  },
+  "jest": {
+    "automock": true,
+    "unmockedModulePathPatterns": [
+      "node_modules"
+    ],
+    "setupFiles": [
+      "./__test__/setup-jest.js"
+    ]
   }
 }

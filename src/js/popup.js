@@ -22,7 +22,7 @@ export default class Popup {
       this.syncSaveButtonWithPost();
 
       this.ui.post = this.post;
-      if (this.ui.title != '') {
+      if (this.post.title != '') {
         // Move cursor at previous position
         this.ui.cursorPosition = this.post.cursorPosition;
       }
@@ -83,8 +83,7 @@ export default class Popup {
         break;
 
       default:
-        console.error(`error: invalid target '${targetName}' is specified`);
-        return;
+        throw Error(`error: invalid target '${targetName}' is specified`);
     }
 
     Object.keys(hooks).forEach((key) => {
@@ -99,11 +98,11 @@ export default class Popup {
     });
   }
 
-  save() {
+  async save() {
     this.ui.toggleDisabledSaveButton(true);
     this.ui.toggleUploadingStatus(true);
 
-    (async () => {
+    try {
       let postId = await this.searchTargetPostInEsa();
       let response = await this.uploadPost(postId);
 
@@ -111,20 +110,17 @@ export default class Popup {
       this.syncUIWithPost();
 
       this.notifySuccess(response);
-    })()
-      .catch((error) => {
-        console.log(error);
-        let message = error.hasOwnProperty('statusText')
-          ? error.statusText
-          : error;
-        message = error.hasOwnProperty('status')
-          ? `${message} (${error.status})`
-          : message;
-        this.showMessage(message);
-      })
-      .finally(() => {
-        this.ui.toggleUploadingStatus(false);
-      });
+    } catch (error) {
+      let message = error.hasOwnProperty('statusText')
+        ? error.statusText
+        : error;
+      message = error.hasOwnProperty('status')
+        ? `${message} (${error.status})`
+        : message;
+      this.showMessage(message);
+    } finally {
+      this.ui.toggleUploadingStatus(false);
+    }
   }
 
   storeTitle() {
@@ -178,13 +174,19 @@ export default class Popup {
 
       let filterPostsFunc = (response) => {
         // nameによる検索は部分一致のため、完全一致させるために検索結果から更に絞り込んでいる
-        let hitPost = Post.filterPosts(title, category, response);
+        let hitPost = _.find(response.posts, {
+          name: title,
+          category: category.length ? category : null,
+        });
 
         let postId = hitPost ? hitPost.number : undefined;
         resolve(postId);
       };
 
-      this.esa.search(q, filterPostsFunc, reject);
+      this.esa
+        .search(q)
+        .then(filterPostsFunc)
+        .catch(reject);
     });
   }
 
@@ -201,7 +203,10 @@ export default class Popup {
         message: 'from tsuibami',
       };
 
-      this.esa.save(postData, resolve, reject);
+      this.esa
+        .save(postData)
+        .then(resolve)
+        .catch(reject);
     });
   }
 

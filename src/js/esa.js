@@ -9,18 +9,18 @@ export default class Esa {
     this.endpoint = `https://api.esa.io/v1/teams/${config.teamName}`;
   }
 
-  search(q, callback, errCallback) {
-    $.ajax({
+  search(q) {
+    return $.ajax({
       type: 'GET',
       url: `${this.endpoint}/posts`,
       data: {
         q: q,
         access_token: this.token,
       },
-    }).then(callback, errCallback);
+    });
   }
 
-  save(post, callback, errCallback) {
+  save(post) {
     let type;
     let url = `${this.endpoint}/posts`;
     if (post.id) {
@@ -30,13 +30,13 @@ export default class Esa {
       type = 'POST';
     }
 
-    $.ajax({
+    return $.ajax({
       type: type,
       url: url,
       data: {
         post: post,
         access_token: this.token,
       },
-    }).then(callback, errCallback);
+    });
   }
 }

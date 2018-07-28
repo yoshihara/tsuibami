@@ -1,6 +1,7 @@
 {
   "env": {
-    "browser": true
+    "browser": true,
+    "jest/globals": true
   },
   "parserOptions": {
     "sourceType": "module",
@@ -10,13 +11,19 @@
     "eslint:recommended",
     "plugin:prettier/recommended"
   ],
+  "plugins": ["jest"],
   "globals": {
     "setTimeout": true,
-    "chrome": true
+    "chrome": true,
+    "global": true
   },
   "rules": {
     "no-console": ["off"],
     "comma-dangle": ["error", "always-multiline"],
+    "no-unused-vars": [
+      "error",
+      { "argsIgnorePattern": "^_" }
+    ],
     "prettier/prettier": [
       "error",
       {
