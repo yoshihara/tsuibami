@@ -65,12 +65,12 @@ describe('Esa', () => {
     });
 
     describe('when ajax failed', () => {
+      const errMessage = 'error callback is called';
+
       beforeAll(() => {
         $.ajax = jest.fn(() => {
           return new Promise((_, reject) => {
-            reject({
-              posts: [{ number: 123, name: 'name', body_md: '- body' }],
-            });
+            reject(errMessage);
           });
         });
       });
@@ -78,10 +78,8 @@ describe('Esa', () => {
       it('should call callback for error', () => {
         const esa = new Esa(config);
 
-        const errCallback = (data) => {
-          expect(data.posts).toEqual([
-            { number: 123, name: 'name', body_md: '- body' },
-          ]);
+        const errCallback = (err) => {
+          expect(err).toEqual(errMessage);
         };
 
         return esa
@@ -172,12 +170,12 @@ describe('Esa', () => {
       });
 
       describe('when ajax failed', () => {
+        const errMessage = 'error callback is called';
+
         beforeAll(() => {
           $.ajax = jest.fn(() => {
             return new Promise((_, reject) => {
-              reject({
-                posts: [{ number: 123, name: 'name', body_md: '- body' }],
-              });
+              reject(errMessage);
             });
           });
         });
@@ -185,16 +183,14 @@ describe('Esa', () => {
         it('should call callback for error', () => {
           const esa = new Esa(config);
 
-          const errCallback = (data) => {
-            expect(data.posts).toEqual([
-              { number: 123, name: 'name', body_md: '- body' },
-            ]);
+          const errCallback = (err) => {
+            expect(err).toEqual(errMessage);
           };
 
           return esa
             .save(post)
             .then(() => {
-              throw Error('Unexpected callback was called');
+              throw Error(errMessage);
             })
             .catch(errCallback);
         });
