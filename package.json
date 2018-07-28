@@ -4,7 +4,7 @@
   "description": "mini editor for esa.io",
   "main": "index.js",
   "scripts": {
-    "package": "npm run build && zip tsuibami.zip -j build/*",
+    "package": "yarn run build && zip tsuibami.zip -j build/*",
     "clean": "rm -rf build/ && mkdir -p build",
     "build:js": "webpack --config webpack.config.js",
     "build:metadata": "rm -rf build/*.png build/manifest.json && cp -a metadata/* build/",
