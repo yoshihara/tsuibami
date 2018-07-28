@@ -16,12 +16,15 @@ describe('Esa', () => {
       });
     });
 
-    it('should request Esa search API by ajax', async () => {
+    it('should request Esa search API by ajax', () => {
       const esa = new Esa(config);
-
       const q = 'search query';
 
-      esa.search(q, () => {}, () => {});
+      esa
+        .search(q)
+        .then(() => {})
+        .catch(() => {});
+
       expect($.ajax).toBeCalledWith({
         data: {
           access_token: config.token,
@@ -43,16 +46,21 @@ describe('Esa', () => {
         });
       });
 
-      it('should call callback for success', async () => {
+      it('should call callback for success', () => {
         const esa = new Esa(config);
 
-        const callback = jest.fn((data) => {
+        const callback = (data) => {
           expect(data.posts).toEqual([
             { number: 123, name: 'name', body_md: '- body' },
           ]);
-        });
+        };
 
-        await esa.search('search query', callback, () => {});
+        return esa
+          .search('search query')
+          .then(callback)
+          .catch((_) => {
+            throw Error('Unexpected callback was called');
+          });
       });
     });
 
@@ -67,16 +75,21 @@ describe('Esa', () => {
         });
       });
 
-      it('should call callback for error', async () => {
+      it('should call callback for error', () => {
         const esa = new Esa(config);
 
-        const errCallback = jest.fn((data) => {
+        const errCallback = (data) => {
           expect(data.posts).toEqual([
             { number: 123, name: 'name', body_md: '- body' },
           ]);
-        });
+        };
 
-        await esa.search('search query', () => {}, errCallback);
+        return esa
+          .search('search query')
+          .then((_) => {
+            throw Error('Unexpected callback was called');
+          })
+          .catch(errCallback);
       });
     });
   });

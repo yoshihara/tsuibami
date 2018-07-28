@@ -183,7 +183,10 @@ export default class Popup {
         resolve(postId);
       };
 
-      this.esa.search(q, filterPostsFunc, reject);
+      this.esa
+        .search(q)
+        .then(filterPostsFunc)
+        .catch(reject);
     });
   }
 
