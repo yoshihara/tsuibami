@@ -234,6 +234,7 @@ export default class Popup {
   syncUIWithPost() {
     this.ui.post = this.post;
     this.ui.savedPostLink = this.post.savedPostLink;
+    if (this.post.title === '') this.ui.focusTitle();
   }
 
   syncSaveButtonWithPost() {
