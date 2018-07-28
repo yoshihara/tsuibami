@@ -6,12 +6,13 @@ html
     title tsuibami settings
   body
     h1 tsuibami settings
-    .row
-      input.options__team-name(placeholder="チーム名" title="チーム名")
-    .row
-      input.options__token(placeholder="トークン" title="トークン")
-    .row
-      button.options__save(type="button") Save Options
+    form
+      .row
+        input.options__team-name(placeholder="チーム名" title="チーム名")
+      .row
+        input.options__token(placeholder="トークン" title="トークン")
+      .row
+        button.options__save(type="submit") Save Options
     .row
       .message
         .options__message
