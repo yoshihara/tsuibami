@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
+  mode: 'production', // NOTE: developmentだとoptions.htmlでのJS読み込みがCSPに引っかかってevalに失敗するのでproduction
   entry: {
     index: './src/js/index.js',
     options: './src/js/options.js'
