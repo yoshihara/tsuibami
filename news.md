@@ -1,5 +1,14 @@
 # NEWS
 
+## 0.3.1
+
+### (for development)
+
+- Upgrade npm packages
+- Use "production" as mode for webpack because of CSP error in options.html
+- Use npm again
+- Ignore webpack.config.js by eslint
+
 ## 0.3.0
 
 ### Implement
