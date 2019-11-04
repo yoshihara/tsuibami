@@ -7,7 +7,6 @@ module.exports = {
     options: './src/js/options.js'
   },
   output: {
-    filename: 'bundle.js',
     path: path.resolve(__dirname, 'build'),
     filename: '[name].bundle.js'
   },
