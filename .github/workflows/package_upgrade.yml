@@ -1,0 +1,44 @@
+name: package upgrade
+
+on:
+  schedule:
+    - cron:  '0 4 * * 0'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: upgrade packages
+        run: |
+          git config user.name 'yoshihara'
+          git config user.email '594134+yoshihara@users.noreply.github.com'
+          npm install -g npm-check-updates
+          ncu -u
+          npm install
+
+      - name: diff existing check
+        run: |
+          [ `git diff | wc -l` = 0 ]
+
+      - name: create commit
+        run: |
+          git add package.json package-lock.json
+          git commit -m "Update npm packages"
+        if: job.status == 'failure' # failure = diff がある場合
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v2
+        with:
+          branch: update-npm-packages-with-ncu
+        if: job.status == 'cancelled'
