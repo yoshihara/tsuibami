@@ -17,8 +17,12 @@
     "watch:html": "watchy -w src/pug -- npm run build:html",
     "watch:css": "watchy -w src/sass -- npm run build:css",
     "watch": "npm-run-all clean -p watch:*",
-    "test": "jest",
-    "precommit": "lint-staged"
+    "test": "jest"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "lint-staged": {
     "*.js": [
