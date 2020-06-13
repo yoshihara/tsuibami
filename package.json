@@ -39,7 +39,9 @@
   },
   "homepage": "https://github.com/yoshihara/tsuibami",
   "devDependencies": {
-    "babel-preset-env": "^1.7.0",
+    "@babel/core": "^7.10.2",
+    "@babel/preset-env": "^7.10.2",
+    "babel-loader": "^8.1.0",
     "eslint": "^5.16.0",
     "eslint-config-prettier": "^4.3.0",
     "eslint-plugin-jest": "^22.21.0",

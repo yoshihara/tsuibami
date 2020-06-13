@@ -15,5 +15,10 @@ module.exports = {
     new webpack.ProvidePlugin({
       jQuery: 'jquery' // for jquery.esarea
     })
-  ]
+  ],
+  module: {
+    rules: [
+      { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" }
+    ]
+  }
 };
