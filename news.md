@@ -1,5 +1,12 @@
 # NEWS
 
+## 0.3.2
+
+### (for development)
+
+- Upgrade many npm packages
+- Use babel correctly (before, configuration file exists but isn't used ...)
+
 ## 0.3.1
 
 ### (for development)
