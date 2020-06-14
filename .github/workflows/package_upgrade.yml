@@ -7,8 +7,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    continue-on-error: true
 
     strategy:
+      fail-fast: false
       matrix:
         node-version: [12.x]
 
@@ -41,4 +43,4 @@ jobs:
         uses: peter-evans/create-pull-request@v2
         with:
           branch: update-npm-packages-with-ncu
-        if: job.status == 'cancelled'
+        if: job.status == 'success' # 1つ上のstepが成功した=commitがあるということなのでPRを作る
