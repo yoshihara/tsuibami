@@ -2,7 +2,7 @@ name: package upgrade
 
 on:
   schedule:
-    - cron: '0 4 * * 0'
+    - cron: '0 4 * * *' # TODO: run every sunday only
 
 jobs:
   build:
