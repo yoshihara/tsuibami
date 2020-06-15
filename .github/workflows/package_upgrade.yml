@@ -59,8 +59,8 @@ jobs:
             ```
           branch: update-npm-packages-with-ncu
           commit-message: "Update npm packages"
-          commiter: "yoshihara <594134+yoshihara@users.noreply.github.com"
-          author: "yoshihara <594134+yoshihara@users.noreply.github.com"
+          commiter: "yoshihara <594134+yoshihara@users.noreply.github.com>"
+          author: "yoshihara <594134+yoshihara@users.noreply.github.com>"
 
         if: steps.check.outcome == 'failure' # failure = diff がある場合
       - name: Check outputs
