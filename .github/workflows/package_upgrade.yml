@@ -68,3 +68,7 @@ jobs:
             ```
           branch: update-npm-packages-with-ncu
         if: steps.commit.outcome == 'success' # 1つ上のstepが成功した=commitがあるということなのでPRを作る
+      - name: Check outputs
+        run: |
+          echo "Pull Request Number - ${{ env.PULL_REQUEST_NUMBER }}"
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
