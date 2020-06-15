@@ -22,8 +22,6 @@ jobs:
 
       - name: Install npm-check-updates
         run: |
-          git config user.name 'yoshihara'
-          git config user.email '594134+yoshihara@users.noreply.github.com'
           npm install -g npm-check-updates
 
       - name: Run ncu
@@ -46,14 +44,6 @@ jobs:
           [ `git diff | wc -l` = 0 ]
         continue-on-error: true
 
-      - name: Create commit
-        id: commit
-        run: |
-          git add package.json package-lock.json
-          git commit -m "Update npm packages"
-        if: steps.check.outcome == 'failure' # failure = diff がある場合
-        continue-on-error: true
-
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v2
         with:
@@ -67,7 +57,11 @@ jobs:
             ${{ steps.ncu.outputs.ncu-upgrade }}
             ```
           branch: update-npm-packages-with-ncu
-        if: steps.commit.outcome == 'success' # 1つ上のstepが成功した=commitがあるということなのでPRを作る
+          commit-message: "Update npm packages"
+          commiter: "yoshihara <594134+yoshihara@users.noreply.github.com"
+          author: "yoshihara <594134+yoshihara@users.noreply.github.com"
+
+        if: steps.check.outcome == 'failure' # failure = diff がある場合
       - name: Check outputs
         run: |
           echo "Pull Request Number - ${{ env.PULL_REQUEST_NUMBER }}"
