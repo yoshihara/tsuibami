@@ -1,8 +1,8 @@
 name: package upgrade
 
-on:
-  schedule:
-    - cron: '0 4 * * 0' # sunday at 13:00 (UTF+9)
+on: [push]
+  # schedule:
+  #   - cron: '0 4 * * 0' # sunday at 13:00 (UTF+9)
 
 jobs:
   build:
@@ -20,12 +20,19 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: upgrade packages
+      - name: install npm-check-updates
         run: |
           git config user.name 'yoshihara'
           git config user.email '594134+yoshihara@users.noreply.github.com'
           npm install -g npm-check-updates
-          ncu -u
+
+      - name: run ncu
+        id: ncu
+        run: |
+          echo "##[set-output name=ncu-upgrade;]$(ncu -u 3>&1 1>&2 2>&3)"
+
+      - name: run npm install
+        run: |
           npm install
 
       - name: diff existing check
@@ -45,5 +52,14 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v2
         with:
+          title: Upgrade npm packages
+          body: |
+            This PR was created by GitHub Actions.
+
+            Outputs:
+
+            ```
+            ${{ steps.ncu.outputs.ncu-upgrade }}
+            ```
           branch: update-npm-packages-with-ncu
         if: steps.commit.outcome == 'success' # 1つ上のstepが成功した=commitがあるということなのでPRを作る
