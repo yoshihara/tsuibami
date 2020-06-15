@@ -1,8 +1,8 @@
 name: package upgrade
 
-on: [push]
-  # schedule:
-  #   - cron: '0 4 * * *' # TODO: run every sunday only
+on:
+  schedule:
+    - cron: '0 4 * * 0' # sunday at 13:00 (UTF+9)
 
 jobs:
   build:
