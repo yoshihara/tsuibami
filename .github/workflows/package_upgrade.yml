@@ -63,6 +63,13 @@ jobs:
           author: "yoshihara <594134+yoshihara@users.noreply.github.com>"
 
         if: steps.check.outcome == 'failure' # failure = diff がある場合
+
+      - name: RUN test
+        run: |
+          npm test
+        env:
+          CI: true
+
       - name: Check outputs
         run: |
           echo "Pull Request Number - ${{ env.PULL_REQUEST_NUMBER }}"
