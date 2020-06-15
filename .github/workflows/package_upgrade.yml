@@ -1,13 +1,12 @@
 name: package upgrade
 
-on:
-  schedule:
-    - cron: '0 4 * * *' # TODO: run every sunday only
+on: [push]
+  # schedule:
+  #   - cron: '0 4 * * *' # TODO: run every sunday only
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    continue-on-error: true
 
     strategy:
       fail-fast: false
@@ -32,12 +31,14 @@ jobs:
       - name: diff existing check
         run: |
           [ `git diff | wc -l` = 0 ]
+        continue-on-error: true
 
       - name: create commit
         run: |
           git add package.json package-lock.json
           git commit -m "Update npm packages"
         if: job.status == 'failure' # failure = diff がある場合
+        continue-on-error: true
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v2
