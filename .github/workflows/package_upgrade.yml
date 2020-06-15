@@ -20,33 +20,33 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: install npm-check-updates
+      - name: Install npm-check-updates
         run: |
           git config user.name 'yoshihara'
           git config user.email '594134+yoshihara@users.noreply.github.com'
           npm install -g npm-check-updates
 
-      - name: run ncu
+      - name: Run ncu
         id: ncu
         run: |
-          text="`ncu -u 2> /dev/null`"
           # https://github.community/t/set-output-truncates-multiline-strings/16852/3
+          text="`ncu -u 2> /dev/null`"
           text="${text//'%'/'%25'}"
           text="${text//$'\n'/'%0A'}"
           text="${text//$'\r'/'%0D'}"
           echo $text
           echo "::set-output name=ncu-upgrade::$text"
-      - name: run npm install
+      - name: Run npm install
         run: |
           npm install
 
-      - name: diff existing check
+      - name: Check diff existing
         id: check
         run: |
           [ `git diff | wc -l` = 0 ]
         continue-on-error: true
 
-      - name: create commit
+      - name: Create commit
         id: commit
         run: |
           git add package.json package-lock.json
