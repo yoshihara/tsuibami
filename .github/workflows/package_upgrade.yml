@@ -29,19 +29,21 @@ jobs:
           npm install
 
       - name: diff existing check
+        id: check
         run: |
           [ `git diff | wc -l` = 0 ]
         continue-on-error: true
 
       - name: create commit
+        id: commit
         run: |
           git add package.json package-lock.json
           git commit -m "Update npm packages"
-        if: job.status == 'failure' # failure = diff がある場合
+        if: steps.check.outcome == 'failure' # failure = diff がある場合
         continue-on-error: true
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v2
         with:
           branch: update-npm-packages-with-ncu
-        if: job.status == 'success' # 1つ上のstepが成功した=commitがあるということなのでPRを作る
+        if: steps.commit.outcome == 'success' # 1つ上のstepが成功した=commitがあるということなのでPRを作る
