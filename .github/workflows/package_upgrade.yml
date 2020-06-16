@@ -66,9 +66,7 @@ jobs:
             "body": "This PR was created by GitHub Actions.\n\nOutputs:\n\n```\n${{ steps.ncu.outputs.ncu-upgrade }}```\n\nStatus:\n\n![package upgrade](https://github.com/yoshihara/tsuibami/workflows/package%20upgrade/badge.svg?branch=update-npm-packages-with-ncu)\n\n",
             "head": "update-npm-packages-with-ncu",
             "base": "master"
-            }' > output.txt
-          output=`cat output.txt`
-          echo "::set-output name=api-response::$output"
+            }'
 
         if: steps.check.outcome == 'failure' # failure = diff がある場合
 
@@ -77,7 +75,3 @@ jobs:
           npm test
         env:
           CI: true
-
-      - name: Check outputs
-        run: |
-          echo "Pull Request Number - ${{ steps.create-pr.outputs.api-response }}"
