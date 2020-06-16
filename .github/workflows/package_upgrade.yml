@@ -56,6 +56,9 @@ jobs:
 
             ```
             ${{ steps.ncu.outputs.ncu-upgrade }}
+
+            Status:
+            ![package upgrade](https://github.com/yoshihara/tsuibami/workflows/package%20upgrade/badge.svg?branch=update-npm-packages-with-ncu)
             ```
           branch: update-npm-packages-with-ncu
           commit-message: "Update npm packages"
