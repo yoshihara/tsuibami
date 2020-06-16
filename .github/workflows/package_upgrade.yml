@@ -59,7 +59,9 @@ jobs:
           --header 'content-type: application/json' \
           --data '{
             "title": "Upgrade npm packages",
-            "body": "This PR was created by GitHub Actions.\n\nOutputs:\n\n```\n${{ steps.ncu.outputs.ncu-upgrade }}\n\nStatus:\n\n![package upgrade](https://github.com/yoshihara/tsuibami/workflows/package%20upgrade/badge.svg?branch=update-npm-packages-with-ncu)\n\n```"
+            "body": "This PR was created by GitHub Actions.\n\nOutputs:\n\n```\n${{ steps.ncu.outputs.ncu-upgrade }}\n\nStatus:\n\n![package upgrade](https://github.com/yoshihara/tsuibami/workflows/package%20upgrade/badge.svg?branch=update-npm-packages-with-ncu)\n\n```",
+            "head": "update-npm-packages-with-ncu",
+            "base": "master"
             }' > output.txt 2>&1
           output=`cat output.txt`
           echo "::set-output name=api-response::$output"
