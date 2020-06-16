@@ -1,8 +1,8 @@
 name: package upgrade
 
-on:
-  schedule:
-    - cron: '0 4 * * 0' # sunday at 13:00 (UTF+9)
+on: [push]
+  # schedule:
+  #   - cron: '0 4 * * 0' # sunday at 13:00 (UTF+9)
 
 jobs:
   package-upgrade:
@@ -44,26 +44,29 @@ jobs:
           [ `git diff | wc -l` = 0 ]
         continue-on-error: true
 
+      - name: Create commit
+        id: commit
+        run: |
+          git config user.name 'yoshihara'
+          git config user.email '594134+yoshihara@users.noreply.github.com'
+          git checkout -b update-npm-packages-with-ncu
+          git add package.json package-lock.json
+          git commit -m "Update npm packages"
+        if: steps.check.outcome == 'failure' # failure = diff がある場合
+
       - name: Create Pull Request
-        id: cpr
-        uses: peter-evans/create-pull-request@v2
-        with:
-          title: Upgrade npm packages
-          body: |
-            This PR was created by GitHub Actions.
-
-            Outputs:
-
-            ```
-            ${{ steps.ncu.outputs.ncu-upgrade }}
-
-            Status:
-            ![package upgrade](https://github.com/yoshihara/tsuibami/workflows/package%20upgrade/badge.svg?branch=update-npm-packages-with-ncu)
-            ```
-          branch: update-npm-packages-with-ncu
-          commit-message: "Update npm packages"
-          committer: "yoshihara <594134+yoshihara@users.noreply.github.com>"
-          author: "yoshihara <594134+yoshihara@users.noreply.github.com>"
+        id: create-pr
+        run: |
+          curl --request POST \
+          --url https://api.github.com/repos/${{ github.repository }}/pulls \
+          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'content-type: application/json' \
+          --data '{
+            "title": "Upgrade npm packages",
+            "body": "This PR was created by GitHub Actions.\n\nOutputs:\n\n```\n${{ steps.ncu.outputs.ncu-upgrade }}\n\nStatus:\n\n![package upgrade](https://github.com/yoshihara/tsuibami/workflows/package%20upgrade/badge.svg?branch=update-npm-packages-with-ncu)\n\n```"
+            }' > output.txt 2>&1
+          output=`cat output.txt`
+          echo "::set-output name=create-pr::$api-response"
 
         if: steps.check.outcome == 'failure' # failure = diff がある場合
 
@@ -75,5 +78,4 @@ jobs:
 
       - name: Check outputs
         run: |
-          echo "Pull Request Number - ${{ env.PULL_REQUEST_NUMBER }}"
-          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request Number - ${{ steps.create-pr.outputs.api-response }}"
