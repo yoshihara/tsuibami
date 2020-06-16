@@ -48,6 +48,7 @@ jobs:
           git checkout -b update-npm-packages-with-ncu
           git add package.json package-lock.json
           git commit -m "Update npm packages"
+          git push origin update-npm-packages-with-ncu
         if: steps.check.outcome == 'failure' # failure = diff がある場合
 
       - name: Create Pull Request
