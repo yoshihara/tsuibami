@@ -66,7 +66,7 @@ jobs:
             "body": "This PR was created by GitHub Actions.\n\nOutputs:\n\n```\n${{ steps.ncu.outputs.ncu-upgrade }}\n\nStatus:\n\n![package upgrade](https://github.com/yoshihara/tsuibami/workflows/package%20upgrade/badge.svg?branch=update-npm-packages-with-ncu)\n\n```"
             }' > output.txt 2>&1
           output=`cat output.txt`
-          echo "::set-output name=create-pr::$api-response"
+          echo "::set-output name=api-response::$output"
 
         if: steps.check.outcome == 'failure' # failure = diff がある場合
 
