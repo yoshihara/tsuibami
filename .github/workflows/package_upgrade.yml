@@ -78,3 +78,4 @@ jobs:
           npm test
         env:
           CI: true
+        if: steps.check.outcome == 'failure' # failure = diff がある場合
