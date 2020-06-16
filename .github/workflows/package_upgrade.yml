@@ -27,11 +27,7 @@ jobs:
       - name: Run ncu
         id: ncu
         run: |
-          # https://github.community/t/set-output-truncates-multiline-strings/16852/3
           text="`ncu -u 2> /dev/null`"
-          text="${text//'%'/'%25'}"
-          text="${text//$'\n'/'%0A'}"
-          text="${text//$'\r'/'%0D'}"
           echo $text
           echo "::set-output name=ncu-upgrade::$text"
       - name: Run npm install
