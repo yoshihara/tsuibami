@@ -65,6 +65,7 @@ jobs:
         run: |
           text="${{ steps.ncu.outputs.ncu-upgrade }}"
           text="${text//$'\n'/'\n'}"
+          text="${text//$'\r'/'\r'}"
           text="This PR was created by GitHub Actions.\\n\\nOutputs:\\n\\n\`\`\`\\n${text}\\n\`\`\`\\n\\nStatus:\\n\\n![package upgrade](https://github.com/yoshihara/tsuibami/workflows/package%20upgrade/badge.svg)"
           curl --request POST \
           --url https://api.github.com/repos/${{ github.repository }}/pulls \
