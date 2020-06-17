@@ -47,11 +47,6 @@ jobs:
           npm install
         if: steps.check.outcome == 'success' # success = アップグレードされたパッケージがある
 
-      - name: do nothing
-        run: |
-          git status
-        if: steps.check.outcome == 'failure' # failure = アップグレードされたパッケージがない
-
       - name: Create commit
         id: commit
         run: |
@@ -91,3 +86,9 @@ jobs:
         env:
           CI: true
         if: steps.check.outcome == 'success'
+
+      - name: do nothing
+        run: |
+          git status
+        if: steps.check.outcome == 'failure' # failure = アップグレードされたパッケージがない
+
