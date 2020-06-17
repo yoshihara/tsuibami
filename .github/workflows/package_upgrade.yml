@@ -80,14 +80,14 @@ jobs:
 
         if: steps.check.outcome == 'success'
 
-      - name: RUN test
+      - name: Run tests
         run: |
           npm test
         env:
           CI: true
         if: steps.check.outcome == 'success'
 
-      - name: do nothing
+      - name: Do nothing
         run: |
           git status
         if: steps.check.outcome == 'failure' # failure = アップグレードされたパッケージがない
