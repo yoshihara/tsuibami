@@ -28,6 +28,8 @@ jobs:
         id: ncu
         run: |
           text="`ncu -u 2> /dev/null`"
+
+          # https://github.community/t/set-output-truncates-multiline-strings/16852/3
           text="${text//'%'/'%25'}"
           text="${text//$'\n'/'%0A'}"
           text="${text//$'\r'/'%0D'}"
@@ -64,6 +66,8 @@ jobs:
         id: create-pr
         run: |
           text="${{ steps.ncu.outputs.ncu-upgrade }}"
+
+          # ただの改行になっているのでエスケープした文字にする
           text="${text//$'\n'/'\n'}"
           text="${text//$'\r'/'\r'}"
           text="This PR was created by GitHub Actions.\\n\\nOutputs:\\n\\n\`\`\`\\n${text}\\n\`\`\`\\n\\nStatus:\\n\\n![package upgrade](https://github.com/yoshihara/tsuibami/workflows/package%20upgrade/badge.svg)"
