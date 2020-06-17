@@ -33,15 +33,16 @@ jobs:
           text="${text//$'\r'/'%0D'}"
           echo $text
           echo "::set-output name=ncu-upgrade::$text"
-      - name: Run npm install
-        run: |
-          npm install
 
       - name: Check diff existing
         id: check
         run: |
           [ `git diff | wc -l` = 0 ]
         continue-on-error: true
+
+      - name: Run npm install
+        run: |
+          npm install
 
       - name: do nothing
         run: |
