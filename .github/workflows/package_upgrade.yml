@@ -39,17 +39,18 @@ jobs:
       - name: Check diff existing
         id: check
         run: |
-          [ `git diff | wc -l` = 0 ]
+          [ `git diff | wc -l` != 0 ]
         continue-on-error: true
 
       - name: Run npm install
         run: |
           npm install
+        if: steps.check.outcome == 'success' # success = アップグレードされたパッケージがある
 
       - name: do nothing
         run: |
           git status
-        if: steps.check.outcome == 'success' # success = アップグレードされたパッケージがない
+        if: steps.check.outcome == 'failure' # failure = アップグレードされたパッケージがない
 
       - name: Create commit
         id: commit
@@ -60,7 +61,7 @@ jobs:
           git add package.json package-lock.json
           git commit -m "Update npm packages"
           git push origin update-npm-packages-with-ncu
-        if: steps.check.outcome == 'failure' # failure = アップグレードされたパッケージがある
+        if: steps.check.outcome == 'success'
 
       - name: Create Pull Request
         id: create-pr
@@ -82,11 +83,11 @@ jobs:
             \"base\": \"master\"
             }"
 
-        if: steps.check.outcome == 'failure'
+        if: steps.check.outcome == 'success'
 
       - name: RUN test
         run: |
           npm test
         env:
           CI: true
-        if: steps.check.outcome == 'failure'
+        if: steps.check.outcome == 'success'
