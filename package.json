@@ -65,7 +65,7 @@
   "dependencies": {
     "bluebird": "^3.7.2",
     "jquery": "^3.5.1",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.19"
   },
   "jest": {
     "automock": true,
