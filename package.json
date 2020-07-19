@@ -48,7 +48,7 @@
     "babel-loader": "^8.1.0",
     "eslint": "^7.4.0",
     "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-jest": "^23.17.1",
+    "eslint-plugin-jest": "^23.18.0",
     "eslint-plugin-prettier": "^3.1.4",
     "expose-loader": "^1.0.0",
     "husky": "^4.2.5",
@@ -65,7 +65,7 @@
   "dependencies": {
     "bluebird": "^3.7.2",
     "jquery": "^3.5.1",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.19"
   },
   "jest": {
     "automock": true,
